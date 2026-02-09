@@ -601,7 +601,9 @@ li.activity:has([data-ui-reset="true"]),
         max-width: 100%;
     }
 }
-
-.drawer-left{
-    background-color: #212529!important;
+.drawer.drawer-left.show {
+    left: 0;
+    visibility: visible;
+    background-color: #c96161;
+    color: #fff;
 }
