@@ -602,3 +602,6 @@ li.activity:has([data-ui-reset="true"]),
     }
 }
 
+.drawer-left{
+    background-color: #212529!important;
+}
