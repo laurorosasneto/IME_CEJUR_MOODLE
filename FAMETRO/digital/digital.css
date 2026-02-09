@@ -1,0 +1,181 @@
+/* ==========================================================================
+   LAYOUT VINTAGE FINAL: MODO VISUALIZAÇÃO | NAV CENTRAL | TITULO PREMIUM
+   ========================================================================== */
+.drawer-toggles .drawer-toggler .btn {
+    background-color: #c96161 !important;
+    color: #fff;
+}
+.navbar.fixed-top {
+    border-bottom: #c96161 2px solid !important;
+box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+}
+
+/* Garantia de fundo para a visualização de tópicos */
+#page-course-view-topics #page.drawers {
+    background-color: #f4f7f9 !important;
+}
+
+body.course-59724:not(.editing) {
+
+/* ESCONDER A SEÇÃO 0 NO MODO DE VISUALIZAÇÃO */
+li.section[data-number="0"] {
+.sectionname{   display: none !important;
+}
+
+ 
+}
+
+    /* 1. FUNDO E LARGURA */
+    #page.drawers { background-color: #f4f7f9 !important; }
+    .main-inner { max-width: 80% !important; margin: 0 auto !important; background-color: transparent !important; }
+
+    /* 2. CABEÇALHO: TÍTULO BRANCO E PROFISSIONAL */
+    #page-header h1, 
+    .page-header-headings h1 {
+        color: #6385ab !important;
+        font-weight: 800 !important;
+        text-transform: uppercase !important;
+        letter-spacing: -1px !important;
+
+}
+    /* 3. NAVEGAÇÃO SECUNDÁRIA: 100% E CENTRALIZADA */
+    .secondary-navigation {
+        width: 100vw !important; 
+        position: relative !important; 
+        left: 50% !important; 
+        margin-left: -50vw !important;
+        background-color: #ffffff !important; 
+        border-bottom: 1px solid #dee2e6 !important; 
+        padding: 0 10% !important;
+        z-index: 10;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05) !important;
+
+        .navigation {
+            display: flex !important;
+            justify-content: center !important; /* Centraliza o menu */
+            width: 100% !important;
+        }
+        .nav-tabs { border: none !important; }
+    }
+
+    /* 4. BLOCO PRINCIPAL: SOMBRA LATERAIS E BAIXO */
+    #region-main {
+        background-color: #fff !important;
+        border-radius: 0 0 1em 1em !important;
+        border: 1px solid #dee2e6 !important;
+        border-top: none !important; /* Remove borda topo para fluidez com a nav */
+        margin-top: 0 !important;
+        padding: 2rem !important;
+        
+        /* Sombra direcional: 0 no topo, visível nas laterais e base */
+        box-shadow: 0px 8px 8px -4px rgba(0, 0, 0, 0.15), 
+                    4px 0px 8px -4px rgba(0, 0, 0, 0.15), 
+                    -4px 0px 8px -4px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    /* 5. GRID DE CARDS */
+    @media (min-width: 768px) {
+        .course-content ul.topics, 
+        .course-content ul.sections {
+            display: grid !important; 
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
+            gap: 25px !important; 
+            list-style: none !important;
+            padding: 20px 0 !important;
+        }
+    }
+
+    /* 6. ESTILO DOS CARDS VINTAGE */
+    li.section:not(#section-0) {
+        background: #ffffff !important;
+        border-radius: 12px !important;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        height: 140px !important; 
+        z-index: 1;
+        padding: 25px 20px !important;
+        border-style: solid !important;
+        border-width: 1px !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.02), 0 4px 6px rgba(0,0,0,0.02) !important;
+        transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+
+        &::after {
+            content: ""; position: absolute; top: 0; right: 0; width: 10px; height: 100%; z-index: 4;
+            transition: background-color 0.6s ease !important;
+        }
+        
+        &:hover {
+            transform: translateY(-10px) !important;
+            z-index: 5 !important;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08) !important;
+            &::before { width: 100% !important; }
+            .sectionname::before { width: 10px !important; }
+            .sectionname a { color: #ffffff !important; }
+        }
+
+        &::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 0; height: 100%; z-index: 2;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+    }
+
+    /* 7. TITULOS E PALETA VINTAGE */
+    .sectionname { z-index: 6; position: relative; margin: 0 !important; }
+    .sectionname::before {
+        content: ""; position: absolute; top: 0; left: 0; width: 0; height: 100%; z-index: 5;
+        transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+    .sectionname a {
+        color: #212529 !important; font-size: 1.1rem !important; font-weight: 800 !important;
+        text-transform: uppercase; text-decoration: none !important; margin-left: 15px;
+        display: block; transition: color 0.4s ease !important;
+    }
+
+    /* Cores das Seções */
+    li.section:nth-child(5n+2) {
+        border-color: rgba(44, 83, 100, 0.5) !important;
+        &::after { background-color: rgba(44, 83, 100, 0.5) !important; }
+        &::before, .sectionname::before { background-color: #2c5364 !important; }
+        &:hover::after { background-color: rgba(44, 83, 100, 0.2) !important; }
+    }
+    li.section:nth-child(5n+3) {
+        border-color: rgba(58, 83, 53, 0.5) !important;
+        &::after { background-color: rgba(58, 83, 53, 0.5) !important; }
+        &::before, .sectionname::before { background-color: #3a5335 !important; }
+        &:hover::after { background-color: rgba(58, 83, 53, 0.2) !important; }
+    }
+    li.section:nth-child(5n+4) {
+        border-color: rgba(160, 68, 30, 0.5) !important;
+        &::after { background-color: rgba(160, 68, 30, 0.5) !important; }
+        &::before, .sectionname::before { background-color: #a0441e !important; }
+        &:hover::after { background-color: rgba(160, 68, 30, 0.2) !important; }
+    }
+    li.section:nth-child(5n+5) {
+        border-color: rgba(184, 150, 53, 0.5) !important;
+        &::after { background-color: rgba(184, 150, 53, 0.5) !important; }
+        &::before, .sectionname::before { background-color: #b89635 !important; }
+        &:hover::after { background-color: rgba(184, 150, 53, 0.2) !important; }
+    }
+    li.section:nth-child(5n+6) {
+        border-color: rgba(122, 65, 97, 0.5) !important;
+        &::after { background-color: rgba(122, 65, 97, 0.5) !important; }
+        &::before, .sectionname::before { background-color: #7a4161 !important; }
+        &:hover::after { background-color: rgba(122, 65, 97, 0.2) !important; }
+    }
+
+    /* 8. RESET DA SEÇÃO 0 */
+    #section-0 { 
+        grid-column: 1 / -1 !important; background: transparent !important; 
+        border: none !important; box-shadow: none !important; padding: 0 !important; 
+        margin-bottom: 20px !important;
+    }
+}
+
+@media (min-width: 768px) {
+    .header-maxwidth {
+        margin: 0 !important;
+    }
+}
