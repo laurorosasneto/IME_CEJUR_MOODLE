@@ -86,14 +86,26 @@ li.section[data-number="0"] {
     }
 
     /* 5. GRID DE CARDS */
+    .course-content ul.topics,
+    .course-content ul.sections {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 22px !important;
+        list-style: none !important;
+        padding: 20px 0 !important;
+    }
+
     @media (min-width: 768px) {
-        .course-content ul.topics, 
+        .course-content ul.topics,
         .course-content ul.sections {
-            display: grid !important; 
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
-            gap: 25px !important; 
-            list-style: none !important;
-            padding: 20px 0 !important;
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        }
+    }
+
+    @media (min-width: 1200px) {
+        .course-content ul.topics,
+        .course-content ul.sections {
+            grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
         }
     }
 
