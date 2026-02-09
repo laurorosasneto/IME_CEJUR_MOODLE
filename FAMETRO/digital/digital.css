@@ -606,6 +606,8 @@ li.activity:has([data-ui-reset="true"]),
     visibility: visible;
     background-color: #c96161;
     color: #fff;
+    background-color: #c96161 !important;
+    color: #fff !important;
 }
 
 .drawer.drawer-left.show a {
