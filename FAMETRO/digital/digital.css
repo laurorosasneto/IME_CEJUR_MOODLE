@@ -513,9 +513,9 @@ li.activity:has([data-ui-reset="true"]),
 
 .fametro-force-compact .vintage-nav-row {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: center;
-    gap: 12px;
+    gap: 10px;
     padding: 5px 0 !important;
     width: 100%;
 }
@@ -524,15 +524,17 @@ li.activity:has([data-ui-reset="true"]),
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    padding: 10px 22px;
-    min-width: 165px;
+    gap: 6px;
+    padding: 8px 14px;
+    min-width: 0;
     text-decoration: none !important;
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     border-radius: 50px;
     border: 2px solid;
     transition: all 0.3s ease;
+    flex: 1 1 0;
+    max-width: 220px;
 }
 
 .fametro-force-compact .v-blue {
@@ -576,4 +578,15 @@ li.activity:has([data-ui-reset="true"]),
 .fametro-force-compact .v-red:hover { background-color: #a0441e !important; }
 .fametro-force-compact .v-yellow:hover { background-color: #b89635 !important; }
 .fametro-force-compact .v-purple:hover { background-color: #7a4161 !important; }
+
+@media (max-width: 768px) {
+    .fametro-force-compact .vintage-nav-row {
+        flex-wrap: wrap;
+    }
+
+    .fametro-force-compact .btn-v-final {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+}
 
