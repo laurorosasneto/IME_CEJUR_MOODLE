@@ -168,3 +168,18 @@ body#page-my-index .drawer-left {
     padding-right: 0 !important;
   }
 }
+
+/* =========================================================
+   FM-DASHBOARD: ocultar header padrão do Moodle SOMENTE no /my/
+   ========================================================= */
+
+body#page-my-index #page-header {
+  display: none !important;
+}
+
+/* Remove espaço que o header deixa em alguns temas */
+body#page-my-index #page-header + .container,
+body#page-my-index #page-header + .container-fluid {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
