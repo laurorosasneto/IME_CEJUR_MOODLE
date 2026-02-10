@@ -234,3 +234,65 @@ body.pagelayout-login #page-footer div[style*="display: none"] {
     max-height: 70px;
   }
 }
+
+/* =========================================================
+   SELECT — Estilo sofisticado e consistente com o login
+   ========================================================= */
+
+/* Select fechado */
+body.pagelayout-login .login-form select.form-control-lg {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  height: 52px;
+  padding: 0 48px 0 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(15, 23, 42, 0.16);
+  background-color: transparent;
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(15, 23, 42, 0.90);
+  cursor: pointer;
+
+  /* seta custom */
+  background-image:
+    linear-gradient(45deg, transparent 50%, rgba(15, 23, 42, 0.55) 50%),
+    linear-gradient(135deg, rgba(15, 23, 42, 0.55) 50%, transparent 50%);
+  background-position:
+    calc(100% - 22px) 22px,
+    calc(100% - 16px) 22px;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* Hover */
+body.pagelayout-login .login-form select.form-control-lg:hover {
+  border-color: rgba(15, 23, 42, 0.30);
+}
+
+/* Focus */
+body.pagelayout-login .login-form select.form-control-lg:focus {
+  outline: none;
+  border-color: rgba(13, 110, 253, 0.70);
+  box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.15);
+}
+
+/* Opções (limite do browser, mas melhora cores) */
+body.pagelayout-login .login-form select.form-control-lg option {
+  font-size: 15px;
+  padding: 10px;
+}
+
+/* Opção selecionada */
+body.pagelayout-login .login-form select.form-control-lg option:checked {
+  background-color: #0d6efd;
+  color: #ffffff;
+}
+
+/* Remove azul agressivo em alguns browsers */
+body.pagelayout-login .login-form select.form-control-lg option:hover {
+  background-color: rgba(13, 110, 253, 0.10);
+}
