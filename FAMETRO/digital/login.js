@@ -1,7 +1,11 @@
 /* ======================================================================
    login.js — Login enhancements:
-   1) Select premium customizado (#entrarComo)
-   2) Sidepanel de botões (AJAX) — layout estreito icon+label
+   - Select premium (se você já tem, mantenha: este arquivo não depende dele)
+   - Sidepanel (AJAX)
+   - Modais Bootstrap:
+     1) Como acessar -> YouTube
+     2) Problemas de acesso -> texto (placeholder)
+     5) Redes sociais -> 3 cards (Facebook/Instagram/YouTube)
    ====================================================================== */
 
 (function () {
@@ -17,125 +21,167 @@
     return null;
   }
 
-  /* =========================================================
-     SELECT PREMIUM
-     ========================================================= */
-  function initCustomSelect(selectEl) {
-    if (!selectEl || selectEl.dataset.customselectInit === "1") return;
-    selectEl.dataset.customselectInit = "1";
-
-    selectEl.classList.add("customselect-native");
-
-    var wrapper = document.createElement("div");
-    wrapper.className = "customselect";
-    wrapper.setAttribute("data-customselect", "1");
-
-    var trigger = document.createElement("div");
-    trigger.className = "customselect__trigger";
-    trigger.setAttribute("tabindex", "0");
-    trigger.setAttribute("role", "button");
-    trigger.setAttribute("aria-haspopup", "listbox");
-    trigger.setAttribute("aria-expanded", "false");
-
-    var label = document.createElement("span");
-    label.className = "customselect__label";
-    label.textContent = selectEl.options[selectEl.selectedIndex]
-      ? selectEl.options[selectEl.selectedIndex].text
-      : "";
-
-    var chev = document.createElement("span");
-    chev.className = "customselect__chev";
-    chev.setAttribute("aria-hidden", "true");
-
-    trigger.appendChild(label);
-    trigger.appendChild(chev);
-
-    var menu = document.createElement("div");
-    menu.className = "customselect__menu";
-    menu.setAttribute("role", "listbox");
-
-    function buildItems() {
-      menu.innerHTML = "";
-      for (var i = 0; i < selectEl.options.length; i++) {
-        (function (opt) {
-          var item = document.createElement("div");
-          item.className = "customselect__item";
-          item.setAttribute("role", "option");
-          item.setAttribute("data-value", opt.value);
-          item.textContent = opt.text;
-          if (opt.selected) item.classList.add("is-selected");
-
-          item.addEventListener("click", function () {
-            selectEl.value = opt.value;
-            label.textContent = opt.text;
-
-            var all = menu.querySelectorAll(".customselect__item");
-            for (var k = 0; k < all.length; k++) all[k].classList.remove("is-selected");
-            item.classList.add("is-selected");
-
-            selectEl.dispatchEvent(new Event("change", { bubbles: true }));
-            closeMenu();
-          });
-
-          menu.appendChild(item);
-        })(selectEl.options[i]);
-      }
-    }
-
-    buildItems();
-
-    selectEl.parentNode.insertBefore(wrapper, selectEl.nextSibling);
-    wrapper.appendChild(trigger);
-    wrapper.appendChild(menu);
-
-    function openMenu() {
-      wrapper.classList.add("is-open");
-      trigger.setAttribute("aria-expanded", "true");
-    }
-
-    function closeMenu() {
-      wrapper.classList.remove("is-open");
-      trigger.setAttribute("aria-expanded", "false");
-    }
-
-    function toggleMenu() {
-      if (wrapper.classList.contains("is-open")) closeMenu();
-      else openMenu();
-    }
-
-    trigger.addEventListener("click", function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      toggleMenu();
-    });
-
-    trigger.addEventListener("keydown", function (e) {
-      var key = e.key || e.code;
-      if (key === "Enter" || key === " " || key === "Spacebar") {
-        e.preventDefault();
-        toggleMenu();
-        return;
-      }
-      if (key === "Escape") {
-        e.preventDefault();
-        closeMenu();
-        return;
-      }
-    });
-
-    document.addEventListener("click", function (e) {
-      if (!closest(e.target, '[data-customselect="1"]')) closeMenu();
-    });
-
-    selectEl.addEventListener("change", function () {
-      var opt = selectEl.options[selectEl.selectedIndex];
-      if (opt) label.textContent = opt.text;
-      buildItems();
-    });
+  function escapeHtml(str) {
+    return String(str)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
   }
 
   /* =========================================================
-     SIDEPANEL (AJAX)
+     Bootstrap modal helper (BS4 / BS5)
+     ========================================================= */
+  function showModal(modalEl) {
+    // BS5
+    if (window.bootstrap && window.bootstrap.Modal) {
+      var inst = window.bootstrap.Modal.getOrCreateInstance(modalEl, { backdrop: true, focus: true });
+      inst.show();
+      return;
+    }
+    // BS4/jQuery
+    if (window.jQuery && window.jQuery.fn && window.jQuery.fn.modal) {
+      window.jQuery(modalEl).modal("show");
+      return;
+    }
+    // fallback mínimo
+    modalEl.style.display = "block";
+    modalEl.classList.add("show");
+  }
+
+  function hideModal(modalEl) {
+    if (window.bootstrap && window.bootstrap.Modal) {
+      var inst = window.bootstrap.Modal.getOrCreateInstance(modalEl);
+      inst.hide();
+      return;
+    }
+    if (window.jQuery && window.jQuery.fn && window.jQuery.fn.modal) {
+      window.jQuery(modalEl).modal("hide");
+      return;
+    }
+    modalEl.style.display = "none";
+    modalEl.classList.remove("show");
+  }
+
+  /* =========================================================
+     Modals markup (injetar uma vez)
+     ========================================================= */
+  function ensureModals() {
+    if (document.getElementById("fm-login-modal-como")) return;
+
+    var YOUTUBE_VIDEO_ID = "dQw4w9WgXcQ"; // <<< TROQUE AQUI PELO ID DO SEU VÍDEO
+
+    var html = [
+      // Modal: Como acessar (YouTube)
+      '<div class="modal fade" id="fm-login-modal-como" tabindex="-1" role="dialog" aria-hidden="true">',
+      '  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">',
+      '    <div class="modal-content">',
+      '      <div class="modal-header">',
+      '        <h5 class="modal-title">Como acessar</h5>',
+      '        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">',
+      '          <span aria-hidden="true">&times;</span>',
+      '        </button>',
+      '      </div>',
+      '      <div class="modal-body">',
+      '        <div class="fm-video-wrap">',
+      '          <iframe id="fm-login-yt" class="fm-video-iframe" ',
+      '            src="https://www.youtube.com/embed/' + escapeHtml(YOUTUBE_VIDEO_ID) + '?rel=0&modestbranding=1" ',
+      '            title="Como acessar" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
+      '        </div>',
+      '      </div>',
+      '    </div>',
+      '  </div>',
+      '</div>',
+
+      // Modal: Problemas de acesso (texto)
+      '<div class="modal fade" id="fm-login-modal-problemas" tabindex="-1" role="dialog" aria-hidden="true">',
+      '  <div class="modal-dialog modal-dialog-centered modal-md" role="document">',
+      '    <div class="modal-content">',
+      '      <div class="modal-header">',
+      '        <h5 class="modal-title">Problemas de acesso</h5>',
+      '        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">',
+      '          <span aria-hidden="true">&times;</span>',
+      '        </button>',
+      '      </div>',
+      '      <div class="modal-body">',
+      '        <div class="fm-modal-text">',
+      '          <p><strong>Texto de suporte</strong> (vamos montar em seguida).</p>',
+      '          <p>Inclua aqui as orientações de recuperação de senha, contato, horários e procedimentos.</p>',
+      '        </div>',
+      '      </div>',
+      '    </div>',
+      '  </div>',
+      '</div>',
+
+      // Modal: Redes sociais (3 cards)
+      '<div class="modal fade" id="fm-login-modal-redes" tabindex="-1" role="dialog" aria-hidden="true">',
+      '  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">',
+      '    <div class="modal-content">',
+      '      <div class="modal-header">',
+      '        <h5 class="modal-title">Redes sociais</h5>',
+      '        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">',
+      '          <span aria-hidden="true">&times;</span>',
+      '        </button>',
+      '      </div>',
+      '      <div class="modal-body">',
+      '        <div class="fm-social-grid">',
+      '          <a class="fm-social-card" href="#" target="_blank" rel="noopener">',
+      '            <div class="fm-social-ico" aria-hidden="true">f</div>',
+      '            <div class="fm-social-name">Facebook</div>',
+      '            <div class="fm-social-sub">Notícias e comunicados</div>',
+      '          </a>',
+      '          <a class="fm-social-card" href="#" target="_blank" rel="noopener">',
+      '            <div class="fm-social-ico" aria-hidden="true">◎</div>',
+      '            <div class="fm-social-name">Instagram</div>',
+      '            <div class="fm-social-sub">Eventos e bastidores</div>',
+      '          </a>',
+      '          <a class="fm-social-card" href="#" target="_blank" rel="noopener">',
+      '            <div class="fm-social-ico" aria-hidden="true">▶</div>',
+      '            <div class="fm-social-name">YouTube</div>',
+      '            <div class="fm-social-sub">Aulas e conteúdos</div>',
+      '          </a>',
+      '        </div>',
+      '      </div>',
+      '    </div>',
+      '  </div>',
+      '</div>'
+    ].join("");
+
+    var wrap = document.createElement("div");
+    wrap.innerHTML = html;
+    document.body.appendChild(wrap);
+
+    // Parar vídeo ao fechar modal (evita áudio “preso”)
+    var modalComo = document.getElementById("fm-login-modal-como");
+    if (modalComo) {
+      var iframe = document.getElementById("fm-login-yt");
+      var originalSrc = iframe ? iframe.getAttribute("src") : null;
+
+      // BS5 event
+      modalComo.addEventListener("hidden.bs.modal", function () {
+        if (!iframe || !originalSrc) return;
+        iframe.setAttribute("src", "");
+        setTimeout(function () {
+          iframe.setAttribute("src", originalSrc);
+        }, 50);
+      });
+
+      // BS4/jQuery event
+      if (window.jQuery) {
+        window.jQuery(modalComo).on("hidden.bs.modal", function () {
+          if (!iframe || !originalSrc) return;
+          iframe.setAttribute("src", "");
+          setTimeout(function () {
+            iframe.setAttribute("src", originalSrc);
+          }, 50);
+        });
+      }
+    }
+  }
+
+  /* =========================================================
+     Sidepanel injection (AJAX)
      ========================================================= */
   function injectSidePanel(containerEl) {
     if (!containerEl || containerEl.dataset.sidepanelInit === "1") return;
@@ -147,7 +193,6 @@
     panel.className = "login-sidepanel";
     panel.setAttribute("aria-label", "Atalhos de ajuda e acesso");
     panel.innerHTML = '<div class="login-sidepanel__loading">Carregando...</div>';
-
     containerEl.appendChild(panel);
 
     var url = "https://laurorosasneto.github.io/IME_CEJUR_MOODLE/FAMETRO/digital/login_bot.php";
@@ -159,62 +204,121 @@
       })
       .then(function (html) {
         panel.innerHTML = html;
-
-        // Exige grid; se não vier, fallback
-        if (!panel.querySelector(".login-sidepanel__grid")) {
-          panel.innerHTML = getFallbackPanelHtml();
-        }
-
-        // Remove título caso venha por acidente
-        var t = panel.querySelector(".login-sidepanel__title");
-        if (t) t.remove();
+        ensureModals();
+        bindPanelActions(panel);
       })
       .catch(function () {
-        panel.innerHTML = getFallbackPanelHtml();
+        // se falhar, ao menos injeta modais e não quebra a página
+        ensureModals();
       });
   }
 
-  function getFallbackPanelHtml() {
-    return [
-      '<div class="login-sidepanel__grid">',
-        itemHtml('#', 'Como acessar', iconKey()),
-        itemHtml('#', 'Problemas de acesso', iconHelp()),
-        itemHtml('#', 'Site', iconGlobe()),
-        itemHtml('#', 'Portal do Aluno', iconUser()),
-      '</div>'
-    ].join('');
+  /* =========================================================
+     Actions do painel
+     ========================================================= */
+  function bindPanelActions(panel) {
+    panel.addEventListener("click", function (e) {
+      var a = closest(e.target, "a.login-sidepanel__item");
+      if (!a) return;
+
+      var action = a.getAttribute("data-action");
+      if (!action) return;
+
+      // Links tradicionais: só deixe passar (você troca os href depois)
+      if (action === "link-site" || action === "link-portal") return;
+
+      // Modais
+      e.preventDefault();
+
+      if (action === "como-acessar") {
+        var m1 = document.getElementById("fm-login-modal-como");
+        if (m1) showModal(m1);
+        return;
+      }
+
+      if (action === "problemas-acesso") {
+        var m2 = document.getElementById("fm-login-modal-problemas");
+        if (m2) showModal(m2);
+        return;
+      }
+
+      if (action === "redes-sociais") {
+        var m3 = document.getElementById("fm-login-modal-redes");
+        if (m3) showModal(m3);
+        return;
+      }
+    });
   }
 
-  function itemHtml(href, label, iconSvg) {
-    return [
-      '<a class="login-sidepanel__item" href="', href, '">',
-        '<div class="login-sidepanel__icon">', iconSvg, '</div>',
-        '<div class="login-sidepanel__label">', escapeHtml(label), '</div>',
-      '</a>'
-    ].join('');
-  }
+  /* =========================================================
+     Pequeno CSS extra para modais (injetado via JS)
+     para manter “bonito” sem mexer no login.css
+     ========================================================= */
+  function injectModalStylesOnce() {
+    if (document.getElementById("fm-login-modal-styles")) return;
 
-  function escapeHtml(str) {
-    return String(str)
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
-  }
+    var css = `
+      .fm-video-wrap{
+        width:100%;
+        border-radius:14px;
+        overflow:hidden;
+        background:#000;
+        box-shadow: rgba(0,0,0,0.18) 0 18px 35px;
+      }
+      .fm-video-iframe{
+        width:100%;
+        aspect-ratio:16/9;
+        display:block;
+      }
+      .fm-modal-text p{ margin:0 0 10px; }
+      .fm-social-grid{
+        display:grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+      }
+      .fm-social-card{
+        display:flex;
+        flex-direction:column;
+        gap:8px;
+        padding:16px 14px;
+        border-radius:16px;
+        text-decoration:none;
+        border:1px solid rgba(15,23,42,0.10);
+        background: rgba(255,255,255,0.96);
+        box-shadow: rgba(0,0,0,0.10) 0 14px 28px -18px;
+        transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+        color: rgba(15,23,42,0.92);
+      }
+      .fm-social-card:hover{
+        transform: translateY(-1px);
+        border-color: rgba(13,110,253,0.25);
+        box-shadow: rgba(13,110,253,0.22) 0 14px 28px -18px, rgba(0,0,0,0.12) 0 18px 32px -22px;
+      }
+      .fm-social-ico{
+        width:44px;height:44px;border-radius:14px;
+        display:grid;place-items:center;
+        background: linear-gradient(180deg, #2f5b6f, #2c5364);
+        color:#fff;
+        font-weight:800;
+        box-shadow: rgba(0,0,0,0.12) 0 12px 20px -16px;
+      }
+      .fm-social-name{
+        font-weight:800;
+        font-size:14px;
+      }
+      .fm-social-sub{
+        font-size:12.5px;
+        color: rgba(44,49,63,0.75);
+      }
+      @media (max-width: 992px){
+        .fm-social-grid{ grid-template-columns:1fr; }
+      }
+    `;
 
-  /* SVGs */
-  function iconKey() {
-    return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 14a4.5 4.5 0 1 1 3.93-2.3l2.07 2.07h2v2h-2v2h-2v-2.17l-1.2-1.2A4.48 4.48 0 0 1 7.5 14Zm0-2.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></svg>';
-  }
-  function iconHelp() {
-    return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 15a1.25 1.25 0 1 1 0 2.5A1.25 1.25 0 0 1 12 17Zm1.6-5.9c-.9.6-1.1.9-1.1 1.9v.5h-2v-.7c0-1.7.6-2.5 2-3.4.9-.6 1.2-.9 1.2-1.5 0-.8-.7-1.3-1.7-1.3-1 0-1.7.5-1.8 1.5H8.2C8.4 6.2 10 5 12 5c2.2 0 3.8 1.2 3.8 3 0 1.4-.8 2.2-2.2 3.1Z"/></svg>';
-  }
-  function iconGlobe() {
-    return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2Zm7.7 9h-3.1a15 15 0 0 0-1.3-5A8.03 8.03 0 0 1 19.7 11ZM12 4c.9 0 2.2 2.1 2.8 7H9.2C9.8 6.1 11.1 4 12 4ZM4.3 13h3.1a15 15 0 0 0 1.3 5A8.03 8.03 0 0 1 4.3 13Zm0-2A8.03 8.03 0 0 1 8.7 6a15 15 0 0 0-1.3 5H4.3Zm7.7 9c-.9 0-2.2-2.1-2.8-7h5.6c-.6 4.9-1.9 7-2.8 7Zm3.3-2a15 15 0 0 0 1.3-5h3.1a8.03 8.03 0 0 1-4.4 5Z"/></svg>';
-  }
-  function iconUser() {
-    return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4.5 4.5 0 1 0-4.5-4.5A4.5 4.5 0 0 0 12 12Zm0 2c-4.4 0-8 2.3-8 5v1h16v-1c0-2.7-3.6-5-8-5Z"/></svg>';
+    var style = document.createElement("style");
+    style.id = "fm-login-modal-styles";
+    style.textContent = css;
+    document.head.appendChild(style);
   }
 
   /* =========================================================
@@ -223,13 +327,12 @@
   function boot(attempt) {
     if (!isLoginPage()) return;
 
-    var container = document.querySelector("body.pagelayout-login .login-container");
-    var selectEl = document.getElementById("entrarComo");
+    injectModalStylesOnce();
 
-    if (selectEl) initCustomSelect(selectEl);
+    var container = document.querySelector("body.pagelayout-login .login-container");
     if (container) injectSidePanel(container);
 
-    if ((!container || !selectEl) && attempt < 30) {
+    if (!container && attempt < 30) {
       setTimeout(function () { boot(attempt + 1); }, 100);
     }
   }

@@ -1,23 +1,21 @@
 /* ======================================================================
    login-botoes.css — Barra lateral de atalhos (AJAX)
-   Versão:
-   - 4 botões em coluna vertical
-   - Cada botão em layout HORIZONTAL (ícone + texto)
-   - Painel alinhado em altura com o login
-   - Hover com glow azul sutil
-   - Animação de entrada em cascata
+   - Espaçamento vertical uniforme
+   - Botões com mesma altura (min-height)
+   - Layout horizontal (ícone + texto)
+   - 5 itens (inclui Redes sociais)
+   - Painel com gradiente delicado + hover glow
+   - Animação em cascata
    ====================================================================== */
 
-/* Container com painel lateral */
 body.pagelayout-login .login-container.has-sidepanel {
   max-width: 980px;
   display: grid;
-  grid-template-columns: minmax(480px, 600px) 280px;
+  grid-template-columns: minmax(480px, 600px) 320px;
   gap: 18px;
   align-items: stretch;
 }
 
-/* Garante alinhamento de altura */
 body.pagelayout-login .login-container.has-sidepanel > .loginform {
   height: 100%;
 }
@@ -27,21 +25,18 @@ body.pagelayout-login .login-sidepanel {
   display: flex;
   flex-direction: column;
   justify-content: center;
-}
-
-/* Painel lateral */
-body.pagelayout-login .login-sidepanel {
   position: relative;
+
   background:
     radial-gradient(900px 420px at 20% 10%, rgba(255, 255, 255, 0.10), transparent 55%),
     radial-gradient(700px 360px at 85% 25%, rgba(13, 110, 253, 0.12), transparent 55%),
     linear-gradient(180deg, #2f5b6f 0%, #2c5364 45%, #264a59 100%);
+
   border-radius: 18px;
   box-shadow: rgba(0, 0, 0, 0.14) 0px 22px 38px -14px;
-  padding: 18px 14px;
+  padding: 18px 16px;
 }
 
-/* Borda interna sutil */
 body.pagelayout-login .login-sidepanel::before {
   content: "";
   position: absolute;
@@ -51,15 +46,14 @@ body.pagelayout-login .login-sidepanel::before {
   pointer-events: none;
 }
 
-/* Grid vira coluna */
 body.pagelayout-login .login-sidepanel__grid {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px; /* espaçamento vertical igual */
 }
 
 /* =========================================================
-   Botões horizontais
+   Botões horizontais (altura padronizada)
    ========================================================= */
 
 @keyframes sideBtnIn {
@@ -76,19 +70,21 @@ body.pagelayout-login .login-sidepanel__item {
   border-radius: 14px;
   text-decoration: none;
 
+  min-height: 72px; /* garante mesma “altura visual” para todos */
+  width: 100%;
+
   border: 1px solid rgba(255, 255, 255, 0.16);
   background: rgba(255, 255, 255, 0.08);
 
-  box-shadow:
-    rgba(0, 0, 0, 0.10) 0px 10px 18px -14px;
+  box-shadow: rgba(0, 0, 0, 0.10) 0px 10px 18px -14px;
 
   transition:
     transform 0.12s ease,
     background 0.12s ease,
     border-color 0.12s ease,
-    box-shadow 0.12s ease;
+    box-shadow 0.12s ease,
+    filter 0.12s ease;
 
-  /* Entrada em cascata */
   opacity: 0;
   animation: sideBtnIn 0.45s ease-out forwards;
 }
@@ -97,21 +93,27 @@ body.pagelayout-login .login-sidepanel__item:nth-child(1) { animation-delay: 0.1
 body.pagelayout-login .login-sidepanel__item:nth-child(2) { animation-delay: 0.18s; }
 body.pagelayout-login .login-sidepanel__item:nth-child(3) { animation-delay: 0.26s; }
 body.pagelayout-login .login-sidepanel__item:nth-child(4) { animation-delay: 0.34s; }
+body.pagelayout-login .login-sidepanel__item:nth-child(5) { animation-delay: 0.42s; }
 
-/* Hover elegante */
 body.pagelayout-login .login-sidepanel__item:hover {
   transform: translateY(-1px);
   background: rgba(255, 255, 255, 0.12);
   border-color: rgba(255, 255, 255, 0.26);
+
   box-shadow:
     rgba(13, 110, 253, 0.30) 0px 10px 22px -14px,
     rgba(0, 0, 0, 0.12) 0px 16px 28px -18px;
+
+  filter: brightness(1.02);
 }
 
-/* Ícone à esquerda */
+body.pagelayout-login .login-sidepanel__item:active {
+  transform: translateY(0);
+}
+
 body.pagelayout-login .login-sidepanel__icon {
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   flex-shrink: 0;
   display: grid;
   place-items: center;
@@ -124,15 +126,32 @@ body.pagelayout-login .login-sidepanel__icon svg {
   opacity: 0.95;
 }
 
-/* Texto à direita */
+body.pagelayout-login .login-sidepanel__text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
 body.pagelayout-login .login-sidepanel__label {
   color: rgba(255, 255, 255, 0.96);
   font-size: 13px;
-  font-weight: 600;
-  line-height: 1.25;
+  font-weight: 700;
+  line-height: 1.15;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Redução de movimento */
+body.pagelayout-login .login-sidepanel__sub {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 12.5px;
+  line-height: 1.15;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 @media (prefers-reduced-motion: reduce) {
   body.pagelayout-login .login-sidepanel__item {
     animation: none;
@@ -149,33 +168,24 @@ body.pagelayout-login .login-sidepanel__label {
   body.pagelayout-login .login-container.has-sidepanel {
     grid-template-columns: 1fr;
     max-width: 680px;
-    gap: 16px;
   }
 
   body.pagelayout-login .login-sidepanel {
     justify-content: flex-start;
-    padding: 14px;
   }
 }
 
-/* Mobile */
 @media (max-width: 420px) {
   body.pagelayout-login .login-sidepanel__item {
+    min-height: 68px;
     padding: 11px 12px;
-    gap: 10px;
-  }
-
-  body.pagelayout-login .login-sidepanel__icon {
-    width: 34px;
-    height: 34px;
-  }
-
-  body.pagelayout-login .login-sidepanel__icon svg {
-    width: 20px;
-    height: 20px;
   }
 
   body.pagelayout-login .login-sidepanel__label {
     font-size: 12.5px;
+  }
+
+  body.pagelayout-login .login-sidepanel__sub {
+    font-size: 12px;
   }
 }
