@@ -1,0 +1,155 @@
+/* ======================================================================
+   painel.css — Refinamento visual institucional para /my/
+   Escopo: só aplica com body.fm-my-enhanced (setado pelo painel.js)
+   ====================================================================== */
+
+body.fm-my-enhanced {
+  /* Tipografia e renderização mais “premium” sem alterar o restante do site */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Container da página: melhora leitura e centraliza “miolo” */
+body.fm-my-enhanced #page {
+  max-width: 1240px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Espaçamento superior do conteúdo */
+body.fm-my-enhanced #page-content {
+  padding-top: 10px;
+}
+
+/* Título / área principal */
+body.fm-my-enhanced #region-main {
+  border-radius: 18px;
+}
+
+/* Ajusta heading (sem brigar com tema) */
+body.fm-my-enhanced #region-main h2,
+body.fm-my-enhanced #region-main h3 {
+  letter-spacing: 0.1px;
+}
+
+/* =========================================================
+   Cards / blocos — acabamento consistente
+   ========================================================= */
+
+body.fm-my-enhanced .fm-my-card {
+  border-radius: 18px;
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow:
+    rgba(0, 0, 0, 0.10) 0px 18px 30px -22px,
+    rgba(0, 0, 0, 0.06) 0px 10px 18px -18px;
+  overflow: hidden;
+  transition: transform 0.14s ease, box-shadow 0.14s ease, border-color 0.14s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.fm-my-enhanced .fm-my-card {
+    transition: none;
+  }
+}
+
+body.fm-my-enhanced .fm-my-card:hover {
+  transform: translateY(-1px);
+  border-color: rgba(13, 110, 253, 0.18);
+  box-shadow:
+    rgba(13, 110, 253, 0.18) 0px 18px 34px -22px,
+    rgba(0, 0, 0, 0.10) 0px 18px 30px -22px;
+}
+
+/* Header do card */
+body.fm-my-enhanced .fm-my-card__header,
+body.fm-my-enhanced .fm-my-card .card-header,
+body.fm-my-enhanced .fm-my-card .block-header {
+  background: transparent;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  padding: 14px 16px;
+  font-weight: 800;
+  color: rgba(15, 23, 42, 0.92);
+}
+
+/* Body do card */
+body.fm-my-enhanced .fm-my-card__body,
+body.fm-my-enhanced .fm-my-card .card-body,
+body.fm-my-enhanced .fm-my-card .content,
+body.fm-my-enhanced .fm-my-card .block-content {
+  padding: 16px;
+}
+
+/* Listas dentro dos blocos ficam menos “apertadas” */
+body.fm-my-enhanced .fm-my-card ul {
+  margin-bottom: 0;
+}
+
+/* =========================================================
+   Botões e inputs dentro do /my/
+   ========================================================= */
+
+body.fm-my-enhanced #region-main .btn,
+body.fm-my-enhanced #region-main button,
+body.fm-my-enhanced #region-main input[type="submit"] {
+  border-radius: 12px;
+}
+
+body.fm-my-enhanced #region-main .btn.btn-primary {
+  box-shadow: rgba(13, 110, 253, 0.18) 0 12px 24px -18px;
+}
+
+body.fm-my-enhanced #region-main .form-control,
+body.fm-my-enhanced #region-main input,
+body.fm-my-enhanced #region-main select,
+body.fm-my-enhanced #region-main textarea {
+  border-radius: 12px;
+  border-color: rgba(15, 23, 42, 0.14);
+}
+
+/* Focus suave (institucional) */
+body.fm-my-enhanced #region-main .form-control:focus,
+body.fm-my-enhanced #region-main input:focus,
+body.fm-my-enhanced #region-main select:focus,
+body.fm-my-enhanced #region-main textarea:focus {
+  outline: none;
+  border-color: rgba(13, 110, 253, 0.55);
+  box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.12);
+}
+
+/* =========================================================
+   Layout em telas menores
+   ========================================================= */
+
+@media (max-width: 992px) {
+  body.fm-my-enhanced #page {
+    max-width: 980px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  body.fm-my-enhanced .fm-my-card {
+    border-radius: 16px;
+  }
+}
+
+@media (max-width: 576px) {
+  body.fm-my-enhanced #page {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  body.fm-my-enhanced .fm-my-card__header,
+  body.fm-my-enhanced .fm-my-card .card-header,
+  body.fm-my-enhanced .fm-my-card .block-header {
+    padding: 12px 14px;
+  }
+
+  body.fm-my-enhanced .fm-my-card__body,
+  body.fm-my-enhanced .fm-my-card .card-body,
+  body.fm-my-enhanced .fm-my-card .content,
+  body.fm-my-enhanced .fm-my-card .block-content {
+    padding: 14px;
+  }
+}
