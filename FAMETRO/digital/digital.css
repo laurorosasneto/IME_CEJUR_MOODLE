@@ -7,7 +7,7 @@
 }
 
 body {
-    font-family: 'Atkinson Hyperlegible Next', sans-serif;
+    font-family: 'Atkinson Hyperlegible Next', sans-serif!important;
 }
 
 /* ==========================================================================
