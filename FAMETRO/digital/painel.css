@@ -51,3 +51,10 @@ body#page-my-index #page .fm-slideshow__status {
   z-index: 2 !important;
   pointer-events: none !important;
 }
+@media (min-width: 768px) {
+    #page.drawers {
+        padding-left: 0rem; 
+        padding-right: 0rem; 
+        z-index: 0;
+    }
+}
