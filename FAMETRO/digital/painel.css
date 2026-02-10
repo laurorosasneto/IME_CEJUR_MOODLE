@@ -1,109 +1,53 @@
-/* ======================================================================
-   painel.css — /my/ slideshow fullwidth no #page (margem zero)
-   Escopo: só aplica com body.fm-my-enhanced
-   ====================================================================== */
+/* =========================================================
+   FM-SLIDES: força visibilidade no /my/ (page-my-index)
+   ========================================================= */
 
-body.fm-my-enhanced #page .fm-slideshow {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  border-radius: 0;
-  overflow: hidden;
-  border: 0;
-  box-shadow: none;
-  background: transparent;
+body#page-my-index #page .fm-slideshow {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: relative !important;
+  z-index: 50 !important;
 }
 
-body.fm-my-enhanced #page .fm-slideshow__stage {
-  position: relative;
-  width: 100%;
-  height: min(40vw, 500px);
-  min-height: 220px;
-  background: rgba(0, 0, 0, 0.02);
+/* garante altura “real” (evita colapsar) */
+body#page-my-index #page .fm-slideshow__stage {
+  display: block !important;
+  width: 100% !important;
+  height: 500px !important;      /* altura máxima solicitada */
+  max-height: 500px !important;
+  min-height: 240px !important;  /* garante visual mesmo em telas pequenas */
+  position: relative !important;
+  overflow: hidden !important;
+  background: #0f172a !important; /* fallback visível */
 }
 
-body.fm-my-enhanced #page .fm-slideshow__img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-
-  object-fit: cover;
-  object-position: 50% 50%;
-
-  opacity: 0;
-  transition: opacity 420ms ease;
-  will-change: opacity;
+/* imagem cover centralizada */
+body#page-my-index #page .fm-slideshow__img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: 50% 50% !important;
+  display: block !important;
 }
 
-body.fm-my-enhanced #page .fm-slideshow__img.is-active {
-  opacity: 1;
+/* garante que o ativo fica visível */
+body#page-my-index #page .fm-slideshow__img.is-active {
+  opacity: 1 !important;
 }
 
-body.fm-my-enhanced #page .fm-slideshow__overlay {
-  pointer-events: none;
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, rgba(0,0,0,0.12), transparent 28%, transparent 72%, rgba(0,0,0,0.10));
-}
-
-body.fm-my-enhanced #page .fm-slideshow__controls {
-  position: absolute;
-  right: 14px;
-  bottom: 14px;
-  display: flex;
-  gap: 10px;
-}
-
-body.fm-my-enhanced #page .fm-slideshow__btn {
-  width: 44px;
-  height: 42px;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  background: rgba(44, 83, 100, 0.78);
-  color: #ffffff;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: rgba(0, 0, 0, 0.16) 0 14px 22px -18px;
-  cursor: pointer;
-}
-
-body.fm-my-enhanced #page .fm-slideshow__dots {
-  position: absolute;
-  left: 16px;
-  bottom: 16px;
-  display: flex;
-  gap: 8px;
-}
-
-body.fm-my-enhanced #page .fm-slideshow__dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.55);
-  border: 1px solid rgba(15, 23, 42, 0.12);
-  cursor: pointer;
-}
-
-body.fm-my-enhanced #page .fm-slideshow__dot.is-active {
-  background: rgba(255, 255, 255, 0.95);
-  transform: scale(1.15);
-}
-
-body.fm-my-enhanced #page .fm-slideshow__status {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  color: rgba(255, 255, 255, 0.92);
-  font-weight: 800;
-  letter-spacing: 0.2px;
-  text-shadow: rgba(0,0,0,0.5) 0 2px 12px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  body.fm-my-enhanced #page .fm-slideshow__img {
-    transition: none;
-  }
+/* mensagem em cima (debug e falhas) */
+body#page-my-index #page .fm-slideshow__status {
+  position: absolute !important;
+  inset: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  color: #fff !important;
+  font-weight: 800 !important;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.5) !important;
+  z-index: 2 !important;
+  pointer-events: none !important;
 }
