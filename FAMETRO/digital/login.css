@@ -1,11 +1,11 @@
 /* ======================================================================
    login.css — Estilo profissional para a página de login do Moodle
-   Regras focadas no layout de login (Boost/tema baseado em Boost)
+   Ajustes solicitados:
+   1) Remover “2 tons de branco” (inputs/select agora usam o mesmo branco do card)
+   2) Deixar o card mais largo
    ====================================================================== */
 
-/* Base: aplica somente ao layout de login */
 body.pagelayout-login {
-  /* Fundo elegante */
   background:
     radial-gradient(1200px 700px at 15% 10%, rgba(46, 68, 89, 0.18), transparent 60%),
     radial-gradient(900px 600px at 85% 35%, rgba(13, 110, 253, 0.12), transparent 55%),
@@ -13,12 +13,10 @@ body.pagelayout-login {
   min-height: 100vh;
 }
 
-/* Evita “respiro” estranho do container do Boost no login */
 body.pagelayout-login #page.container-fluid {
   padding-top: 0 !important;
 }
 
-/* Wrapper central (o seu HTML usa .login-wrapper/.login-container) */
 body.pagelayout-login .login-wrapper {
   min-height: 100vh;
   display: flex;
@@ -27,13 +25,13 @@ body.pagelayout-login .login-wrapper {
   padding: 32px 16px;
 }
 
-/* Card principal */
+/* Mais largo */
 body.pagelayout-login .login-container {
   width: 100%;
-  max-width: 420px;
+  max-width: 560px; /* antes: 420px */
 }
 
-/* A caixa do formulário (Boost geralmente usa .loginform) */
+/* Card principal */
 body.pagelayout-login .loginform {
   background: #ffffff;
   border: 1px solid rgba(15, 23, 42, 0.08);
@@ -41,7 +39,7 @@ body.pagelayout-login .loginform {
   box-shadow:
     0 18px 60px rgba(15, 23, 42, 0.10),
     0 2px 10px rgba(15, 23, 42, 0.06);
-  padding: 28px 26px;
+  padding: 30px 30px;
 }
 
 /* Logo e topo */
@@ -59,7 +57,7 @@ body.pagelayout-login #loginlogo #logoimage {
   object-fit: contain;
 }
 
-/* Tipografia do login */
+/* Tipografia */
 body.pagelayout-login .loginform,
 body.pagelayout-login .loginform input,
 body.pagelayout-login .loginform select,
@@ -67,20 +65,14 @@ body.pagelayout-login .loginform button {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
 }
 
-body.pagelayout-login .loginform .login-heading {
-  /* está sr-only no seu HTML, mas se trocar isso futuramente já fica padronizado */
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-
-/* Inputs e select */
+/* Inputs e select — agora com o MESMO branco do card (sem “2 tons”) */
 body.pagelayout-login .login-form .form-control-lg {
-  height: 48px;
+  height: 52px;
   border-radius: 12px;
   border: 1px solid rgba(15, 23, 42, 0.14);
-  background: #fbfcfe;
-  transition: box-shadow 0.15s ease, border-color 0.15s ease, background 0.15s ease;
-  font-size: 15px;
+  background: transparent; /* antes: #fbfcfe */
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+  font-size: 16px;
 }
 
 body.pagelayout-login .login-form .form-control-lg::placeholder {
@@ -89,12 +81,16 @@ body.pagelayout-login .login-form .form-control-lg::placeholder {
 
 body.pagelayout-login .login-form .form-control-lg:focus {
   outline: none;
-  background: #ffffff;
   border-color: rgba(13, 110, 253, 0.65);
   box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.15);
 }
 
-/* Espaçamento entre grupos */
+/* Ajuste do select para ficar alinhado */
+body.pagelayout-login .login-form select.form-control-lg {
+  padding-right: 44px;
+}
+
+/* Espaçamento */
 body.pagelayout-login .login-form .form-group {
   margin-bottom: 14px;
 }
@@ -102,8 +98,8 @@ body.pagelayout-login .login-form .form-group {
 /* Botão principal */
 body.pagelayout-login .login-form-submit #loginbtn.btn {
   width: 100%;
-  height: 48px;
-  border-radius: 12px;
+  height: 54px;
+  border-radius: 14px;
   font-weight: 700;
   letter-spacing: 0.2px;
   border: 0;
@@ -163,12 +159,12 @@ body.pagelayout-login .loginform .btn.btn-secondary {
   height: 40px;
   padding: 0 14px;
   border: 1px solid rgba(15, 23, 42, 0.12);
-  background: #f4f6fa;
+  background: transparent;
   color: rgba(15, 23, 42, 0.78);
 }
 
 body.pagelayout-login .loginform .btn.btn-secondary:hover {
-  background: #edf2f7;
+  background: rgba(15, 23, 42, 0.04);
 }
 
 /* Dropdown do idioma */
@@ -176,7 +172,7 @@ body.pagelayout-login .login-languagemenu .dropdown-toggle {
   border-radius: 10px;
   padding: 8px 12px;
   border: 1px solid rgba(15, 23, 42, 0.12);
-  background: #f4f6fa;
+  background: transparent;
   color: rgba(15, 23, 42, 0.80);
   text-decoration: none;
 }
@@ -187,7 +183,7 @@ body.pagelayout-login .login-languagemenu .dropdown-menu {
   box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
 }
 
-/* Footer do Boost no login: discreto */
+/* Footer discreto */
 body.pagelayout-login #page-footer.footer-popover {
   background: transparent !important;
   border-top: 0 !important;
@@ -198,20 +194,18 @@ body.pagelayout-login #page-footer .footer-content-popover.container {
   opacity: 0.90;
 }
 
-/* Acessibilidade: foco visível em links/botões */
-body.pagelayout-login a:focus,
-body.pagelayout-login button:focus,
-body.pagelayout-login [tabindex]:focus {
-  outline: none;
-}
-
-/* Neutralização temporária do “lixo” (injetado) no footer.
-   Isso não resolve o problema. É só para mitigar visualmente até remover na origem. */
+/* Mitigação temporária do conteúdo injetado no footer */
 body.pagelayout-login #page-footer div[style*="display: none"] {
   display: none !important;
 }
 
 /* Responsivo */
+@media (max-width: 600px) {
+  body.pagelayout-login .login-container {
+    max-width: 480px;
+  }
+}
+
 @media (max-width: 420px) {
   body.pagelayout-login .loginform {
     padding: 22px 18px;
@@ -220,20 +214,4 @@ body.pagelayout-login #page-footer div[style*="display: none"] {
   body.pagelayout-login #loginlogo #logoimage {
     max-height: 70px;
   }
-}
-
-body.pagelayout-login .login-bg-layer {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(900px 500px at 10% 20%, rgba(13, 110, 253, 0.08), transparent 55%),
-    radial-gradient(800px 480px at 90% 35%, rgba(46, 68, 89, 0.10), transparent 60%);
-  z-index: 0;
-}
-
-body.pagelayout-login #page,
-body.pagelayout-login .login-wrapper {
-  position: relative;
-  z-index: 1;
 }
