@@ -1,28 +1,45 @@
 /* ======================================================================
-   painel.js — /my/ slideshow fullwidth dentro de #page (anti-quebra)
-   - JS puro (sem jQuery)
-   - Roda mesmo se existir erro de outros scripts (retries)
-   - Busca slideshow.info (1 URL por linha; ignora vazias e comentários #)
-   - Converte links comuns do Drive para uc?export=view&id=
+   painel.js — Slideshow no Dashboard (/my/) — robusto
+   - NÃO depende de pathname exato (/my vs /moodle/my etc.)
+   - Detecta dashboard por: body.pagelayout-mydashboard OU URL contendo /my
+   - Re-tries por até 15s procurando #page
+   - Sempre insere um placeholder (se JS executou, você verá)
    ====================================================================== */
 
 (function () {
   var INFO_URL = "https://laurorosasneto.github.io/IME_CEJUR_MOODLE/FAMETRO/digital/slideshow.info";
-  var MAX_TRIES = 80;
-  var TRY_DELAY = 120;
+  var DEBUG = true;
 
-  function isMyPage() {
+  function log() {
+    if (!DEBUG) return;
+    try { console.log.apply(console, ["FM-SLIDES:"].concat([].slice.call(arguments))); } catch (e) {}
+  }
+
+  function isDashboardPage() {
     try {
+      var b = document.body;
+      if (b && (b.classList.contains("pagelayout-mydashboard") || b.classList.contains("pagelayout-mypublic"))) {
+        return true;
+      }
+      // fallback por URL: pega qualquer path que contenha "/my" como segmento
       var path = (location && location.pathname) ? location.pathname : "";
-      path = path.replace(/\/+$/, "");
-      return path === "/my" || path === "/my/index.php";
+      return /(^|\/)my(\/|$)/.test(path);
     } catch (e) {
       return false;
     }
   }
 
-  function $(sel, root) {
-    return (root || document).querySelector(sel);
+  function patchSlickIfMissing() {
+    // evita crash do tema: $(...).slick is not a function
+    try {
+      if (!window.jQuery) return;
+      var $ = window.jQuery;
+      if (!$.fn) $.fn = {};
+      if (typeof $.fn.slick !== "function") {
+        $.fn.slick = function () { return this; };
+        log("Stub slick() aplicado (evita crash do tema).");
+      }
+    } catch (e) {}
   }
 
   function stripBOM(s) {
@@ -42,7 +59,6 @@
       }
 
       if (/drive\.google\.com\/uc\?export=view&id=/i.test(url)) return url;
-
       return url;
     } catch (e) {
       return url;
@@ -53,19 +69,14 @@
     text = stripBOM(text || "");
     var lines = text.split(/\r?\n/);
     var urls = [];
-
     for (var i = 0; i < lines.length; i++) {
       var ln = (lines[i] || "").trim();
       if (!ln) continue;
       if (ln.startsWith("#")) continue;
-
-      // comentário inline: "url # comentario"
       ln = ln.split(" #")[0].trim();
       if (!ln) continue;
-
       urls.push(toDirectDrive(ln));
     }
-
     return urls;
   }
 
@@ -109,7 +120,7 @@
 
     if (!urls || !urls.length) {
       status.textContent = "slideshow.info vazio (sem imagens).";
-      return { root: wrap, api: null };
+      return wrap;
     }
 
     var imgs = [];
@@ -136,30 +147,23 @@
     }
 
     function stop() {
-      if (timer) {
-        clearInterval(timer);
-        timer = null;
-      }
+      if (timer) { clearInterval(timer); timer = null; }
     }
 
     function start() {
       stop();
       if (imgs.length > 1) {
-        timer = setInterval(function () {
-          setActive(current + 1);
-        }, INTERVAL);
+        timer = setInterval(function () { setActive(current + 1); }, INTERVAL);
       }
     }
 
-    var loadedOk = 0;
-    var loadedTotal = 0;
+    var ok = 0;
+    var done = 0;
 
-    function onAnyDone() {
-      loadedTotal++;
-      if (loadedTotal === urls.length) {
-        if (loadedOk === 0) {
-          setStatus(true, "Imagens não carregaram. Verifique links/SSL.");
-        }
+    function onDone(total) {
+      done++;
+      if (done === total && ok === 0) {
+        setStatus(true, "Imagens não carregaram (links/SSL).");
       }
     }
 
@@ -170,7 +174,7 @@
     }
 
     for (var u = 0; u < urls.length; u++) {
-      (function (src, idx) {
+      (function (src, idx, total) {
         var img = document.createElement("img");
         img.className = "fm-slideshow__img";
         img.alt = "Slide " + (idx + 1);
@@ -178,13 +182,13 @@
         img.loading = "eager";
 
         img.addEventListener("load", function () {
-          loadedOk++;
-          if (loadedOk === 1) onFirstOk();
-          onAnyDone();
+          ok++;
+          if (ok === 1) onFirstOk();
+          onDone(total);
         });
 
         img.addEventListener("error", function () {
-          onAnyDone();
+          onDone(total);
         });
 
         img.src = src;
@@ -202,7 +206,7 @@
 
         dots.appendChild(dot);
         dotEls.push(dot);
-      })(urls[u], u);
+      })(urls[u], u, urls.length);
     }
 
     btnPrev.addEventListener("click", function () { setActive(current - 1); start(); });
@@ -211,95 +215,82 @@
     wrap.addEventListener("mouseenter", stop);
     wrap.addEventListener("mouseleave", start);
 
-    // swipe simples
-    var startX = 0, deltaX = 0;
-    wrap.addEventListener("touchstart", function (e) {
-      if (!e.touches || !e.touches[0]) return;
-      startX = e.touches[0].clientX;
-      deltaX = 0;
-    }, { passive: true });
-
-    wrap.addEventListener("touchmove", function (e) {
-      if (!e.touches || !e.touches[0]) return;
-      deltaX = e.touches[0].clientX - startX;
-    }, { passive: true });
-
-    wrap.addEventListener("touchend", function () {
-      if (Math.abs(deltaX) > 40) {
-        if (deltaX < 0) setActive(current + 1);
-        else setActive(current - 1);
-        start();
-      }
-      startX = 0; deltaX = 0;
-    });
-
-    return { root: wrap, api: { setActive: setActive } };
+    return wrap;
   }
 
   function insertIntoPage(root) {
     var page = document.getElementById("page");
     if (!page) return false;
-
     if (page.querySelector('[data-fm-slideshow="1"]')) return true;
 
-    // coloca como primeiro filho dentro de #page
     page.insertBefore(root, page.firstChild);
     return true;
   }
 
-  function ensureScope() {
-    if (document.body) document.body.classList.add("fm-my-enhanced");
-  }
-
   function boot(tryN) {
-    if (!isMyPage()) return;
+    patchSlickIfMissing();
 
-    ensureScope();
-
-    var page = document.getElementById("page");
-    if (!page) {
-      if (tryN < MAX_TRIES) setTimeout(function () { boot(tryN + 1); }, TRY_DELAY);
+    if (!document.body) {
+      if (tryN < 150) setTimeout(function () { boot(tryN + 1); }, 100);
       return;
     }
 
-    // já inserido
+    if (!isDashboardPage()) {
+      log("Não é dashboard (/my). Abortando.");
+      return;
+    }
+
+    document.body.classList.add("fm-my-enhanced");
+
+    var page = document.getElementById("page");
+    if (!page) {
+      if (tryN < 150) setTimeout(function () { boot(tryN + 1); }, 100);
+      return;
+    }
+
     if (page.querySelector('[data-fm-slideshow="1"]')) return;
 
-    // coloca um placeholder IMEDIATO (para você ver que entrou)
-    var placeholder = createEl("div", "fm-slideshow");
-    placeholder.setAttribute("data-fm-slideshow", "1");
+    log("Dashboard detectado. Inserindo placeholder…");
 
-    var stage = createEl("div", "fm-slideshow__stage");
-    var overlay = createEl("div", "fm-slideshow__overlay");
-    stage.appendChild(overlay);
+    // Placeholder visível sempre (se não aparecer, JS não rodou)
+    var ph = createEl("div", "fm-slideshow");
+    ph.setAttribute("data-fm-slideshow", "1");
 
-    var status = createEl("div", "fm-slideshow__status");
-    status.textContent = "Carregando slideshow.info…";
-    stage.appendChild(status);
+    var st = createEl("div", "fm-slideshow__stage");
+    var ov = createEl("div", "fm-slideshow__overlay");
+    var tx = createEl("div", "fm-slideshow__status");
+    tx.textContent = "Carregando slideshow.info…";
 
-    placeholder.appendChild(stage);
-    insertIntoPage(placeholder);
+    st.appendChild(ov);
+    st.appendChild(tx);
+    ph.appendChild(st);
+
+    insertIntoPage(ph);
 
     fetch(INFO_URL, { cache: "no-store" })
-      .then(function (r) { return r.text(); })
-      .then(function (txt) {
-        var urls = parseInfo(txt);
+      .then(function (r) {
+        log("Fetch slideshow.info status:", r.status);
+        return r.text();
+      })
+      .then(function (txtInfo) {
+        var urls = parseInfo(txtInfo);
+        log("URLs no slideshow.info:", urls.length);
 
-        // remove placeholder e insere real
-        placeholder.parentNode && placeholder.parentNode.removeChild(placeholder);
+        if (ph.parentNode) ph.parentNode.removeChild(ph);
 
         var built = buildSlideshow(urls);
-        insertIntoPage(built.root);
+        insertIntoPage(built);
       })
-      .catch(function () {
-        status.textContent = "Falha ao buscar slideshow.info (CORS/SSL/URL).";
+      .catch(function (e) {
+        log("Falha fetch slideshow.info:", e);
+        tx.textContent = "Falha ao buscar slideshow.info (CORS/SSL/URL).";
       });
   }
 
-  // roda cedo + retries
-  try { addBodyScope(); } catch (e) {}
-  document.addEventListener("DOMContentLoaded", function () { boot(0); });
+  document.addEventListener("DOMContentLoaded", function () {
+    boot(0);
+  });
 
-  // backup se DOMContentLoaded não disparar por algum motivo
+  // fallback
   setTimeout(function () { boot(0); }, 600);
 })();
