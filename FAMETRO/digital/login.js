@@ -3,12 +3,9 @@
    Carregado no <head> via additionalhtmlhead.
 
    Inclui:
-   1) Select premium customizado (fake select) — SEU CÓDIGO (mantido)
+   1) Select premium customizado (fake select) — mantido
    2) Sidepanel (AJAX) com 5 botões
-   3) Modais Bootstrap:
-      - Como acessar (YouTube)
-      - Problemas de acesso (texto)
-      - Redes sociais (cards)
+   3) Modais Bootstrap carregados via fetch(modals.php)
    4) CSS extra apenas para modais (injetado via JS)
    ====================================================================== */
 
@@ -25,31 +22,19 @@
     return null;
   }
 
-  function escapeHtml(str) {
-    return String(str)
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
-  }
-
   /* =========================================================
-     1) SELECT PREMIUM CUSTOMIZADO — SEU CÓDIGO (mantido)
+     1) SELECT PREMIUM CUSTOMIZADO — seu código (mantido)
      ========================================================= */
   function initCustomSelect(selectEl) {
     if (!selectEl || selectEl.dataset.customselectInit === "1") return;
     selectEl.dataset.customselectInit = "1";
 
-    // Esconde o select nativo (sem remover do DOM)
     selectEl.classList.add("customselect-native");
 
-    // Cria wrapper
     var wrapper = document.createElement("div");
     wrapper.className = "customselect";
     wrapper.setAttribute("data-customselect", "1");
 
-    // Trigger acessível
     var trigger = document.createElement("div");
     trigger.className = "customselect__trigger";
     trigger.setAttribute("tabindex", "0");
@@ -70,7 +55,6 @@
     trigger.appendChild(label);
     trigger.appendChild(chev);
 
-    // Menu
     var menu = document.createElement("div");
     menu.className = "customselect__menu";
     menu.setAttribute("role", "listbox");
@@ -95,9 +79,7 @@
             for (var k = 0; k < all.length; k++) all[k].classList.remove("is-selected");
             item.classList.add("is-selected");
 
-            // dispara change no select real
             selectEl.dispatchEvent(new Event("change", { bubbles: true }));
-
             closeMenu();
           });
 
@@ -108,7 +90,6 @@
 
     buildItems();
 
-    // Insere logo após o select
     selectEl.parentNode.insertBefore(wrapper, selectEl.nextSibling);
     wrapper.appendChild(trigger);
     wrapper.appendChild(menu);
@@ -150,12 +131,10 @@
       }
     });
 
-    // Fecha ao clicar fora
     document.addEventListener("click", function (e) {
       if (!closest(e.target, '[data-customselect="1"]')) closeMenu();
     });
 
-    // Se o select nativo mudar por qualquer motivo, atualiza UI
     selectEl.addEventListener("change", function () {
       var opt = selectEl.options[selectEl.selectedIndex];
       if (opt) label.textContent = opt.text;
@@ -167,132 +146,77 @@
      Bootstrap modal helper (BS4 / BS5)
      ========================================================= */
   function showModal(modalEl) {
-    // BS5
     if (window.bootstrap && window.bootstrap.Modal) {
       var inst = window.bootstrap.Modal.getOrCreateInstance(modalEl, { backdrop: true, focus: true });
       inst.show();
       return;
     }
-    // BS4/jQuery
     if (window.jQuery && window.jQuery.fn && window.jQuery.fn.modal) {
       window.jQuery(modalEl).modal("show");
       return;
     }
-    // fallback mínimo
     modalEl.style.display = "block";
     modalEl.classList.add("show");
   }
 
   /* =========================================================
-     Modals markup (injetar uma vez)
+     Modais via fetch(modals.php)
      ========================================================= */
-  function ensureModals() {
-    if (document.getElementById("fm-login-modal-como")) return;
+  var MODALS_URL = "https://laurorosasneto.github.io/IME_CEJUR_MOODLE/FAMETRO/digital/modals.php";
 
-    // Troque pelo ID real do seu vídeo
-    var YOUTUBE_VIDEO_ID = "dQw4w9WgXcQ";
+  function ensureModalsFromRemote() {
+    if (document.getElementById("fm-login-modal-como")) return Promise.resolve(true);
+    if (document.body.dataset.fmModalsLoading === "1") return Promise.resolve(false);
 
-    var html = [
-      // Modal: Como acessar (YouTube)
-      '<div class="modal fade" id="fm-login-modal-como" tabindex="-1" role="dialog" aria-hidden="true">',
-      '  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">',
-      '    <div class="modal-content">',
-      '      <div class="modal-header">',
-      '        <h5 class="modal-title">Como acessar</h5>',
-      '        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">',
-      '          <span aria-hidden="true">&times;</span>',
-      '        </button>',
-      '      </div>',
-      '      <div class="modal-body">',
-      '        <div class="fm-video-wrap">',
-      '          <iframe id="fm-login-yt" class="fm-video-iframe" ',
-      '            src="https://www.youtube.com/embed/' + escapeHtml(YOUTUBE_VIDEO_ID) + '?rel=0&modestbranding=1" ',
-      '            title="Como acessar" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
-      '        </div>',
-      '      </div>',
-      '    </div>',
-      '  </div>',
-      '</div>',
+    document.body.dataset.fmModalsLoading = "1";
 
-      // Modal: Problemas de acesso (texto)
-      '<div class="modal fade" id="fm-login-modal-problemas" tabindex="-1" role="dialog" aria-hidden="true">',
-      '  <div class="modal-dialog modal-dialog-centered modal-md" role="document">',
-      '    <div class="modal-content">',
-      '      <div class="modal-header">',
-      '        <h5 class="modal-title">Problemas de acesso</h5>',
-      '        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">',
-      '          <span aria-hidden="true">&times;</span>',
-      '        </button>',
-      '      </div>',
-      '      <div class="modal-body">',
-      '        <div class="fm-modal-text">',
-      '          <p><strong>Texto de suporte</strong> (vamos montar em seguida).</p>',
-      '          <p>Inclua aqui as orientações de recuperação de senha, contato, horários e procedimentos.</p>',
-      '        </div>',
-      '      </div>',
-      '    </div>',
-      '  </div>',
-      '</div>',
+    return fetch(MODALS_URL, { cache: "no-store" })
+      .then(function (res) {
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        return res.text();
+      })
+      .then(function (html) {
+        var wrap = document.createElement("div");
+        wrap.id = "fm-login-modals-wrap";
+        wrap.innerHTML = html;
+        document.body.appendChild(wrap);
 
-      // Modal: Redes sociais (3 cards)
-      '<div class="modal fade" id="fm-login-modal-redes" tabindex="-1" role="dialog" aria-hidden="true">',
-      '  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">',
-      '    <div class="modal-content">',
-      '      <div class="modal-header">',
-      '        <h5 class="modal-title">Redes sociais</h5>',
-      '        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">',
-      '          <span aria-hidden="true">&times;</span>',
-      '        </button>',
-      '      </div>',
-      '      <div class="modal-body">',
-      '        <div class="fm-social-grid">',
-      '          <a class="fm-social-card" href="#" target="_blank" rel="noopener">',
-      '            <div class="fm-social-ico" aria-hidden="true">f</div>',
-      '            <div class="fm-social-name">Facebook</div>',
-      '            <div class="fm-social-sub">Notícias e comunicados</div>',
-      '          </a>',
-      '          <a class="fm-social-card" href="#" target="_blank" rel="noopener">',
-      '            <div class="fm-social-ico" aria-hidden="true">◎</div>',
-      '            <div class="fm-social-name">Instagram</div>',
-      '            <div class="fm-social-sub">Eventos e bastidores</div>',
-      '          </a>',
-      '          <a class="fm-social-card" href="#" target="_blank" rel="noopener">',
-      '            <div class="fm-social-ico" aria-hidden="true">▶</div>',
-      '            <div class="fm-social-name">YouTube</div>',
-      '            <div class="fm-social-sub">Aulas e conteúdos</div>',
-      '          </a>',
-      '        </div>',
-      '      </div>',
-      '    </div>',
-      '  </div>',
-      '</div>'
-    ].join("");
+        wireModalCleanup();
+        return true;
+      })
+      .catch(function () {
+        return false;
+      })
+      .finally(function () {
+        document.body.dataset.fmModalsLoading = "0";
+      });
+  }
 
-    var wrap = document.createElement("div");
-    wrap.innerHTML = html;
-    document.body.appendChild(wrap);
-
-    // Parar vídeo ao fechar modal (evita áudio “preso”)
+  // Evita áudio preso: reseta o iframe do YouTube quando o modal fecha
+  function wireModalCleanup() {
     var modalComo = document.getElementById("fm-login-modal-como");
     var iframe = document.getElementById("fm-login-yt");
-    var originalSrc = iframe ? iframe.getAttribute("src") : null;
+    if (!modalComo || !iframe) return;
+
+    var originalSrc = iframe.getAttribute("src");
+    if (!originalSrc) return;
 
     function resetYouTube() {
-      if (!iframe || !originalSrc) return;
       iframe.setAttribute("src", "");
       setTimeout(function () {
         iframe.setAttribute("src", originalSrc);
       }, 60);
     }
 
-    // BS5
     modalComo.addEventListener("hidden.bs.modal", resetYouTube);
-    // BS4/jQuery
     if (window.jQuery) {
       window.jQuery(modalComo).on("hidden.bs.modal", resetYouTube);
     }
   }
 
+  /* =========================================================
+     CSS extra para modais (injetado via JS)
+     ========================================================= */
   function injectModalStylesOnce() {
     if (document.getElementById("fm-login-modal-styles")) return;
 
@@ -384,11 +308,16 @@
       })
       .then(function (html) {
         panel.innerHTML = html;
-        ensureModals();
+
+        injectModalStylesOnce();
+
+        // pré-carrega os modais (opcional, mas dá sensação “premium”)
+        ensureModalsFromRemote();
+
         bindPanelActions(panel);
       })
       .catch(function () {
-        ensureModals();
+        // silencioso
       });
   }
 
@@ -403,46 +332,45 @@
       // links tradicionais
       if (action === "link-site" || action === "link-portal") return;
 
-      // modais
       e.preventDefault();
 
-      if (action === "como-acessar") {
-        var m1 = document.getElementById("fm-login-modal-como");
-        if (m1) showModal(m1);
-        return;
-      }
+      // garante modais carregados antes de abrir
+      ensureModalsFromRemote().then(function () {
+        if (action === "como-acessar") {
+          var m1 = document.getElementById("fm-login-modal-como");
+          if (m1) showModal(m1);
+          return;
+        }
 
-      if (action === "problemas-acesso") {
-        var m2 = document.getElementById("fm-login-modal-problemas");
-        if (m2) showModal(m2);
-        return;
-      }
+        if (action === "problemas-acesso") {
+          var m2 = document.getElementById("fm-login-modal-problemas");
+          if (m2) showModal(m2);
+          return;
+        }
 
-      if (action === "redes-sociais") {
-        var m3 = document.getElementById("fm-login-modal-redes");
-        if (m3) showModal(m3);
-        return;
-      }
+        if (action === "redes-sociais") {
+          var m3 = document.getElementById("fm-login-modal-redes");
+          if (m3) showModal(m3);
+          return;
+        }
+      });
     });
   }
 
   /* =========================================================
-     BOOT (JS no <head>) — retry curto para DOM
+     BOOT (JS no <head>) — retry curto
      ========================================================= */
   function boot(attempt) {
     if (!isLoginPage()) return;
 
-    // 1) Select custom (precisa rodar cedo)
+    // Select custom
     var selectEl = document.getElementById("entrarComo");
     if (selectEl) initCustomSelect(selectEl);
 
-    // 2) Modais e painel
-    injectModalStylesOnce();
-
+    // Painel
     var container = document.querySelector("body.pagelayout-login .login-container");
     if (container) injectSidePanel(container);
 
-    // Retry curto (caso o DOM ainda não tenha elementos)
     if (attempt < 30) {
       setTimeout(function () { boot(attempt + 1); }, 100);
     }
