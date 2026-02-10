@@ -1,7 +1,7 @@
 /* ======================================================================
    login.js — Login enhancements:
    1) Select premium customizado (#entrarComo)
-   2) Sidepanel de atalhos (carregado via AJAX)
+   2) Sidepanel de botões (AJAX) — layout estreito icon+label
    ====================================================================== */
 
 (function () {
@@ -141,17 +141,13 @@
     if (!containerEl || containerEl.dataset.sidepanelInit === "1") return;
     containerEl.dataset.sidepanelInit = "1";
 
-    // Marca layout em 2 colunas via CSS
     containerEl.classList.add("has-sidepanel");
 
-    // Cria painel com loading
     var panel = document.createElement("aside");
     panel.className = "login-sidepanel";
     panel.setAttribute("aria-label", "Atalhos de ajuda e acesso");
-    panel.innerHTML = '<div class="login-sidepanel__loading">Carregando atalhos...</div>';
+    panel.innerHTML = '<div class="login-sidepanel__loading">Carregando...</div>';
 
-    // Insere ao lado do loginform (dentro do .login-container)
-    // A loginform já existe; o CSS grid fará o layout.
     containerEl.appendChild(panel);
 
     var url = "https://laurorosasneto.github.io/IME_CEJUR_MOODLE/FAMETRO/digital/login_bot.php";
@@ -162,13 +158,16 @@
         return res.text();
       })
       .then(function (html) {
-        // Segurança simples: injeta o HTML como veio (controle seu endpoint)
         panel.innerHTML = html;
 
-        // Se o endpoint não vier com estrutura esperada, cai para um template interno
+        // Exige grid; se não vier, fallback
         if (!panel.querySelector(".login-sidepanel__grid")) {
           panel.innerHTML = getFallbackPanelHtml();
         }
+
+        // Remove título caso venha por acidente
+        var t = panel.querySelector(".login-sidepanel__title");
+        if (t) t.remove();
       })
       .catch(function () {
         panel.innerHTML = getFallbackPanelHtml();
@@ -176,28 +175,21 @@
   }
 
   function getFallbackPanelHtml() {
-    // Template interno caso o AJAX falhe — links ficam como "#"
     return [
-      '<div class="login-sidepanel__title">Acessos rápidos</div>',
       '<div class="login-sidepanel__grid">',
-
-      itemHtml('#', 'Como acessar', 'Guia rápido de acesso', iconKey()),
-      itemHtml('#', 'Problemas de acesso', 'Recuperação e suporte', iconHelp()),
-      itemHtml('#', 'Site', 'Portal institucional', iconGlobe()),
-      itemHtml('#', 'Portal do Aluno', 'Serviços e atendimento', iconUser()),
-
+        itemHtml('#', 'Como acessar', iconKey()),
+        itemHtml('#', 'Problemas de acesso', iconHelp()),
+        itemHtml('#', 'Site', iconGlobe()),
+        itemHtml('#', 'Portal do Aluno', iconUser()),
       '</div>'
     ].join('');
   }
 
-  function itemHtml(href, label, sub, iconSvg) {
+  function itemHtml(href, label, iconSvg) {
     return [
       '<a class="login-sidepanel__item" href="', href, '">',
         '<div class="login-sidepanel__icon">', iconSvg, '</div>',
-        '<div class="login-sidepanel__textwrap">',
-          '<div class="login-sidepanel__label">', escapeHtml(label), '</div>',
-          '<div class="login-sidepanel__sub">', escapeHtml(sub), '</div>',
-        '</div>',
+        '<div class="login-sidepanel__label">', escapeHtml(label), '</div>',
       '</a>'
     ].join('');
   }
@@ -211,7 +203,7 @@
       .replaceAll("'", "&#039;");
   }
 
-  /* Ícones SVG inline (brancos via CSS fill) */
+  /* SVGs */
   function iconKey() {
     return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 14a4.5 4.5 0 1 1 3.93-2.3l2.07 2.07h2v2h-2v2h-2v-2.17l-1.2-1.2A4.48 4.48 0 0 1 7.5 14Zm0-2.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></svg>';
   }
@@ -237,7 +229,6 @@
     if (selectEl) initCustomSelect(selectEl);
     if (container) injectSidePanel(container);
 
-    // Retry curto se algo ainda não existir
     if ((!container || !selectEl) && attempt < 30) {
       setTimeout(function () { boot(attempt + 1); }, 100);
     }

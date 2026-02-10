@@ -1,10 +1,7 @@
 /* ======================================================================
    login.css — Estilo profissional para a página de login do Moodle
-   Ajustes:
-   1) Remover “2 tons de branco”
-   2) Card mais largo
-   3) Select corrigido (sem transparência e com visual consistente)
-   4) Fade-in do login
+   Conteúdo: base do login + select premium + animação
+   (Botões laterais ficam no login-botoes.css)
    ====================================================================== */
 
 @font-face {
@@ -105,10 +102,7 @@ body.pagelayout-login .login-form .form-group {
   margin-bottom: 14px;
 }
 
-/* =========================================================
-   SELECT — REFEITO (remove transparência e seta mais elegante)
-   ========================================================= */
-
+/* Select nativo (fallback) */
 body.pagelayout-login .login-form select.form-control-lg {
   appearance: none;
   -webkit-appearance: none;
@@ -261,10 +255,7 @@ body.pagelayout-login #page-footer div[style*="display: none"] {
   }
 }
 
-/* =========================================================
-   Animação de entrada do login (fade + leve subida)
-   ========================================================= */
-
+/* Animação de entrada */
 @keyframes loginFadeIn {
   from { opacity: 0; transform: translateY(24px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -285,7 +276,7 @@ body.pagelayout-login .loginform {
 }
 
 /* ======================================================================
-   ADIÇÃO (SEM REMOVER NADA) — SELECT PREMIUM (customizado via login.js)
+   SELECT PREMIUM (customizado via login.js)
    ====================================================================== */
 
 body.pagelayout-login .login-form select#entrarComo.customselect-native {
@@ -376,157 +367,4 @@ body.pagelayout-login .customselect__item.is-selected {
 
 body.pagelayout-login .customselect__item + .customselect__item {
   border-top: 1px solid rgba(15, 23, 42, 0.06);
-}
-
-/* ======================================================================
-   BLOCO NOVO — COLUNA LATERAL DE AJUDA (carregada via AJAX)
-   ====================================================================== */
-
-/* Layout: em telas grandes, vira 2 colunas (login + barra) */
-body.pagelayout-login .login-container.has-sidepanel {
-  max-width: 980px; /* expande a área total */
-  display: grid;
-  grid-template-columns: minmax(480px, 600px) 320px;
-  gap: 18px;
-  align-items: stretch;
-}
-
-/* A barra lateral */
-body.pagelayout-login .login-sidepanel {
-  background: #2c5364; /* mesma matiz do botão */
-  border-radius: 18px;
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 20px 35px -12px;
-  padding: 18px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: 100%;
-}
-
-/* Título discreto (opcional, se vier no HTML) */
-body.pagelayout-login .login-sidepanel__title {
-  color: rgba(255, 255, 255, 0.92);
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.2px;
-  margin: 0 0 14px 0;
-}
-
-/* Grid de atalhos */
-body.pagelayout-login .login-sidepanel__grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-}
-
-/* Botões/itens */
-body.pagelayout-login .login-sidepanel__item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  border-radius: 14px;
-  padding: 14px 14px;
-  text-decoration: none;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.08);
-  transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
-}
-
-body.pagelayout-login .login-sidepanel__item:hover {
-  transform: translateY(-1px);
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.22);
-}
-
-/* Ícone grande (usa SVG inline no HTML) */
-body.pagelayout-login .login-sidepanel__icon {
-  width: 44px;
-  height: 44px;
-  flex: 0 0 44px;
-  display: grid;
-  place-items: center;
-}
-
-body.pagelayout-login .login-sidepanel__icon svg {
-  width: 34px;
-  height: 34px;
-  fill: #ffffff;
-  opacity: 0.95;
-}
-
-/* Texto pequeno abaixo no estilo “icon + label” (coluna interna) */
-body.pagelayout-login .login-sidepanel__textwrap {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-}
-
-body.pagelayout-login .login-sidepanel__label {
-  color: rgba(255, 255, 255, 0.96);
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1.1;
-}
-
-body.pagelayout-login .login-sidepanel__sub {
-  color: rgba(255, 255, 255, 0.80);
-  font-size: 12px;
-  line-height: 1.2;
-}
-
-/* Loading fallback */
-body.pagelayout-login .login-sidepanel__loading {
-  color: rgba(255,255,255,0.9);
-  font-size: 13px;
-  padding: 10px 6px;
-  opacity: 0.9;
-}
-
-/* Em telas médias/pequenas: painel vai para baixo e vira grid 2x2 */
-@media (max-width: 992px) {
-  body.pagelayout-login .login-container.has-sidepanel {
-    grid-template-columns: 1fr;
-    max-width: 680px;
-  }
-
-  body.pagelayout-login .login-sidepanel {
-    padding: 14px;
-  }
-
-  body.pagelayout-login .login-sidepanel__grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-
-  /* aqui vira “icon grande + texto abaixo” (vertical) */
-  body.pagelayout-login .login-sidepanel__item {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 10px;
-    padding: 14px 10px;
-  }
-
-  body.pagelayout-login .login-sidepanel__icon {
-    width: 54px;
-    height: 54px;
-    flex: 0 0 54px;
-  }
-
-  body.pagelayout-login .login-sidepanel__icon svg {
-    width: 40px;
-    height: 40px;
-  }
-
-  body.pagelayout-login .login-sidepanel__textwrap {
-    align-items: center;
-  }
-}
-
-/* Em telas muito pequenas: mantém 2 por linha, com respiro */
-@media (max-width: 420px) {
-  body.pagelayout-login .login-sidepanel__grid {
-    gap: 10px;
-  }
 }
