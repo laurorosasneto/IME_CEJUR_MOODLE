@@ -106,7 +106,7 @@ body.pagelayout-login .login-form-submit #loginbtn.btn {
   border: 0;
   color: #ffffff !important;
   border-color: #2c5364!important;
-  /*background-color: rgba(44, 83, 100, 0.15)!important;*/
+  background-color: rgba(44, 83, 100, 0.15)!important;
 
   background: linear-gradient(135deg, rgba(44, 83, 100, 0.15) 0%, rgba(44, 83, 100, 0.15) 40%, rgba(44, 83, 100, 0.15) 100%)!important;
   box-shadow: 0 14px 30px rgba(13, 110, 253, 0.22);
