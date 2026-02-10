@@ -290,3 +290,105 @@ body.pagelayout-login .loginform {
     transform: none;
   }
 }
+
+/* ======================================================================
+   BLOCO NOVO (ADICIONADO) — SELECT PREMIUM (dropdown customizado via JS)
+   Mantém o <select> real (Moodle), mas usa UI elegante por cima
+   ====================================================================== */
+
+/* O <select> real fica invisível, mas continua no DOM e no POST */
+body.pagelayout-login .login-form .customselect-native {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Wrapper do select custom */
+body.pagelayout-login .customselect {
+  position: relative;
+  width: 100%;
+}
+
+/* Botão/trigger */
+body.pagelayout-login .customselect__trigger {
+  height: 52px;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  background: #ffffff;
+  box-shadow: rgba(60, 64, 67, 0.30) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 16px;
+  color: rgba(44, 49, 63, 0.90);
+}
+
+body.pagelayout-login .customselect__trigger:focus {
+  outline: none;
+  border-color: rgba(13, 110, 253, 0.65);
+  box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.15);
+}
+
+/* Setinha */
+body.pagelayout-login .customselect__chev {
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 7px solid rgba(44, 49, 63, 0.70);
+  transform: translateY(1px);
+}
+
+/* Dropdown */
+body.pagelayout-login .customselect__menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  border-radius: 14px;
+  box-shadow: rgba(0, 0, 0, 0.18) 0px 18px 35px;
+  overflow: hidden;
+  z-index: 9999;
+  display: none;
+}
+
+body.pagelayout-login .customselect.is-open .customselect__menu {
+  display: block;
+  animation: customSelectDrop 0.14s ease-out;
+}
+
+@keyframes customSelectDrop {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Item */
+body.pagelayout-login .customselect__item {
+  padding: 12px 14px;
+  font-size: 15px;
+  color: rgba(44, 49, 63, 0.92);
+  cursor: pointer;
+  background: transparent;
+}
+
+body.pagelayout-login .customselect__item:hover {
+  background: rgba(44, 83, 100, 0.08);
+}
+
+body.pagelayout-login .customselect__item.is-selected {
+  background: #2c5364;
+  color: #ffffff;
+}
+
+/* Separador leve entre itens */
+body.pagelayout-login .customselect__item + .customselect__item {
+  border-top: 1px solid rgba(15, 23, 42, 0.06);
+}
