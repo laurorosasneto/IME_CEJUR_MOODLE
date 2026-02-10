@@ -1,40 +1,36 @@
 /* ======================================================================
    login-botoes.css — Barra lateral de atalhos (AJAX)
-   Ajustes desta versão:
-   - Barra “delicada”: gradiente sutil + leve highlight
-   - Botões mais estreitos: menos padding, ícone menor, fonte menor
-   - Layout: 2 colunas no painel (2x2); em telas pequenas vai abaixo (2x2)
+   Versão:
+   - 4 botões em coluna vertical (não agrupados)
+   - Visual mais delicado (gradiente sutil)
+   - Botões estreitos, ícone acima, texto abaixo
    ====================================================================== */
 
-/* Layout 2 colunas no container quando o JS ativar */
+/* Container com painel lateral */
 body.pagelayout-login .login-container.has-sidepanel {
   max-width: 980px;
   display: grid;
-  grid-template-columns: minmax(480px, 600px) 300px; /* levemente mais estreito */
-  gap: 16px; /* reduz um pouco */
+  grid-template-columns: minmax(480px, 600px) 260px;
+  gap: 18px;
   align-items: stretch;
 }
 
-/* Painel: gradiente sutil na mesma matiz do botão */
+/* Painel lateral */
 body.pagelayout-login .login-sidepanel {
   position: relative;
-
-  /* Base #2c5364 com variações discretas */
   background:
     radial-gradient(900px 420px at 20% 10%, rgba(255, 255, 255, 0.10), transparent 55%),
     radial-gradient(700px 360px at 85% 25%, rgba(13, 110, 253, 0.10), transparent 55%),
     linear-gradient(180deg, #2f5b6f 0%, #2c5364 45%, #264a59 100%);
-
   border-radius: 18px;
   box-shadow: rgba(0, 0, 0, 0.14) 0px 22px 38px -14px;
-  padding: 14px; /* reduz para “compactar” */
+  padding: 16px 14px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 100%;
 }
 
-/* leve “borda de luz” interna, bem discreta */
+/* Borda interna sutil */
 body.pagelayout-login .login-sidepanel::before {
   content: "";
   position: absolute;
@@ -44,34 +40,27 @@ body.pagelayout-login .login-sidepanel::before {
   pointer-events: none;
 }
 
-/* Loading */
-body.pagelayout-login .login-sidepanel__loading {
-  color: rgba(255, 255, 255, 0.92);
-  font-size: 13px;
-  padding: 8px 6px;
-  opacity: 0.9;
-}
-
-/* Grid no painel lateral: 2x2 e mais compacto */
+/* Grid vira coluna única */
 body.pagelayout-login .login-sidepanel__grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px; /* reduz gap */
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
-/* Botões: mais estreitos (compactos) */
+/* Botão */
 body.pagelayout-login .login-sidepanel__item {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
 
-  gap: 8px;                 /* reduz */
+  padding: 14px 10px;
+  gap: 8px;
+
   border-radius: 14px;
-  padding: 12px 8px;        /* reduz bastante */
   text-decoration: none;
 
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.16);
   background: rgba(255, 255, 255, 0.08);
   box-shadow: rgba(0,0,0,0.08) 0px 10px 18px -14px;
 
@@ -81,17 +70,17 @@ body.pagelayout-login .login-sidepanel__item {
 body.pagelayout-login .login-sidepanel__item:hover {
   transform: translateY(-1px);
   background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.26);
 }
 
 body.pagelayout-login .login-sidepanel__item:active {
-  transform: translateY(0px);
+  transform: translateY(0);
 }
 
-/* Ícone um pouco menor para “estreitar” */
+/* Ícone */
 body.pagelayout-login .login-sidepanel__icon {
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
   display: grid;
   place-items: center;
 }
@@ -103,51 +92,33 @@ body.pagelayout-login .login-sidepanel__icon svg {
   opacity: 0.95;
 }
 
-/* Texto menor e mais contido */
+/* Texto */
 body.pagelayout-login .login-sidepanel__label {
   color: rgba(255, 255, 255, 0.96);
-  font-size: 12.5px; /* reduz */
+  font-size: 12.5px;
   font-weight: 700;
   line-height: 1.15;
-  max-width: 12ch;   /* força “estreito” visualmente */
+  max-width: 14ch;
 }
 
-/* Se existir subtexto, mantém discreto e compacto */
-body.pagelayout-login .login-sidepanel__sub {
-  color: rgba(255, 255, 255, 0.78);
-  font-size: 11.5px;
-  line-height: 1.2;
-  margin-top: -6px;
-  max-width: 16ch;
-}
-
-/* Em telas menores: painel vai para baixo; mantém 2x2 e compacto */
+/* Responsivo — painel vai para baixo */
 @media (max-width: 992px) {
   body.pagelayout-login .login-container.has-sidepanel {
     grid-template-columns: 1fr;
     max-width: 680px;
-    gap: 14px;
+    gap: 16px;
   }
 
   body.pagelayout-login .login-sidepanel {
-    padding: 12px;
-  }
-
-  body.pagelayout-login .login-sidepanel__grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    padding: 14px;
   }
 }
 
-/* Muito pequeno: reduz mais um pouco */
+/* Mobile — mantém coluna, mais compacto */
 @media (max-width: 420px) {
-  body.pagelayout-login .login-sidepanel__grid {
-    gap: 9px;
-  }
-
   body.pagelayout-login .login-sidepanel__item {
-    padding: 11px 8px;
-    gap: 7px;
+    padding: 12px 8px;
+    gap: 6px;
   }
 
   body.pagelayout-login .login-sidepanel__icon {
@@ -162,6 +133,5 @@ body.pagelayout-login .login-sidepanel__sub {
 
   body.pagelayout-login .login-sidepanel__label {
     font-size: 12px;
-    max-width: 12ch;
   }
 }
