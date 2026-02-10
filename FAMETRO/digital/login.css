@@ -39,11 +39,9 @@ body.pagelayout-login .loginform {
   background: #ffffffaa!important;
   border: 1px solid rgba(15, 23, 42, 0.08);
   border-radius: 18px;
-  box-shadow:
-    0 18px 60px rgba(15, 23, 42, 0.10),
-    0 2px 10px rgba(15, 23, 42, 0.06);
-  padding: 30px 30px;
-}
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+    padding: 30px 30px;
+  }
 
 /* Logo e topo */
 body.pagelayout-login #loginlogo.login-logo {
@@ -73,13 +71,13 @@ body.pagelayout-login .login-form .form-control-lg {
   height: 52px;
   border-radius: 12px;
   border: 1px solid rgba(15, 23, 42, 0.14);
-  background: transparent; /* antes: #fbfcfe */
-  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+  background: #ffffff; /* antes: #fbfcfe */
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
   font-size: 16px;
 }
 
 body.pagelayout-login .login-form .form-control-lg::placeholder {
-  color: rgba(15, 23, 42, 0.50);
+  color: rgba(44, 49, 63, 0.5);
 }
 
 body.pagelayout-login .login-form .form-control-lg:focus {
