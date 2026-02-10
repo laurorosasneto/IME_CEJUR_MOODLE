@@ -75,7 +75,8 @@ body.pagelayout-login .loginform,
 body.pagelayout-login .loginform input,
 body.pagelayout-login .loginform select,
 body.pagelayout-login .loginform button {
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  /*font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;*/
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
 }
 
 /* Inputs e select — agora com o MESMO branco do card (sem “2 tons”) */
@@ -227,6 +228,7 @@ body.pagelayout-login #page-footer div[style*="display: none"] {
   body.pagelayout-login .loginform {
     padding: 22px 18px;
     border-radius: 16px;
+    border: #ffffff 5px solid;
   }
   body.pagelayout-login #loginlogo #logoimage {
     max-height: 70px;
