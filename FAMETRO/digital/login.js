@@ -1,10 +1,13 @@
 /* ======================================================================
    login.js — Select premium customizado para a página de login
-   - Mantém o <select> real (Moodle) para POST
-   - Cria UI moderna com bordas arredondadas e sombra
+   Carregado no <head> via additionalhtmlhead.
    ====================================================================== */
 
 (function () {
+  function isLoginPage() {
+    return document.body && document.body.classList.contains("pagelayout-login");
+  }
+
   function closest(el, selector) {
     while (el && el.nodeType === 1) {
       if (el.matches(selector)) return el;
@@ -14,19 +17,18 @@
   }
 
   function initCustomSelect(selectEl) {
-    // Evita duplicar
-    if (selectEl.dataset.customselectInit === "1") return;
+    if (!selectEl || selectEl.dataset.customselectInit === "1") return;
     selectEl.dataset.customselectInit = "1";
 
-    // Marca o select nativo para CSS esconder sem remover
+    // Esconde o select nativo (sem remover do DOM)
     selectEl.classList.add("customselect-native");
 
-    // Wrapper
+    // Cria wrapper
     var wrapper = document.createElement("div");
     wrapper.className = "customselect";
     wrapper.setAttribute("data-customselect", "1");
 
-    // Trigger (acessível por teclado)
+    // Trigger acessível
     var trigger = document.createElement("div");
     trigger.className = "customselect__trigger";
     trigger.setAttribute("tabindex", "0");
@@ -51,9 +53,7 @@
     var menu = document.createElement("div");
     menu.className = "customselect__menu";
     menu.setAttribute("role", "listbox");
-    menu.setAttribute("tabindex", "-1");
 
-    // Itens
     function buildItems() {
       menu.innerHTML = "";
       for (var i = 0; i < selectEl.options.length; i++) {
@@ -74,9 +74,8 @@
             for (var k = 0; k < all.length; k++) all[k].classList.remove("is-selected");
             item.classList.add("is-selected");
 
-            // Dispara change no select real (caso algum JS do Moodle dependa)
-            var evt = new Event("change", { bubbles: true });
-            selectEl.dispatchEvent(evt);
+            // dispara change no select real
+            selectEl.dispatchEvent(new Event("change", { bubbles: true }));
 
             closeMenu();
           });
@@ -88,7 +87,7 @@
 
     buildItems();
 
-    // Inserção: coloca o wrapper logo após o select
+    // Insere logo após o select
     selectEl.parentNode.insertBefore(wrapper, selectEl.nextSibling);
     wrapper.appendChild(trigger);
     wrapper.appendChild(menu);
@@ -108,32 +107,34 @@
       else openMenu();
     }
 
-    // Click no trigger
     trigger.addEventListener("click", function (e) {
       e.preventDefault();
+      e.stopPropagation();
       toggleMenu();
     });
 
-    // Teclado: Enter/Espaço abre/fecha, Esc fecha
     trigger.addEventListener("keydown", function (e) {
       var key = e.key || e.code;
+
       if (key === "Enter" || key === " " || key === "Spacebar") {
         e.preventDefault();
         toggleMenu();
-      } else if (key === "Escape") {
+        return;
+      }
+
+      if (key === "Escape") {
         e.preventDefault();
         closeMenu();
+        return;
       }
     });
 
     // Fecha ao clicar fora
     document.addEventListener("click", function (e) {
-      if (!closest(e.target, '[data-customselect="1"]')) {
-        closeMenu();
-      }
+      if (!closest(e.target, '[data-customselect="1"]')) closeMenu();
     });
 
-    // Se o select real mudar por qualquer motivo, atualiza UI
+    // Se o select nativo mudar por qualquer motivo, atualiza UI
     selectEl.addEventListener("change", function () {
       var opt = selectEl.options[selectEl.selectedIndex];
       if (opt) label.textContent = opt.text;
@@ -141,9 +142,23 @@
     });
   }
 
-  document.addEventListener("DOMContentLoaded", function () {
-    // Seu select específico do login:
+  function boot(attempt) {
+    if (!isLoginPage()) return;
+
     var selectEl = document.getElementById("entrarComo");
-    if (selectEl) initCustomSelect(selectEl);
+    if (selectEl) {
+      initCustomSelect(selectEl);
+      return;
+    }
+
+    // Retry curto (caso o DOM ainda não tenha o select)
+    if (attempt < 30) {
+      setTimeout(function () { boot(attempt + 1); }, 100);
+    }
+  }
+
+  // Como o JS está no <head>, esperamos DOM pronto
+  document.addEventListener("DOMContentLoaded", function () {
+    boot(0);
   });
 })();

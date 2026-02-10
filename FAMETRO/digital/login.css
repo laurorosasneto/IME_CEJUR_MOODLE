@@ -115,13 +115,9 @@ body.pagelayout-login .login-form select.form-control-lg {
   -webkit-appearance: none;
   -moz-appearance: none;
 
-  /* garante fundo branco (sem “vidro”) */
   background-color: #ffffff !important;
-
-  /* padding consistente + espaço p/ seta */
   padding: 0 52px 0 16px;
 
-  /* seta custom: mais discreta e centralizada */
   background-image:
     linear-gradient(45deg, transparent 50%, rgba(44, 49, 63, 0.70) 50%),
     linear-gradient(135deg, rgba(44, 49, 63, 0.70) 50%, transparent 50%);
@@ -134,12 +130,12 @@ body.pagelayout-login .login-form select.form-control-lg {
   cursor: pointer;
 }
 
-/* Hover e focus ficam herdados do .form-control-lg, mas reforço o hover */
+/* Hover */
 body.pagelayout-login .login-form select.form-control-lg:hover {
   border-color: rgba(15, 23, 42, 0.28);
 }
 
-/* Remove tentativa de estilizar demais as options (piora em alguns SOs) */
+/* Options (nativo) */
 body.pagelayout-login .login-form select.form-control-lg option {
   font-size: 15px;
 }
@@ -198,7 +194,7 @@ body.pagelayout-login .login-divider {
   margin: 18px 0;
 }
 
-/* Barra inferior (idioma + cookies) */
+/* Barra inferior */
 body.pagelayout-login .loginform .d-flex {
   align-items: center;
   gap: 10px;
@@ -292,12 +288,11 @@ body.pagelayout-login .loginform {
 }
 
 /* ======================================================================
-   BLOCO NOVO (ADICIONADO) — SELECT PREMIUM (dropdown customizado via JS)
-   Mantém o <select> real (Moodle), mas usa UI elegante por cima
+   ADIÇÃO (SEM REMOVER NADA) — SELECT PREMIUM (customizado via login.js)
    ====================================================================== */
 
-/* O <select> real fica invisível, mas continua no DOM e no POST */
-body.pagelayout-login .login-form .customselect-native {
+/* Esconde só o select "entrarComo" quando o JS ativar o modo custom */
+body.pagelayout-login .login-form select#entrarComo.customselect-native {
   position: absolute !important;
   left: -9999px !important;
   width: 1px !important;
@@ -306,13 +301,11 @@ body.pagelayout-login .login-form .customselect-native {
   pointer-events: none !important;
 }
 
-/* Wrapper do select custom */
 body.pagelayout-login .customselect {
   position: relative;
   width: 100%;
 }
 
-/* Botão/trigger */
 body.pagelayout-login .customselect__trigger {
   height: 52px;
   border-radius: 12px;
@@ -335,7 +328,6 @@ body.pagelayout-login .customselect__trigger:focus {
   box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.15);
 }
 
-/* Setinha */
 body.pagelayout-login .customselect__chev {
   width: 0;
   height: 0;
@@ -345,7 +337,6 @@ body.pagelayout-login .customselect__chev {
   transform: translateY(1px);
 }
 
-/* Dropdown */
 body.pagelayout-login .customselect__menu {
   position: absolute;
   top: calc(100% + 8px);
@@ -370,7 +361,6 @@ body.pagelayout-login .customselect.is-open .customselect__menu {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Item */
 body.pagelayout-login .customselect__item {
   padding: 12px 14px;
   font-size: 15px;
@@ -388,7 +378,6 @@ body.pagelayout-login .customselect__item.is-selected {
   color: #ffffff;
 }
 
-/* Separador leve entre itens */
 body.pagelayout-login .customselect__item + .customselect__item {
   border-top: 1px solid rgba(15, 23, 42, 0.06);
 }
