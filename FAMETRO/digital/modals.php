@@ -11,11 +11,11 @@
       <div class="modal-body">
         <div class="fm-video-wrap">
           <!-- Troque o ID do vídeo aqui -->
-          <iframe id="fm-login-yt" class="fm-video-iframe"
-                  src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0&modestbranding=1"
-                  title="Como acessar" frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen></iframe>
+<video id="fm-login-video" class="fm-video-iframe" controls playsinline preload="metadata">
+  <source src="https://laurorosasneto.github.io/IME_CEJUR_MOODLE/FAMETRO/digital/acesso.mp4" type="video/mp4">
+  Seu navegador não suporta reprodução de vídeo.
+</video>
+
         </div>
       </div>
     </div>
@@ -48,8 +48,8 @@
       O <strong>usuário</strong> e a <strong>senha</strong> utilizados nesta plataforma são os mesmos:
     </p>
     <ul>
-      <li>🔹 Alunos: <strong>Portal do Aluno</strong></li>
-      <li>🔹 Colaboradores: <strong>Sistema RM</strong></li>
+      <li>Alunos: <strong>Portal do Aluno</strong></li>
+      <li>Colaboradores: <strong>Sistema RM</strong></li>
     </ul>
     <p>
       Certifique-se de que não há erros de digitação, uso indevido de letras maiúsculas (Caps Lock)

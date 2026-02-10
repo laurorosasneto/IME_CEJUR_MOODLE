@@ -271,3 +271,64 @@ body.pagelayout-login .login-sidepanel__sub {
   font-size: 14.5px;
   margin-bottom: 4px;
 }
+
+/* =========================================================
+   Sidepanel — Ícones outline finos e curvilíneos (premium)
+   ========================================================= */
+
+/* Remove SVGs inline antigos */
+.login-sidepanel__icon svg {
+  display: none;
+}
+
+/* Base do ícone */
+.login-sidepanel__icon {
+  width: 28px;
+  height: 28px;
+  background-color: #ffffff;
+  flex-shrink: 0;
+
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+}
+
+/* =========================
+   Ícones por ação
+   ========================= */
+
+/* 1) Como acessar — ícone de play-circle */
+.login-sidepanel__item[data-action="como-acessar"] .login-sidepanel__icon {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='12' cy='12' r='9' stroke='black' stroke-width='1.8'/%3E%3Cpath d='M10 8.5L15 12L10 15.5V8.5Z' stroke='black' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='12' cy='12' r='9' stroke='black' stroke-width='1.8'/%3E%3Cpath d='M10 8.5L15 12L10 15.5V8.5Z' stroke='black' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+/* 2) Problemas de acesso — help-circle */
+.login-sidepanel__item[data-action="problemas-acesso"] .login-sidepanel__icon {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='12' cy='12' r='9' stroke='black' stroke-width='1.8'/%3E%3Cpath d='M12 16h.01M10.8 9.5a1.7 1.7 0 1 1 2.4 1.6c-.7.3-1.2.8-1.2 1.7' stroke='black' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='12' cy='12' r='9' stroke='black' stroke-width='1.8'/%3E%3Cpath d='M12 16h.01M10.8 9.5a1.7 1.7 0 1 1 2.4 1.6c-.7.3-1.2.8-1.2 1.7' stroke='black' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+/* 3) Site — globe */
+.login-sidepanel__item[data-action="link-site"] .login-sidepanel__icon {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='12' cy='12' r='9' stroke='black' stroke-width='1.8'/%3E%3Cpath d='M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18' stroke='black' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='12' cy='12' r='9' stroke='black' stroke-width='1.8'/%3E%3Cpath d='M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18' stroke='black' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+/* 4) Portal do Aluno — user */
+.login-sidepanel__item[data-action="link-portal"] .login-sidepanel__icon {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 12a4 4 0 1 0-4-4a4 4 0 0 0 4 4Z' stroke='black' stroke-width='1.8'/%3E%3Cpath d='M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6' stroke='black' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 12a4 4 0 1 0-4-4a4 4 0 0 0 4 4Z' stroke='black' stroke-width='1.8'/%3E%3Cpath d='M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6' stroke='black' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+/* 5) Redes sociais — share */
+.login-sidepanel__item[data-action="redes-sociais"] .login-sidepanel__icon {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16 8a2.5 2.5 0 1 0-2.3-3.4' stroke='black' stroke-width='1.8'/%3E%3Cpath d='M8 14a2.5 2.5 0 1 0 2.3 3.4' stroke='black' stroke-width='1.8'/%3E%3Cpath d='M10 12l4-2M10 12l4 2' stroke='black' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16 8a2.5 2.5 0 1 0-2.3-3.4' stroke='black' stroke-width='1.8'/%3E%3Cpath d='M8 14a2.5 2.5 0 1 0 2.3 3.4' stroke='black' stroke-width='1.8'/%3E%3Cpath d='M10 12l4-2M10 12l4 2' stroke='black' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+

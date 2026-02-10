@@ -24,7 +24,7 @@
   </a>
 
   <!-- 3) Link tradicional: Site -->
-  <a class="login-sidepanel__item" href="#" data-action="link-site">
+  <a class="login-sidepanel__item" href="https://www.fametro.edu.br" data-action="link-site">
     <div class="login-sidepanel__icon" aria-hidden="true">
       <!-- ícone (globo) -->
       <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2Zm7.7 9h-3.1a15 15 0 0 0-1.3-5A8.03 8.03 0 0 1 19.7 11ZM12 4c.9 0 2.2 2.1 2.8 7H9.2C9.8 6.1 11.1 4 12 4ZM4.3 13h3.1a15 15 0 0 0 1.3 5A8.03 8.03 0 0 1 4.3 13Zm0-2A8.03 8.03 0 0 1 8.7 6a15 15 0 0 0-1.3 5H4.3Zm7.7 9c-.9 0-2.2-2.1-2.8-7h5.6c-.6 4.9-1.9 7-2.8 7Zm3.3-2a15 15 0 0 0 1.3-5h3.1a8.03 8.03 0 0 1-4.4 5Z"/></svg>
@@ -36,7 +36,7 @@
   </a>
 
   <!-- 4) Link tradicional: Portal do Aluno -->
-  <a class="login-sidepanel__item" href="#" data-action="link-portal">
+  <a class="login-sidepanel__item" href="https://sistemas.portaledu.com.br/FrameHTML/web/app/edu/PortalEducacional/login/" data-action="link-portal">
     <div class="login-sidepanel__icon" aria-hidden="true">
       <!-- ícone (usuário) -->
       <svg viewBox="0 0 24 24"><path d="M12 12a4.5 4.5 0 1 0-4.5-4.5A4.5 4.5 0 0 0 12 12Zm0 2c-4.4 0-8 2.3-8 5v1h16v-1c0-2.7-3.6-5-8-5Z"/></svg>
