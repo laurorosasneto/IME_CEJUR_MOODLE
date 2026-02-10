@@ -5,6 +5,18 @@
    2) Deixar o card mais largo
    ====================================================================== */
 
+@font-face {
+    font-family: 'Atkinson Hyperlegible Next';
+    font-style: normal;
+    font-display: swap;
+    font-weight: 400;
+    src: url(https://cdn.jsdelivr.net/fontsource/fonts/atkinson-hyperlegible-next@latest/latin-400-normal.woff2) format('woff2');
+}
+
+body {
+    font-family: 'Atkinson Hyperlegible Next', sans-serif;
+}   
+
 body.pagelayout-login {
   background:
     radial-gradient(1200px 700px at 15% 10%, rgba(46, 68, 89, 0.18), transparent 60%),
