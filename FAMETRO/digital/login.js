@@ -1,25 +1,20 @@
 /* ======================================================================
    login.js — Login enhancements (Moodle login page)
+   Carregado no <head> via additionalhtmlhead.
+
    Inclui:
-   1) Select “premium” (mantém o comportamento do select personalizado)
+   1) Select premium customizado (fake select) — SEU CÓDIGO (mantido)
    2) Sidepanel (AJAX) com 5 botões
    3) Modais Bootstrap:
       - Como acessar (YouTube)
       - Problemas de acesso (texto)
       - Redes sociais (cards)
+   4) CSS extra apenas para modais (injetado via JS)
    ====================================================================== */
 
 (function () {
   function isLoginPage() {
     return document.body && document.body.classList.contains("pagelayout-login");
-  }
-
-  function qs(sel, root) {
-    return (root || document).querySelector(sel);
-  }
-
-  function qsa(sel, root) {
-    return Array.prototype.slice.call((root || document).querySelectorAll(sel));
   }
 
   function closest(el, selector) {
@@ -40,41 +35,131 @@
   }
 
   /* =========================================================
-     1) SELECT “premium”
-     - Não tenta “estilizar o dropdown nativo” (isso não é possível via CSS puro)
-     - Faz refinamentos que realmente funcionam:
-       * classe has-value
-       * melhora foco/teclado
-       * protege contra inicialização duplicada
+     1) SELECT PREMIUM CUSTOMIZADO — SEU CÓDIGO (mantido)
      ========================================================= */
-  function initPremiumSelect(root) {
-    if (!isLoginPage()) return;
+  function initCustomSelect(selectEl) {
+    if (!selectEl || selectEl.dataset.customselectInit === "1") return;
+    selectEl.dataset.customselectInit = "1";
 
-    var select = qs('body.pagelayout-login form#login select#entrarComo', root);
-    if (!select) return;
+    // Esconde o select nativo (sem remover do DOM)
+    selectEl.classList.add("customselect-native");
 
-    if (select.dataset.fmSelectInit === "1") return;
-    select.dataset.fmSelectInit = "1";
+    // Cria wrapper
+    var wrapper = document.createElement("div");
+    wrapper.className = "customselect";
+    wrapper.setAttribute("data-customselect", "1");
 
-    // Marca se tem valor selecionado (para CSS opcional, se você quiser)
-    function syncValueClass() {
-      var hasValue = !!select.value && String(select.value).trim().length > 0;
-      select.classList.toggle("has-value", hasValue);
+    // Trigger acessível
+    var trigger = document.createElement("div");
+    trigger.className = "customselect__trigger";
+    trigger.setAttribute("tabindex", "0");
+    trigger.setAttribute("role", "button");
+    trigger.setAttribute("aria-haspopup", "listbox");
+    trigger.setAttribute("aria-expanded", "false");
+
+    var label = document.createElement("span");
+    label.className = "customselect__label";
+    label.textContent = selectEl.options[selectEl.selectedIndex]
+      ? selectEl.options[selectEl.selectedIndex].text
+      : "";
+
+    var chev = document.createElement("span");
+    chev.className = "customselect__chev";
+    chev.setAttribute("aria-hidden", "true");
+
+    trigger.appendChild(label);
+    trigger.appendChild(chev);
+
+    // Menu
+    var menu = document.createElement("div");
+    menu.className = "customselect__menu";
+    menu.setAttribute("role", "listbox");
+
+    function buildItems() {
+      menu.innerHTML = "";
+      for (var i = 0; i < selectEl.options.length; i++) {
+        (function (opt) {
+          var item = document.createElement("div");
+          item.className = "customselect__item";
+          item.setAttribute("role", "option");
+          item.setAttribute("data-value", opt.value);
+          item.textContent = opt.text;
+
+          if (opt.selected) item.classList.add("is-selected");
+
+          item.addEventListener("click", function () {
+            selectEl.value = opt.value;
+            label.textContent = opt.text;
+
+            var all = menu.querySelectorAll(".customselect__item");
+            for (var k = 0; k < all.length; k++) all[k].classList.remove("is-selected");
+            item.classList.add("is-selected");
+
+            // dispara change no select real
+            selectEl.dispatchEvent(new Event("change", { bubbles: true }));
+
+            closeMenu();
+          });
+
+          menu.appendChild(item);
+        })(selectEl.options[i]);
+      }
     }
 
-    // Primeira sincronização
-    syncValueClass();
+    buildItems();
 
-    // Eventos
-    select.addEventListener("change", syncValueClass);
-    select.addEventListener("blur", syncValueClass);
+    // Insere logo após o select
+    selectEl.parentNode.insertBefore(wrapper, selectEl.nextSibling);
+    wrapper.appendChild(trigger);
+    wrapper.appendChild(menu);
 
-    // Acessibilidade: se o user navegar por teclado, mantém o outline consistente
-    select.addEventListener("keydown", function (e) {
-      // Apenas garante que Enter/Espaço não disparará nada estranho (nativo)
-      if (e.key === "Enter") {
-        // nativo; não bloquear.
+    function openMenu() {
+      wrapper.classList.add("is-open");
+      trigger.setAttribute("aria-expanded", "true");
+    }
+
+    function closeMenu() {
+      wrapper.classList.remove("is-open");
+      trigger.setAttribute("aria-expanded", "false");
+    }
+
+    function toggleMenu() {
+      if (wrapper.classList.contains("is-open")) closeMenu();
+      else openMenu();
+    }
+
+    trigger.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleMenu();
+    });
+
+    trigger.addEventListener("keydown", function (e) {
+      var key = e.key || e.code;
+
+      if (key === "Enter" || key === " " || key === "Spacebar") {
+        e.preventDefault();
+        toggleMenu();
+        return;
       }
+
+      if (key === "Escape") {
+        e.preventDefault();
+        closeMenu();
+        return;
+      }
+    });
+
+    // Fecha ao clicar fora
+    document.addEventListener("click", function (e) {
+      if (!closest(e.target, '[data-customselect="1"]')) closeMenu();
+    });
+
+    // Se o select nativo mudar por qualquer motivo, atualiza UI
+    selectEl.addEventListener("change", function () {
+      var opt = selectEl.options[selectEl.selectedIndex];
+      if (opt) label.textContent = opt.text;
+      buildItems();
     });
   }
 
@@ -208,9 +293,6 @@
     }
   }
 
-  /* =========================================================
-     CSS extra para modais (injetado via JS)
-     ========================================================= */
   function injectModalStylesOnce() {
     if (document.getElementById("fm-login-modal-styles")) return;
 
@@ -345,23 +427,22 @@
   }
 
   /* =========================================================
-     BOOT com retry (Moodle pode atrasar render)
+     BOOT (JS no <head>) — retry curto para DOM
      ========================================================= */
   function boot(attempt) {
     if (!isLoginPage()) return;
 
-    // 1) select premium
-    initPremiumSelect(document);
+    // 1) Select custom (precisa rodar cedo)
+    var selectEl = document.getElementById("entrarComo");
+    if (selectEl) initCustomSelect(selectEl);
 
-    // 2) modais css + sidepanel
+    // 2) Modais e painel
     injectModalStylesOnce();
 
-    var container = qs("body.pagelayout-login .login-container");
-    if (container) {
-      injectSidePanel(container);
-      return;
-    }
+    var container = document.querySelector("body.pagelayout-login .login-container");
+    if (container) injectSidePanel(container);
 
+    // Retry curto (caso o DOM ainda não tenha elementos)
     if (attempt < 30) {
       setTimeout(function () { boot(attempt + 1); }, 100);
     }
