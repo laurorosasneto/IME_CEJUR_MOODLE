@@ -1,39 +1,27 @@
 /* ======================================================================
-   painel.css — /my/ slideshow fullwidth no #page
-   Escopo: só aplica com body.fm-my-enhanced (setado pelo painel.js)
+   painel.css — /my/ slideshow fullwidth no #page (margem zero)
+   Escopo: só aplica com body.fm-my-enhanced
    ====================================================================== */
-
-body.fm-my-enhanced {
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* =========================================================
-   Slideshow (full width dentro do #page, margem zero)
-   ========================================================= */
 
 body.fm-my-enhanced #page .fm-slideshow {
   width: 100%;
-  margin: 0;           /* margem zero */
+  margin: 0;
   padding: 0;
-  border-radius: 0;    /* fullwidth, sem “card” */
+  border-radius: 0;
   overflow: hidden;
   border: 0;
   box-shadow: none;
   background: transparent;
 }
 
-/* altura responsiva com limite máximo de 500px */
 body.fm-my-enhanced #page .fm-slideshow__stage {
   position: relative;
   width: 100%;
-  height: min(40vw, 500px); /* responsivo, máximo 500px */
-  min-height: 220px;        /* fallback */
+  height: min(40vw, 500px);
+  min-height: 220px;
   background: rgba(0, 0, 0, 0.02);
 }
 
-/* imagens em cover e centralizadas (horizontal e vertical) */
 body.fm-my-enhanced #page .fm-slideshow__img {
   position: absolute;
   inset: 0;
@@ -41,7 +29,7 @@ body.fm-my-enhanced #page .fm-slideshow__img {
   height: 100%;
 
   object-fit: cover;
-  object-position: 50% 50%; /* centralizado */
+  object-position: 50% 50%;
 
   opacity: 0;
   transition: opacity 420ms ease;
@@ -52,7 +40,6 @@ body.fm-my-enhanced #page .fm-slideshow__img.is-active {
   opacity: 1;
 }
 
-/* overlay sutil opcional (pode remover se quiser “cru”) */
 body.fm-my-enhanced #page .fm-slideshow__overlay {
   pointer-events: none;
   position: absolute;
@@ -60,7 +47,6 @@ body.fm-my-enhanced #page .fm-slideshow__overlay {
   background: linear-gradient(90deg, rgba(0,0,0,0.12), transparent 28%, transparent 72%, rgba(0,0,0,0.10));
 }
 
-/* controles discretos */
 body.fm-my-enhanced #page .fm-slideshow__controls {
   position: absolute;
   right: 14px;
@@ -74,36 +60,15 @@ body.fm-my-enhanced #page .fm-slideshow__btn {
   height: 42px;
   border-radius: 14px;
   border: 1px solid rgba(255, 255, 255, 0.35);
-
   background: rgba(44, 83, 100, 0.78);
   color: #ffffff;
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   box-shadow: rgba(0, 0, 0, 0.16) 0 14px 22px -18px;
   cursor: pointer;
-
-  transition: transform 0.12s ease, filter 0.12s ease, background 0.12s ease;
 }
 
-body.fm-my-enhanced #page .fm-slideshow__btn:hover {
-  transform: translateY(-1px);
-  filter: brightness(1.05);
-  background: rgba(44, 83, 100, 0.86);
-}
-
-body.fm-my-enhanced #page .fm-slideshow__btn:active {
-  transform: translateY(0);
-}
-
-body.fm-my-enhanced #page .fm-slideshow__btn:focus {
-  outline: none;
-  box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.18), rgba(0, 0, 0, 0.16) 0 14px 22px -18px;
-}
-
-/* dots (opcional) */
 body.fm-my-enhanced #page .fm-slideshow__dots {
   position: absolute;
   left: 16px;
@@ -119,7 +84,6 @@ body.fm-my-enhanced #page .fm-slideshow__dot {
   background: rgba(255, 255, 255, 0.55);
   border: 1px solid rgba(15, 23, 42, 0.12);
   cursor: pointer;
-  transition: transform 0.12s ease, background 0.12s ease;
 }
 
 body.fm-my-enhanced #page .fm-slideshow__dot.is-active {
@@ -127,7 +91,6 @@ body.fm-my-enhanced #page .fm-slideshow__dot.is-active {
   transform: scale(1.15);
 }
 
-/* estado loading/erro */
 body.fm-my-enhanced #page .fm-slideshow__status {
   position: absolute;
   inset: 0;
@@ -139,11 +102,8 @@ body.fm-my-enhanced #page .fm-slideshow__status {
   text-shadow: rgba(0,0,0,0.5) 0 2px 12px;
 }
 
-/* reduz animações se necessário */
 @media (prefers-reduced-motion: reduce) {
-  body.fm-my-enhanced #page .fm-slideshow__img,
-  body.fm-my-enhanced #page .fm-slideshow__btn,
-  body.fm-my-enhanced #page .fm-slideshow__dot {
+  body.fm-my-enhanced #page .fm-slideshow__img {
     transition: none;
   }
 }

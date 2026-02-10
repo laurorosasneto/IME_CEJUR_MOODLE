@@ -1,17 +1,21 @@
 /* ======================================================================
-   painel.js — /my/ slideshow fullwidth dentro de #page
-   - Executa somente em /my/ e /my/index.php
-   - Busca slideshow.info (1 URL por linha; ignora vazias e comentários)
-   - Insere o slideshow como primeiro filho de #page (fullwidth)
+   painel.js — /my/ slideshow fullwidth dentro de #page (anti-quebra)
+   - JS puro (sem jQuery)
+   - Roda mesmo se existir erro de outros scripts (retries)
+   - Busca slideshow.info (1 URL por linha; ignora vazias e comentários #)
+   - Converte links comuns do Drive para uc?export=view&id=
    ====================================================================== */
 
 (function () {
   var INFO_URL = "https://laurorosasneto.github.io/IME_CEJUR_MOODLE/FAMETRO/digital/slideshow.info";
+  var MAX_TRIES = 80;
+  var TRY_DELAY = 120;
 
   function isMyPage() {
     try {
       var path = (location && location.pathname) ? location.pathname : "";
-      return /^\/my\/?$/.test(path) || /^\/my\/index\.php$/.test(path);
+      path = path.replace(/\/+$/, "");
+      return path === "/my" || path === "/my/index.php";
     } catch (e) {
       return false;
     }
@@ -21,21 +25,47 @@
     return (root || document).querySelector(sel);
   }
 
-  function addBodyScope() {
-    if (!document.body) return false;
-    document.body.classList.add("fm-my-enhanced");
-    return true;
+  function stripBOM(s) {
+    return (s || "").replace(/^\uFEFF/, "");
+  }
+
+  function toDirectDrive(url) {
+    try {
+      if (!url) return url;
+
+      var m1 = url.match(/drive\.google\.com\/file\/d\/([^\/\?]+)\//i);
+      if (m1 && m1[1]) return "https://drive.google.com/uc?export=view&id=" + m1[1];
+
+      var m2 = url.match(/[?&]id=([^&]+)/i);
+      if (m2 && m2[1] && /drive\.google\.com/i.test(url)) {
+        return "https://drive.google.com/uc?export=view&id=" + m2[1];
+      }
+
+      if (/drive\.google\.com\/uc\?export=view&id=/i.test(url)) return url;
+
+      return url;
+    } catch (e) {
+      return url;
+    }
   }
 
   function parseInfo(text) {
+    text = stripBOM(text || "");
     var lines = text.split(/\r?\n/);
     var urls = [];
+
     for (var i = 0; i < lines.length; i++) {
       var ln = (lines[i] || "").trim();
       if (!ln) continue;
       if (ln.startsWith("#")) continue;
-      urls.push(ln);
+
+      // comentário inline: "url # comentario"
+      ln = ln.split(" #")[0].trim();
+      if (!ln) continue;
+
+      urls.push(toDirectDrive(ln));
     }
+
     return urls;
   }
 
@@ -54,12 +84,12 @@
     stage.appendChild(overlay);
 
     var status = createEl("div", "fm-slideshow__status");
-    status.textContent = "Carregando…";
+    status.textContent = "Carregando slideshow…";
     stage.appendChild(status);
 
     var dots = createEl("div", "fm-slideshow__dots");
-
     var controls = createEl("div", "fm-slideshow__controls");
+
     var btnPrev = createEl("button", "fm-slideshow__btn");
     btnPrev.type = "button";
     btnPrev.setAttribute("aria-label", "Anterior");
@@ -78,67 +108,65 @@
     wrap.appendChild(stage);
 
     if (!urls || !urls.length) {
-      status.textContent = "Nenhuma imagem configurada.";
+      status.textContent = "slideshow.info vazio (sem imagens).";
       return { root: wrap, api: null };
     }
 
     var imgs = [];
-    var dotsEls = [];
+    var dotEls = [];
     var current = 0;
     var timer = null;
     var INTERVAL = 6000;
 
-    function setStatusVisible(visible, msg) {
+    function setStatus(visible, msg) {
       status.style.display = visible ? "grid" : "none";
       if (msg) status.textContent = msg;
     }
 
     function setActive(idx) {
       if (!imgs.length) return;
-
       if (idx < 0) idx = imgs.length - 1;
       if (idx >= imgs.length) idx = 0;
 
       for (var i = 0; i < imgs.length; i++) {
         imgs[i].classList.toggle("is-active", i === idx);
-        if (dotsEls[i]) dotsEls[i].classList.toggle("is-active", i === idx);
+        if (dotEls[i]) dotEls[i].classList.toggle("is-active", i === idx);
       }
       current = idx;
     }
 
-    function next() { setActive(current + 1); }
-    function prev() { setActive(current - 1); }
-
-    function restartTimer() {
-      stopTimer();
-      if (imgs.length > 1) {
-        timer = setInterval(function () { next(); }, INTERVAL);
-      }
-    }
-
-    function stopTimer() {
+    function stop() {
       if (timer) {
         clearInterval(timer);
         timer = null;
       }
     }
 
-    var loadedCount = 0;
-
-    function onImgLoaded() {
-      loadedCount++;
-      if (loadedCount === 1) {
-        setStatusVisible(false);
-        setActive(0);
-        restartTimer();
+    function start() {
+      stop();
+      if (imgs.length > 1) {
+        timer = setInterval(function () {
+          setActive(current + 1);
+        }, INTERVAL);
       }
     }
 
-    function onImgError() {
-      loadedCount++;
-      if (loadedCount === urls.length) {
-        setStatusVisible(true, "Não foi possível carregar as imagens.");
+    var loadedOk = 0;
+    var loadedTotal = 0;
+
+    function onAnyDone() {
+      loadedTotal++;
+      if (loadedTotal === urls.length) {
+        if (loadedOk === 0) {
+          setStatus(true, "Imagens não carregaram. Verifique links/SSL.");
+        }
       }
+    }
+
+    function onFirstOk() {
+      setStatus(false);
+      setActive(0);
+      start();
     }
 
     for (var u = 0; u < urls.length; u++) {
@@ -148,8 +176,17 @@
         img.alt = "Slide " + (idx + 1);
         img.decoding = "async";
         img.loading = "eager";
-        img.addEventListener("load", onImgLoaded);
-        img.addEventListener("error", onImgError);
+
+        img.addEventListener("load", function () {
+          loadedOk++;
+          if (loadedOk === 1) onFirstOk();
+          onAnyDone();
+        });
+
+        img.addEventListener("error", function () {
+          onAnyDone();
+        });
+
         img.src = src;
 
         stage.appendChild(img);
@@ -160,32 +197,22 @@
         dot.setAttribute("aria-label", "Ir para o slide " + (idx + 1));
         dot.addEventListener("click", function () {
           setActive(idx);
-          restartTimer();
+          start();
         });
+
         dots.appendChild(dot);
-        dotsEls.push(dot);
+        dotEls.push(dot);
       })(urls[u], u);
     }
 
-    btnNext.addEventListener("click", function () {
-      next();
-      restartTimer();
-    });
+    btnPrev.addEventListener("click", function () { setActive(current - 1); start(); });
+    btnNext.addEventListener("click", function () { setActive(current + 1); start(); });
 
-    btnPrev.addEventListener("click", function () {
-      prev();
-      restartTimer();
-    });
-
-    wrap.addEventListener("mouseenter", stopTimer);
-    wrap.addEventListener("mouseleave", function () {
-      restartTimer();
-    });
+    wrap.addEventListener("mouseenter", stop);
+    wrap.addEventListener("mouseleave", start);
 
     // swipe simples
-    var startX = 0;
-    var deltaX = 0;
-
+    var startX = 0, deltaX = 0;
     wrap.addEventListener("touchstart", function (e) {
       if (!e.touches || !e.touches[0]) return;
       startX = e.touches[0].clientX;
@@ -199,58 +226,80 @@
 
     wrap.addEventListener("touchend", function () {
       if (Math.abs(deltaX) > 40) {
-        if (deltaX < 0) next();
-        else prev();
-        restartTimer();
+        if (deltaX < 0) setActive(current + 1);
+        else setActive(current - 1);
+        start();
       }
-      startX = 0;
-      deltaX = 0;
+      startX = 0; deltaX = 0;
     });
 
-    return { root: wrap, api: { next: next, prev: prev, setActive: setActive } };
+    return { root: wrap, api: { setActive: setActive } };
   }
 
-  function insertIntoPage(slideshowRoot) {
+  function insertIntoPage(root) {
     var page = document.getElementById("page");
     if (!page) return false;
 
-    // se já existe, não duplica
     if (page.querySelector('[data-fm-slideshow="1"]')) return true;
 
-    // insere como PRIMEIRO filho do #page
-    page.insertBefore(slideshowRoot, page.firstChild);
+    // coloca como primeiro filho dentro de #page
+    page.insertBefore(root, page.firstChild);
     return true;
   }
 
-  function boot(attempt) {
+  function ensureScope() {
+    if (document.body) document.body.classList.add("fm-my-enhanced");
+  }
+
+  function boot(tryN) {
     if (!isMyPage()) return;
 
-    if (!document.body) {
-      if (attempt < 80) setTimeout(function () { boot(attempt + 1); }, 50);
+    ensureScope();
+
+    var page = document.getElementById("page");
+    if (!page) {
+      if (tryN < MAX_TRIES) setTimeout(function () { boot(tryN + 1); }, TRY_DELAY);
       return;
     }
 
-    addBodyScope();
+    // já inserido
+    if (page.querySelector('[data-fm-slideshow="1"]')) return;
 
-    // evita duplicar
-    if ($('[data-fm-slideshow="1"]')) return;
+    // coloca um placeholder IMEDIATO (para você ver que entrou)
+    var placeholder = createEl("div", "fm-slideshow");
+    placeholder.setAttribute("data-fm-slideshow", "1");
+
+    var stage = createEl("div", "fm-slideshow__stage");
+    var overlay = createEl("div", "fm-slideshow__overlay");
+    stage.appendChild(overlay);
+
+    var status = createEl("div", "fm-slideshow__status");
+    status.textContent = "Carregando slideshow.info…";
+    stage.appendChild(status);
+
+    placeholder.appendChild(stage);
+    insertIntoPage(placeholder);
 
     fetch(INFO_URL, { cache: "no-store" })
       .then(function (r) { return r.text(); })
       .then(function (txt) {
         var urls = parseInfo(txt);
+
+        // remove placeholder e insere real
+        placeholder.parentNode && placeholder.parentNode.removeChild(placeholder);
+
         var built = buildSlideshow(urls);
         insertIntoPage(built.root);
       })
       .catch(function () {
-        var built = buildSlideshow([]);
-        var status = built.root.querySelector(".fm-slideshow__status");
-        if (status) status.textContent = "Não foi possível carregar o slideshow.";
-        insertIntoPage(built.root);
+        status.textContent = "Falha ao buscar slideshow.info (CORS/SSL/URL).";
       });
   }
 
-  document.addEventListener("DOMContentLoaded", function () {
-    boot(0);
-  });
+  // roda cedo + retries
+  try { addBodyScope(); } catch (e) {}
+  document.addEventListener("DOMContentLoaded", function () { boot(0); });
+
+  // backup se DOMContentLoaded não disparar por algum motivo
+  setTimeout(function () { boot(0); }, 600);
 })();
