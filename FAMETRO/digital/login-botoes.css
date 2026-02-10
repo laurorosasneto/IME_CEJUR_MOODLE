@@ -189,3 +189,85 @@ body.pagelayout-login .login-sidepanel__sub {
     font-size: 12px;
   }
 }
+
+/* =========================================================
+   Modal "Problemas de acesso" — tipografia e elegância
+   ========================================================= */
+
+.fm-help-content {
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+  color: #1f2937;
+  line-height: 1.6;
+}
+
+.fm-help-header h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.fm-help-header p {
+  font-size: 14.5px;
+  color: rgba(31, 41, 55, 0.75);
+  margin-bottom: 20px;
+}
+
+.fm-help-section {
+  margin-bottom: 18px;
+}
+
+.fm-help-section h3 {
+  font-size: 15.5px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #111827;
+}
+
+.fm-help-section p {
+  font-size: 14.5px;
+  margin-bottom: 8px;
+}
+
+.fm-help-section ul {
+  margin: 6px 0 10px 18px;
+  padding: 0;
+}
+
+.fm-help-section li {
+  font-size: 14.5px;
+  margin-bottom: 4px;
+}
+
+.fm-help-details summary {
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+.fm-help-details ul {
+  margin: 8px 0 0 18px;
+}
+
+.fm-help-summary {
+  margin-top: 20px;
+  padding: 14px 16px;
+  border-left: 4px solid #2c5364;
+  background: #f0f6fa;
+  border-radius: 8px;
+}
+
+.fm-help-summary h4 {
+  margin: 0 0 8px 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.fm-help-summary ol {
+  margin: 0 0 0 18px;
+  padding: 0;
+}
+
+.fm-help-summary li {
+  font-size: 14.5px;
+  margin-bottom: 4px;
+}

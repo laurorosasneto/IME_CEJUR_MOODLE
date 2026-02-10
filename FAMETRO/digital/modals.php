@@ -24,7 +24,7 @@
 
 <!-- Modal: Problemas de acesso (texto) -->
 <div class="modal fade" id="fm-login-modal-problemas" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Problemas de acesso</h5>
@@ -33,82 +33,82 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="fm-modal-text">
-          <section style="font-family: Arial, Helvetica, sans-serif; line-height: 1.6; color: #1f2937;">
-  <header>
-    <h1 style="margin: 0 0 8px 0;">Dificuldades de acesso ao login da Plataforma Digital FAMETRO</h1>
-    <p style="margin: 0 0 16px 0;">
-      Siga as orientações abaixo para acessar sua conta e resolver problemas comuns de login.
+            <div class="fm-modal-text fm-help-content">
+
+  <header class="fm-help-header">
+    <h2>Dificuldades de acesso à Plataforma Digital FAMETRO</h2>
+    <p>
+      Confira abaixo as orientações para acessar sua conta e resolver as situações mais comuns de login.
     </p>
   </header>
 
-  <main>
-    <article>
-      <h2 style="margin: 0 0 8px 0;">1) Confira seus dados de login</h2>
-      <p style="margin: 0 0 12px 0;">
-        Os dados de acesso (usuário e senha) são os mesmos utilizados:
-      </p>
-      <ul style="margin: 0 0 16px 20px; padding: 0;">
-        <li>por <strong>alunos</strong> no <strong>Portal do Aluno</strong>;</li>
-        <li>por <strong>colaboradores</strong> no <strong>RM</strong>.</li>
+  <section class="fm-help-section">
+    <h3>1. Verifique seus dados de acesso</h3>
+    <p>
+      O <strong>usuário</strong> e a <strong>senha</strong> utilizados nesta plataforma são os mesmos:
+    </p>
+    <ul>
+      <li>🔹 Alunos: <strong>Portal do Aluno</strong></li>
+      <li>🔹 Colaboradores: <strong>Sistema RM</strong></li>
+    </ul>
+    <p>
+      Certifique-se de que não há erros de digitação, uso indevido de letras maiúsculas (Caps Lock)
+      ou espaços extras.
+    </p>
+  </section>
+
+  <section class="fm-help-section">
+    <h3>2. Recuperação ou troca de senha</h3>
+    <p>
+      A redefinição de senha deve ser realizada exclusivamente pelos portais oficiais:
+    </p>
+    <ul>
+      <li><strong>Alunos:</strong> Portal do Aluno</li>
+      <li><strong>Colaboradores:</strong> Portal do Colaborador</li>
+    </ul>
+    <p>
+      Após atualizar sua senha, retorne a esta página e tente acessar novamente.
+    </p>
+  </section>
+
+  <section class="fm-help-section">
+    <h3>3. Se a dificuldade persistir</h3>
+    <p>
+      Caso o problema continue (mensagens de erro, bloqueio de acesso ou falhas recorrentes),
+      entre em contato com a <strong>Coordenação do Curso</strong>, que poderá orientar o procedimento adequado.
+    </p>
+  </section>
+
+  <section class="fm-help-section">
+    <h3>4. Registre a ocorrência</h3>
+    <p>
+      Sempre que possível, faça uma <strong>captura de tela (print)</strong> da mensagem apresentada.
+      Isso ajuda a equipe técnica a identificar e resolver o problema com mais agilidade.
+    </p>
+
+    <details class="fm-help-details">
+      <summary>O que incluir no print</summary>
+      <ul>
+        <li>Mensagem de erro exibida</li>
+        <li>Data e horário aproximados</li>
+        <li>Dispositivo e navegador utilizados</li>
       </ul>
-      <p style="margin: 0 0 16px 0;">
-        Antes de tentar novamente, verifique se não há erros de digitação, letras maiúsculas ativadas (Caps Lock) e se está inserindo os dados corretamente.
-      </p>
-    </article>
+    </details>
+  </section>
 
-    <article>
-      <h2 style="margin: 0 0 8px 0;">2) Troca de senha e recuperação de acesso</h2>
-      <p style="margin: 0 0 12px 0;">
-        A <strong>troca de senha</strong> ou <strong>recuperação</strong> deve ser realizada exclusivamente pelos portais oficiais:
-      </p>
-      <ul style="margin: 0 0 16px 20px; padding: 0;">
-        <li><strong>Alunos:</strong> realizar o procedimento no <strong>Portal do Aluno</strong>;</li>
-        <li><strong>Colaboradores:</strong> realizar o procedimento no <strong>Portal do Colaborador</strong>.</li>
-      </ul>
-      <p style="margin: 0 0 16px 0;">
-        Após redefinir a senha no portal correspondente, retorne à Plataforma Digital e tente acessar novamente com a senha atualizada.
-      </p>
-    </article>
+  <aside class="fm-help-summary">
+    <h4>Resumo rápido</h4>
+    <ol>
+      <li>Use o login do Portal do Aluno ou RM.</li>
+      <li>Recupere a senha apenas pelos portais oficiais.</li>
+      <li>Persistindo o erro, procure a Coordenação do Curso.</li>
+      <li>Registre o problema com um print da tela.</li>
+    </ol>
+  </aside>
 
-    <article>
-      <h2 style="margin: 0 0 8px 0;">3) Se o problema continuar</h2>
-      <p style="margin: 0 0 16px 0;">
-        Em caso de <strong>erros recorrentes</strong>, <strong>bloqueio</strong>, <strong>mensagens de acesso negado</strong> ou qualquer dificuldade que persista,
-        a <strong>Coordenação do Curso</strong> deve ser consultada para orientar qual procedimento deverá ser realizado.
-      </p>
-    </article>
+</div>
 
-    <article>
-      <h2 style="margin: 0 0 8px 0;">4) Registre a evidência do erro</h2>
-      <p style="margin: 0 0 12px 0;">
-        É <strong>muito importante</strong> tirar um <strong>print (captura de tela)</strong> da mensagem de erro ou da dificuldade apresentada. Isso facilita o diagnóstico
-        e acelera o atendimento pela equipe técnica.
-      </p>
 
-      <details style="margin: 0 0 16px 0;">
-        <summary style="cursor: pointer; font-weight: bold;">O que capturar no print</summary>
-        <ul style="margin: 12px 0 0 20px; padding: 0;">
-          <li>Mensagem de erro exibida na tela;</li>
-          <li>Data e horário aproximados do ocorrido;</li>
-          <li>Dispositivo utilizado (celular/computador) e navegador (se possível).</li>
-        </ul>
-      </details>
-    </article>
-
-    <aside style="border-left: 4px solid #2563eb; padding: 12px 16px; background: #eff6ff; margin-top: 16px;">
-      <h3 style="margin: 0 0 8px 0;">Resumo rápido</h3>
-      <ol style="margin: 0 0 0 18px; padding: 0;">
-        <li>Use o mesmo login do Portal do Aluno (alunos) ou RM (colaboradores).</li>
-        <li>Recuperação/troca de senha: faça no Portal do Aluno ou Portal do Colaborador.</li>
-        <li>Persistindo o erro: consulte a Coordenação do Curso.</li>
-        <li>Sempre anexe print do erro para agilizar o suporte técnico.</li>
-      </ol>
-    </aside>
-  </main>
-</section>
-
-        </div>
       </div>
     </div>
   </div>
