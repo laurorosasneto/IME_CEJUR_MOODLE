@@ -296,3 +296,33 @@ body.pagelayout-login .login-form select.form-control-lg option:checked {
 body.pagelayout-login .login-form select.form-control-lg option:hover {
   background-color: rgba(13, 110, 253, 0.10);
 }
+
+/* =========================================================
+   Animação de entrada do login (fade + leve subida)
+   ========================================================= */
+
+@keyframes loginFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estado inicial */
+body.pagelayout-login .loginform {
+  opacity: 0;
+  animation: loginFadeIn 0.6s ease-out forwards;
+  animation-delay: 0.15s; /* pequeno atraso para suavidade */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.pagelayout-login .loginform {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
