@@ -49,7 +49,7 @@ body.pagelayout-login .login-container {
 /* Card principal */
 body.pagelayout-login .loginform {
   background: #ffffffaa!important;
-  border: 1px solid rgba(15, 23, 42, 0.08);
+  border: #ffffff 5px solid;
   border-radius: 18px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
     padding: 30px 30px;
