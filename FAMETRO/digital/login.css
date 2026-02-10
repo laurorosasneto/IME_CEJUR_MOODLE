@@ -1,21 +1,23 @@
 /* ======================================================================
    login.css — Estilo profissional para a página de login do Moodle
-   Ajustes solicitados:
-   1) Remover “2 tons de branco” (inputs/select agora usam o mesmo branco do card)
-   2) Deixar o card mais largo
+   Ajustes:
+   1) Remover “2 tons de branco”
+   2) Card mais largo
+   3) Select corrigido (sem transparência e com visual consistente)
+   4) Fade-in do login
    ====================================================================== */
 
 @font-face {
-    font-family: 'Atkinson Hyperlegible Next';
-    font-style: normal;
-    font-display: swap;
-    font-weight: 400;
-    src: url(https://cdn.jsdelivr.net/fontsource/fonts/atkinson-hyperlegible-next@latest/latin-400-normal.woff2) format('woff2');
+  font-family: 'Atkinson Hyperlegible Next';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url(https://cdn.jsdelivr.net/fontsource/fonts/atkinson-hyperlegible-next@latest/latin-400-normal.woff2) format('woff2');
 }
 
 body {
-    font-family: 'Atkinson Hyperlegible Next', sans-serif;
-}   
+  font-family: 'Atkinson Hyperlegible Next', sans-serif;
+}
 
 body.pagelayout-login {
   background:
@@ -40,20 +42,20 @@ body.pagelayout-login .login-wrapper {
 /* Mais largo */
 body.pagelayout-login .login-container {
   width: 100%;
-  max-width: 600px; /* antes: 420px */
-  background-color: transparent!important;
+  max-width: 600px;
+  background-color: transparent !important;
   padding: 0.2em;
   margin: 0;
 }
 
 /* Card principal */
 body.pagelayout-login .loginform {
-  background: #ffffffaa!important;
+  background: #ffffffaa !important;
   border: #ffffff 5px solid;
   border-radius: 18px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
-    padding: 30px 30px;
-  }
+  padding: 30px 30px;
+}
 
 /* Logo e topo */
 body.pagelayout-login #loginlogo.login-logo {
@@ -75,22 +77,21 @@ body.pagelayout-login .loginform,
 body.pagelayout-login .loginform input,
 body.pagelayout-login .loginform select,
 body.pagelayout-login .loginform button {
-  /*font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;*/
   font-family: 'Atkinson Hyperlegible Next', sans-serif;
 }
 
-/* Inputs e select — agora com o MESMO branco do card (sem “2 tons”) */
+/* Inputs e select — base consistente */
 body.pagelayout-login .login-form .form-control-lg {
   height: 52px;
   border-radius: 12px;
   border: 1px solid rgba(15, 23, 42, 0.14);
-  background: #ffffff; /* antes: #fbfcfe */
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  background: #ffffff;
+  box-shadow: rgba(60, 64, 67, 0.30) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
   font-size: 16px;
 }
 
 body.pagelayout-login .login-form .form-control-lg::placeholder {
-  color: rgba(44, 49, 63, 0.5);
+  color: rgba(44, 49, 63, 0.50);
 }
 
 body.pagelayout-login .login-form .form-control-lg:focus {
@@ -99,14 +100,48 @@ body.pagelayout-login .login-form .form-control-lg:focus {
   box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.15);
 }
 
-/* Ajuste do select para ficar alinhado */
-body.pagelayout-login .login-form select.form-control-lg {
-  padding-right: 44px;
-}
-
 /* Espaçamento */
 body.pagelayout-login .login-form .form-group {
   margin-bottom: 14px;
+}
+
+/* =========================================================
+   SELECT — REFEITO (remove transparência e seta mais elegante)
+   ========================================================= */
+
+/* Select fechado: usa o mesmo “branco” dos inputs */
+body.pagelayout-login .login-form select.form-control-lg {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  /* garante fundo branco (sem “vidro”) */
+  background-color: #ffffff !important;
+
+  /* padding consistente + espaço p/ seta */
+  padding: 0 52px 0 16px;
+
+  /* seta custom: mais discreta e centralizada */
+  background-image:
+    linear-gradient(45deg, transparent 50%, rgba(44, 49, 63, 0.70) 50%),
+    linear-gradient(135deg, rgba(44, 49, 63, 0.70) 50%, transparent 50%);
+  background-position:
+    calc(100% - 26px) 50%,
+    calc(100% - 20px) 50%;
+  background-size: 7px 7px, 7px 7px;
+  background-repeat: no-repeat;
+
+  cursor: pointer;
+}
+
+/* Hover e focus ficam herdados do .form-control-lg, mas reforço o hover */
+body.pagelayout-login .login-form select.form-control-lg:hover {
+  border-color: rgba(15, 23, 42, 0.28);
+}
+
+/* Remove tentativa de estilizar demais as options (piora em alguns SOs) */
+body.pagelayout-login .login-form select.form-control-lg option {
+  font-size: 15px;
 }
 
 /* Botão principal */
@@ -118,10 +153,8 @@ body.pagelayout-login .login-form-submit #loginbtn.btn {
   letter-spacing: 0.2px;
   border: 0;
   color: #ffffff !important;
-  border-color: #2c5364!important;
-  background-color: #2c5364!important;
-
-  /*background: linear-gradient(135deg, rgba(44, 83, 100, 0.15) 0%, rgba(44, 83, 100, 0.15) 40%, rgba(44, 83, 100, 0.15) 100%)!important;*/
+  border-color: #2c5364 !important;
+  background-color: #2c5364 !important;
   box-shadow: 0 14px 30px rgba(13, 110, 253, 0.22);
   transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
 }
@@ -236,87 +269,18 @@ body.pagelayout-login #page-footer div[style*="display: none"] {
 }
 
 /* =========================================================
-   SELECT — Estilo sofisticado e consistente com o login
-   ========================================================= */
-
-/* Select fechado */
-body.pagelayout-login .login-form select.form-control-lg {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-
-  height: 52px;
-  padding: 0 48px 0 16px;
-  border-radius: 14px;
-  border: 1px solid rgba(15, 23, 42, 0.16);
-  background-color: transparent;
-  font-size: 16px;
-  font-weight: 500;
-  color: rgba(15, 23, 42, 0.90);
-  cursor: pointer;
-
-  /* seta custom */
-  background-image:
-    linear-gradient(45deg, transparent 50%, rgba(15, 23, 42, 0.55) 50%),
-    linear-gradient(135deg, rgba(15, 23, 42, 0.55) 50%, transparent 50%);
-  background-position:
-    calc(100% - 22px) 22px,
-    calc(100% - 16px) 22px;
-  background-size: 6px 6px, 6px 6px;
-  background-repeat: no-repeat;
-
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-}
-
-/* Hover */
-body.pagelayout-login .login-form select.form-control-lg:hover {
-  border-color: rgba(15, 23, 42, 0.30);
-}
-
-/* Focus */
-body.pagelayout-login .login-form select.form-control-lg:focus {
-  outline: none;
-  border-color: rgba(13, 110, 253, 0.70);
-  box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.15);
-}
-
-/* Opções (limite do browser, mas melhora cores) */
-body.pagelayout-login .login-form select.form-control-lg option {
-  font-size: 15px;
-  padding: 10px;
-}
-
-/* Opção selecionada */
-body.pagelayout-login .login-form select.form-control-lg option:checked {
-  background-color: #0d6efd;
-  color: #ffffff;
-}
-
-/* Remove azul agressivo em alguns browsers */
-body.pagelayout-login .login-form select.form-control-lg option:hover {
-  background-color: rgba(13, 110, 253, 0.10);
-}
-
-/* =========================================================
    Animação de entrada do login (fade + leve subida)
    ========================================================= */
 
 @keyframes loginFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Estado inicial */
 body.pagelayout-login .loginform {
   opacity: 0;
   animation: loginFadeIn 0.6s ease-out forwards;
-  animation-delay: 0.15s; /* pequeno atraso para suavidade */
+  animation-delay: 0.15s;
 }
 
 @media (prefers-reduced-motion: reduce) {
