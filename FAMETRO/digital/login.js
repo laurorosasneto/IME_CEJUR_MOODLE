@@ -1,16 +1,25 @@
 /* ======================================================================
-   login.js — Login enhancements:
-   - Select premium (se você já tem, mantenha: este arquivo não depende dele)
-   - Sidepanel (AJAX)
-   - Modais Bootstrap:
-     1) Como acessar -> YouTube
-     2) Problemas de acesso -> texto (placeholder)
-     5) Redes sociais -> 3 cards (Facebook/Instagram/YouTube)
+   login.js — Login enhancements (Moodle login page)
+   Inclui:
+   1) Select “premium” (mantém o comportamento do select personalizado)
+   2) Sidepanel (AJAX) com 5 botões
+   3) Modais Bootstrap:
+      - Como acessar (YouTube)
+      - Problemas de acesso (texto)
+      - Redes sociais (cards)
    ====================================================================== */
 
 (function () {
   function isLoginPage() {
     return document.body && document.body.classList.contains("pagelayout-login");
+  }
+
+  function qs(sel, root) {
+    return (root || document).querySelector(sel);
+  }
+
+  function qsa(sel, root) {
+    return Array.prototype.slice.call((root || document).querySelectorAll(sel));
   }
 
   function closest(el, selector) {
@@ -28,6 +37,45 @@
       .replaceAll(">", "&gt;")
       .replaceAll('"', "&quot;")
       .replaceAll("'", "&#039;");
+  }
+
+  /* =========================================================
+     1) SELECT “premium”
+     - Não tenta “estilizar o dropdown nativo” (isso não é possível via CSS puro)
+     - Faz refinamentos que realmente funcionam:
+       * classe has-value
+       * melhora foco/teclado
+       * protege contra inicialização duplicada
+     ========================================================= */
+  function initPremiumSelect(root) {
+    if (!isLoginPage()) return;
+
+    var select = qs('body.pagelayout-login form#login select#entrarComo', root);
+    if (!select) return;
+
+    if (select.dataset.fmSelectInit === "1") return;
+    select.dataset.fmSelectInit = "1";
+
+    // Marca se tem valor selecionado (para CSS opcional, se você quiser)
+    function syncValueClass() {
+      var hasValue = !!select.value && String(select.value).trim().length > 0;
+      select.classList.toggle("has-value", hasValue);
+    }
+
+    // Primeira sincronização
+    syncValueClass();
+
+    // Eventos
+    select.addEventListener("change", syncValueClass);
+    select.addEventListener("blur", syncValueClass);
+
+    // Acessibilidade: se o user navegar por teclado, mantém o outline consistente
+    select.addEventListener("keydown", function (e) {
+      // Apenas garante que Enter/Espaço não disparará nada estranho (nativo)
+      if (e.key === "Enter") {
+        // nativo; não bloquear.
+      }
+    });
   }
 
   /* =========================================================
@@ -50,27 +98,14 @@
     modalEl.classList.add("show");
   }
 
-  function hideModal(modalEl) {
-    if (window.bootstrap && window.bootstrap.Modal) {
-      var inst = window.bootstrap.Modal.getOrCreateInstance(modalEl);
-      inst.hide();
-      return;
-    }
-    if (window.jQuery && window.jQuery.fn && window.jQuery.fn.modal) {
-      window.jQuery(modalEl).modal("hide");
-      return;
-    }
-    modalEl.style.display = "none";
-    modalEl.classList.remove("show");
-  }
-
   /* =========================================================
      Modals markup (injetar uma vez)
      ========================================================= */
   function ensureModals() {
     if (document.getElementById("fm-login-modal-como")) return;
 
-    var YOUTUBE_VIDEO_ID = "dQw4w9WgXcQ"; // <<< TROQUE AQUI PELO ID DO SEU VÍDEO
+    // Troque pelo ID real do seu vídeo
+    var YOUTUBE_VIDEO_ID = "dQw4w9WgXcQ";
 
     var html = [
       // Modal: Como acessar (YouTube)
@@ -154,105 +189,27 @@
 
     // Parar vídeo ao fechar modal (evita áudio “preso”)
     var modalComo = document.getElementById("fm-login-modal-como");
-    if (modalComo) {
-      var iframe = document.getElementById("fm-login-yt");
-      var originalSrc = iframe ? iframe.getAttribute("src") : null;
+    var iframe = document.getElementById("fm-login-yt");
+    var originalSrc = iframe ? iframe.getAttribute("src") : null;
 
-      // BS5 event
-      modalComo.addEventListener("hidden.bs.modal", function () {
-        if (!iframe || !originalSrc) return;
-        iframe.setAttribute("src", "");
-        setTimeout(function () {
-          iframe.setAttribute("src", originalSrc);
-        }, 50);
-      });
+    function resetYouTube() {
+      if (!iframe || !originalSrc) return;
+      iframe.setAttribute("src", "");
+      setTimeout(function () {
+        iframe.setAttribute("src", originalSrc);
+      }, 60);
+    }
 
-      // BS4/jQuery event
-      if (window.jQuery) {
-        window.jQuery(modalComo).on("hidden.bs.modal", function () {
-          if (!iframe || !originalSrc) return;
-          iframe.setAttribute("src", "");
-          setTimeout(function () {
-            iframe.setAttribute("src", originalSrc);
-          }, 50);
-        });
-      }
+    // BS5
+    modalComo.addEventListener("hidden.bs.modal", resetYouTube);
+    // BS4/jQuery
+    if (window.jQuery) {
+      window.jQuery(modalComo).on("hidden.bs.modal", resetYouTube);
     }
   }
 
   /* =========================================================
-     Sidepanel injection (AJAX)
-     ========================================================= */
-  function injectSidePanel(containerEl) {
-    if (!containerEl || containerEl.dataset.sidepanelInit === "1") return;
-    containerEl.dataset.sidepanelInit = "1";
-
-    containerEl.classList.add("has-sidepanel");
-
-    var panel = document.createElement("aside");
-    panel.className = "login-sidepanel";
-    panel.setAttribute("aria-label", "Atalhos de ajuda e acesso");
-    panel.innerHTML = '<div class="login-sidepanel__loading">Carregando...</div>';
-    containerEl.appendChild(panel);
-
-    var url = "https://laurorosasneto.github.io/IME_CEJUR_MOODLE/FAMETRO/digital/login_bot.php";
-
-    fetch(url, { cache: "no-store" })
-      .then(function (res) {
-        if (!res.ok) throw new Error("HTTP " + res.status);
-        return res.text();
-      })
-      .then(function (html) {
-        panel.innerHTML = html;
-        ensureModals();
-        bindPanelActions(panel);
-      })
-      .catch(function () {
-        // se falhar, ao menos injeta modais e não quebra a página
-        ensureModals();
-      });
-  }
-
-  /* =========================================================
-     Actions do painel
-     ========================================================= */
-  function bindPanelActions(panel) {
-    panel.addEventListener("click", function (e) {
-      var a = closest(e.target, "a.login-sidepanel__item");
-      if (!a) return;
-
-      var action = a.getAttribute("data-action");
-      if (!action) return;
-
-      // Links tradicionais: só deixe passar (você troca os href depois)
-      if (action === "link-site" || action === "link-portal") return;
-
-      // Modais
-      e.preventDefault();
-
-      if (action === "como-acessar") {
-        var m1 = document.getElementById("fm-login-modal-como");
-        if (m1) showModal(m1);
-        return;
-      }
-
-      if (action === "problemas-acesso") {
-        var m2 = document.getElementById("fm-login-modal-problemas");
-        if (m2) showModal(m2);
-        return;
-      }
-
-      if (action === "redes-sociais") {
-        var m3 = document.getElementById("fm-login-modal-redes");
-        if (m3) showModal(m3);
-        return;
-      }
-    });
-  }
-
-  /* =========================================================
-     Pequeno CSS extra para modais (injetado via JS)
-     para manter “bonito” sem mexer no login.css
+     CSS extra para modais (injetado via JS)
      ========================================================= */
   function injectModalStylesOnce() {
     if (document.getElementById("fm-login-modal-styles")) return;
@@ -322,17 +279,90 @@
   }
 
   /* =========================================================
-     BOOT
+     Sidepanel injection (AJAX)
+     ========================================================= */
+  function injectSidePanel(containerEl) {
+    if (!containerEl || containerEl.dataset.sidepanelInit === "1") return;
+    containerEl.dataset.sidepanelInit = "1";
+
+    containerEl.classList.add("has-sidepanel");
+
+    var panel = document.createElement("aside");
+    panel.className = "login-sidepanel";
+    panel.setAttribute("aria-label", "Atalhos de ajuda e acesso");
+    panel.innerHTML = '<div class="login-sidepanel__loading">Carregando...</div>';
+    containerEl.appendChild(panel);
+
+    var url = "https://laurorosasneto.github.io/IME_CEJUR_MOODLE/FAMETRO/digital/login_bot.php";
+
+    fetch(url, { cache: "no-store" })
+      .then(function (res) {
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        return res.text();
+      })
+      .then(function (html) {
+        panel.innerHTML = html;
+        ensureModals();
+        bindPanelActions(panel);
+      })
+      .catch(function () {
+        ensureModals();
+      });
+  }
+
+  function bindPanelActions(panel) {
+    panel.addEventListener("click", function (e) {
+      var a = closest(e.target, "a.login-sidepanel__item");
+      if (!a) return;
+
+      var action = a.getAttribute("data-action");
+      if (!action) return;
+
+      // links tradicionais
+      if (action === "link-site" || action === "link-portal") return;
+
+      // modais
+      e.preventDefault();
+
+      if (action === "como-acessar") {
+        var m1 = document.getElementById("fm-login-modal-como");
+        if (m1) showModal(m1);
+        return;
+      }
+
+      if (action === "problemas-acesso") {
+        var m2 = document.getElementById("fm-login-modal-problemas");
+        if (m2) showModal(m2);
+        return;
+      }
+
+      if (action === "redes-sociais") {
+        var m3 = document.getElementById("fm-login-modal-redes");
+        if (m3) showModal(m3);
+        return;
+      }
+    });
+  }
+
+  /* =========================================================
+     BOOT com retry (Moodle pode atrasar render)
      ========================================================= */
   function boot(attempt) {
     if (!isLoginPage()) return;
 
+    // 1) select premium
+    initPremiumSelect(document);
+
+    // 2) modais css + sidepanel
     injectModalStylesOnce();
 
-    var container = document.querySelector("body.pagelayout-login .login-container");
-    if (container) injectSidePanel(container);
+    var container = qs("body.pagelayout-login .login-container");
+    if (container) {
+      injectSidePanel(container);
+      return;
+    }
 
-    if (!container && attempt < 30) {
+    if (attempt < 30) {
       setTimeout(function () { boot(attempt + 1); }, 100);
     }
   }
