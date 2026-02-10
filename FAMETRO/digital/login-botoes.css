@@ -1,60 +1,80 @@
 /* ======================================================================
    login-botoes.css — Barra lateral de atalhos (AJAX)
-   Regras:
-   - Em telas grandes/médias: painel à direita do loginform
-   - Em telas pequenas: vira grid 2x2 abaixo do loginform
-   - Botões estreitos: ícone em cima, texto abaixo
-   - Sem título “Acessos rápidos”
+   Ajustes desta versão:
+   - Barra “delicada”: gradiente sutil + leve highlight
+   - Botões mais estreitos: menos padding, ícone menor, fonte menor
+   - Layout: 2 colunas no painel (2x2); em telas pequenas vai abaixo (2x2)
    ====================================================================== */
 
 /* Layout 2 colunas no container quando o JS ativar */
 body.pagelayout-login .login-container.has-sidepanel {
   max-width: 980px;
   display: grid;
-  grid-template-columns: minmax(480px, 600px) 320px;
-  gap: 18px;
+  grid-template-columns: minmax(480px, 600px) 300px; /* levemente mais estreito */
+  gap: 16px; /* reduz um pouco */
   align-items: stretch;
 }
 
-/* Painel */
+/* Painel: gradiente sutil na mesma matiz do botão */
 body.pagelayout-login .login-sidepanel {
-  background: #2c5364;
+  position: relative;
+
+  /* Base #2c5364 com variações discretas */
+  background:
+    radial-gradient(900px 420px at 20% 10%, rgba(255, 255, 255, 0.10), transparent 55%),
+    radial-gradient(700px 360px at 85% 25%, rgba(13, 110, 253, 0.10), transparent 55%),
+    linear-gradient(180deg, #2f5b6f 0%, #2c5364 45%, #264a59 100%);
+
   border-radius: 18px;
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 20px 35px -12px;
-  padding: 18px;
+  box-shadow: rgba(0, 0, 0, 0.14) 0px 22px 38px -14px;
+  padding: 14px; /* reduz para “compactar” */
   display: flex;
   flex-direction: column;
   justify-content: center;
   min-height: 100%;
 }
 
+/* leve “borda de luz” interna, bem discreta */
+body.pagelayout-login .login-sidepanel::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: 17px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  pointer-events: none;
+}
+
 /* Loading */
 body.pagelayout-login .login-sidepanel__loading {
-  color: rgba(255,255,255,0.92);
+  color: rgba(255, 255, 255, 0.92);
   font-size: 13px;
-  padding: 10px 6px;
+  padding: 8px 6px;
   opacity: 0.9;
 }
 
-/* Grid: no painel lateral (lg/md) fica 2x2 para “estreitar” os botões */
+/* Grid no painel lateral: 2x2 e mais compacto */
 body.pagelayout-login .login-sidepanel__grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 10px; /* reduz gap */
 }
 
-/* Item: vertical (ícone em cima, texto embaixo) */
+/* Botões: mais estreitos (compactos) */
 body.pagelayout-login .login-sidepanel__item {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 10px;
+
+  gap: 8px;                 /* reduz */
   border-radius: 14px;
-  padding: 14px 10px;
+  padding: 12px 8px;        /* reduz bastante */
   text-decoration: none;
+
   border: 1px solid rgba(255, 255, 255, 0.14);
   background: rgba(255, 255, 255, 0.08);
+  box-shadow: rgba(0,0,0,0.08) 0px 10px 18px -14px;
+
   transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
 }
 
@@ -64,72 +84,84 @@ body.pagelayout-login .login-sidepanel__item:hover {
   border-color: rgba(255, 255, 255, 0.22);
 }
 
-/* Ícone grande */
+body.pagelayout-login .login-sidepanel__item:active {
+  transform: translateY(0px);
+}
+
+/* Ícone um pouco menor para “estreitar” */
 body.pagelayout-login .login-sidepanel__icon {
-  width: 54px;
-  height: 54px;
+  width: 44px;
+  height: 44px;
   display: grid;
   place-items: center;
 }
 
 body.pagelayout-login .login-sidepanel__icon svg {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   fill: #ffffff;
   opacity: 0.95;
 }
 
-/* Texto abaixo: apenas label (mais limpo e estreito) */
+/* Texto menor e mais contido */
 body.pagelayout-login .login-sidepanel__label {
   color: rgba(255, 255, 255, 0.96);
-  font-size: 13px;
+  font-size: 12.5px; /* reduz */
   font-weight: 700;
   line-height: 1.15;
+  max-width: 12ch;   /* força “estreito” visualmente */
 }
 
-/* Opcional: se vier subtexto, mantém discreto */
+/* Se existir subtexto, mantém discreto e compacto */
 body.pagelayout-login .login-sidepanel__sub {
   color: rgba(255, 255, 255, 0.78);
-  font-size: 12px;
+  font-size: 11.5px;
   line-height: 1.2;
   margin-top: -6px;
+  max-width: 16ch;
 }
 
-/* Em telas menores: painel vai para baixo, mas mantém 2x2 */
+/* Em telas menores: painel vai para baixo; mantém 2x2 e compacto */
 @media (max-width: 992px) {
   body.pagelayout-login .login-container.has-sidepanel {
     grid-template-columns: 1fr;
     max-width: 680px;
+    gap: 14px;
   }
 
   body.pagelayout-login .login-sidepanel {
-    padding: 14px;
+    padding: 12px;
   }
 
   body.pagelayout-login .login-sidepanel__grid {
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    gap: 10px;
   }
 }
 
-/* Muito pequeno: compacta um pouco */
+/* Muito pequeno: reduz mais um pouco */
 @media (max-width: 420px) {
   body.pagelayout-login .login-sidepanel__grid {
-    gap: 10px;
+    gap: 9px;
   }
 
   body.pagelayout-login .login-sidepanel__item {
-    padding: 12px 8px;
-    gap: 8px;
+    padding: 11px 8px;
+    gap: 7px;
   }
 
   body.pagelayout-login .login-sidepanel__icon {
-    width: 50px;
-    height: 50px;
+    width: 42px;
+    height: 42px;
   }
 
   body.pagelayout-login .login-sidepanel__icon svg {
-    width: 36px;
-    height: 36px;
+    width: 30px;
+    height: 30px;
+  }
+
+  body.pagelayout-login .login-sidepanel__label {
+    font-size: 12px;
+    max-width: 12ch;
   }
 }
