@@ -1,155 +1,179 @@
 /* ======================================================================
-   painel.css — Refinamento visual institucional para /my/
-   Escopo: só aplica com body.fm-my-enhanced (setado pelo painel.js)
+   painel.css — /my/ slideshow + acabamento (escopo seguro)
+   Aplica somente quando o JS adiciona: body.fm-my-enhanced
    ====================================================================== */
 
 body.fm-my-enhanced {
-  /* Tipografia e renderização mais “premium” sem alterar o restante do site */
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Container da página: melhora leitura e centraliza “miolo” */
-body.fm-my-enhanced #page {
-  max-width: 1240px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* Espaçamento superior do conteúdo */
+/* Evita “travadas” por regras agressivas: não mexe em #page width */
 body.fm-my-enhanced #page-content {
   padding-top: 10px;
 }
 
-/* Título / área principal */
-body.fm-my-enhanced #region-main {
-  border-radius: 18px;
-}
-
-/* Ajusta heading (sem brigar com tema) */
-body.fm-my-enhanced #region-main h2,
-body.fm-my-enhanced #region-main h3 {
-  letter-spacing: 0.1px;
-}
-
 /* =========================================================
-   Cards / blocos — acabamento consistente
+   Slideshow (fade) — visual institucional
    ========================================================= */
 
-body.fm-my-enhanced .fm-my-card {
+body.fm-my-enhanced .fm-slideshow {
+  width: 100%;
+  max-width: 1120px;
+  margin: 16px auto 22px auto;
+
   border-radius: 18px;
-  border: 1px solid rgba(15, 23, 42, 0.10);
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow:
-    rgba(0, 0, 0, 0.10) 0px 18px 30px -22px,
-    rgba(0, 0, 0, 0.06) 0px 10px 18px -18px;
   overflow: hidden;
-  transition: transform 0.14s ease, box-shadow 0.14s ease, border-color 0.14s ease;
-}
 
-@media (prefers-reduced-motion: reduce) {
-  body.fm-my-enhanced .fm-my-card {
-    transition: none;
-  }
-}
-
-body.fm-my-enhanced .fm-my-card:hover {
-  transform: translateY(-1px);
-  border-color: rgba(13, 110, 253, 0.18);
+  background: rgba(255, 255, 255, 0.70);
+  border: 1px solid rgba(15, 23, 42, 0.10);
   box-shadow:
-    rgba(13, 110, 253, 0.18) 0px 18px 34px -22px,
-    rgba(0, 0, 0, 0.10) 0px 18px 30px -22px;
+    rgba(0, 0, 0, 0.10) 0px 20px 30px -24px,
+    rgba(0, 0, 0, 0.06) 0px 12px 18px -18px;
 }
 
-/* Header do card */
-body.fm-my-enhanced .fm-my-card__header,
-body.fm-my-enhanced .fm-my-card .card-header,
-body.fm-my-enhanced .fm-my-card .block-header {
-  background: transparent;
-  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
-  padding: 14px 16px;
-  font-weight: 800;
-  color: rgba(15, 23, 42, 0.92);
+/* Mantém proporção elegante (banner) */
+body.fm-my-enhanced .fm-slideshow__stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 6;
+  min-height: 220px; /* fallback */
+  background: rgba(255, 255, 255, 0.55);
 }
 
-/* Body do card */
-body.fm-my-enhanced .fm-my-card__body,
-body.fm-my-enhanced .fm-my-card .card-body,
-body.fm-my-enhanced .fm-my-card .content,
-body.fm-my-enhanced .fm-my-card .block-content {
-  padding: 16px;
+/* Imagens empilhadas para fade */
+body.fm-my-enhanced .fm-slideshow__img {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  opacity: 0;
+  transition: opacity 420ms ease;
+  will-change: opacity;
 }
 
-/* Listas dentro dos blocos ficam menos “apertadas” */
-body.fm-my-enhanced .fm-my-card ul {
-  margin-bottom: 0;
+body.fm-my-enhanced .fm-slideshow__img.is-active {
+  opacity: 1;
 }
 
-/* =========================================================
-   Botões e inputs dentro do /my/
-   ========================================================= */
+/* Overlay sutil para dar leitura e acabamento */
+body.fm-my-enhanced .fm-slideshow__overlay {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(1000px 420px at 12% 12%, rgba(255, 255, 255, 0.35), transparent 55%),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.08), transparent 22%, transparent 78%, rgba(15, 23, 42, 0.06));
+}
 
-body.fm-my-enhanced #region-main .btn,
-body.fm-my-enhanced #region-main button,
-body.fm-my-enhanced #region-main input[type="submit"] {
+/* Controles discretos */
+body.fm-my-enhanced .fm-slideshow__controls {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  display: flex;
+  gap: 8px;
+}
+
+body.fm-my-enhanced .fm-slideshow__btn {
+  width: 40px;
+  height: 38px;
   border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+
+  background: rgba(44, 83, 100, 0.72); /* mesma matiz do submit */
+  color: #fff;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: rgba(0, 0, 0, 0.12) 0 10px 18px -12px;
+  cursor: pointer;
+
+  transition: transform 0.12s ease, filter 0.12s ease, background 0.12s ease;
 }
 
-body.fm-my-enhanced #region-main .btn.btn-primary {
-  box-shadow: rgba(13, 110, 253, 0.18) 0 12px 24px -18px;
+body.fm-my-enhanced .fm-slideshow__btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+  background: rgba(44, 83, 100, 0.80);
 }
 
-body.fm-my-enhanced #region-main .form-control,
-body.fm-my-enhanced #region-main input,
-body.fm-my-enhanced #region-main select,
-body.fm-my-enhanced #region-main textarea {
-  border-radius: 12px;
-  border-color: rgba(15, 23, 42, 0.14);
+body.fm-my-enhanced .fm-slideshow__btn:active {
+  transform: translateY(0);
 }
 
-/* Focus suave (institucional) */
-body.fm-my-enhanced #region-main .form-control:focus,
-body.fm-my-enhanced #region-main input:focus,
-body.fm-my-enhanced #region-main select:focus,
-body.fm-my-enhanced #region-main textarea:focus {
+body.fm-my-enhanced .fm-slideshow__btn:focus {
   outline: none;
-  border-color: rgba(13, 110, 253, 0.55);
-  box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.12);
+  box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.18), rgba(0, 0, 0, 0.12) 0 10px 18px -12px;
 }
 
-/* =========================================================
-   Layout em telas menores
-   ========================================================= */
+/* Paginação (dots) */
+body.fm-my-enhanced .fm-slideshow__dots {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  display: flex;
+  gap: 8px;
+}
 
+body.fm-my-enhanced .fm-slideshow__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.12s ease;
+}
+
+body.fm-my-enhanced .fm-slideshow__dot.is-active {
+  background: rgba(255, 255, 255, 0.92);
+  transform: scale(1.15);
+}
+
+/* Estado de carregamento/erro */
+body.fm-my-enhanced .fm-slideshow__status {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: rgba(15, 23, 42, 0.72);
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+/* Responsivo */
 @media (max-width: 992px) {
-  body.fm-my-enhanced #page {
+  body.fm-my-enhanced .fm-slideshow {
     max-width: 980px;
-    padding-left: 12px;
-    padding-right: 12px;
-  }
-
-  body.fm-my-enhanced .fm-my-card {
     border-radius: 16px;
+  }
+  body.fm-my-enhanced .fm-slideshow__stage {
+    aspect-ratio: 16 / 7;
   }
 }
 
 @media (max-width: 576px) {
-  body.fm-my-enhanced #page {
-    padding-left: 10px;
-    padding-right: 10px;
+  body.fm-my-enhanced .fm-slideshow {
+    margin: 12px auto 18px auto;
+    border-radius: 14px;
   }
-
-  body.fm-my-enhanced .fm-my-card__header,
-  body.fm-my-enhanced .fm-my-card .card-header,
-  body.fm-my-enhanced .fm-my-card .block-header {
-    padding: 12px 14px;
+  body.fm-my-enhanced .fm-slideshow__stage {
+    aspect-ratio: 16 / 9;
   }
+}
 
-  body.fm-my-enhanced .fm-my-card__body,
-  body.fm-my-enhanced .fm-my-card .card-body,
-  body.fm-my-enhanced .fm-my-card .content,
-  body.fm-my-enhanced .fm-my-card .block-content {
-    padding: 14px;
+@media (prefers-reduced-motion: reduce) {
+  body.fm-my-enhanced .fm-slideshow__img {
+    transition: none;
+  }
+  body.fm-my-enhanced .fm-slideshow__btn {
+    transition: none;
   }
 }
