@@ -1,33 +1,46 @@
 /* ======================================================================
    login-botoes.css — Barra lateral de atalhos (AJAX)
-   Versão:
-   - 4 botões em coluna vertical (não agrupados)
-   - Visual mais delicado (gradiente sutil)
-   - Botões estreitos, ícone acima, texto abaixo
+   Inclui:
+   - 4 botões em coluna vertical
+   - Painel com gradiente sutil (mesma matiz do botão)
+   - Altura alinhada ao card (stretch real + centralização)
+   - Hover com glow azul discreto
+   - Entrada em cascata (respeita prefers-reduced-motion)
    ====================================================================== */
 
 /* Container com painel lateral */
 body.pagelayout-login .login-container.has-sidepanel {
   max-width: 980px;
   display: grid;
-  grid-template-columns: minmax(480px, 600px) 260px;
+  grid-template-columns: minmax(480px, 600px) 270px;
   gap: 18px;
-  align-items: stretch;
+  align-items: stretch; /* garante que as duas colunas “estiquem” iguais */
 }
 
-/* Painel lateral */
+/* Garante que o card e o painel ocupem toda a altura da linha do grid */
+body.pagelayout-login .login-container.has-sidepanel > .loginform {
+  height: 100%;
+}
+
+body.pagelayout-login .login-sidepanel {
+  height: 100%;
+  min-height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* centraliza os 4 botões verticalmente */
+}
+
+/* Painel lateral (mais delicado) */
 body.pagelayout-login .login-sidepanel {
   position: relative;
   background:
     radial-gradient(900px 420px at 20% 10%, rgba(255, 255, 255, 0.10), transparent 55%),
-    radial-gradient(700px 360px at 85% 25%, rgba(13, 110, 253, 0.10), transparent 55%),
+    radial-gradient(700px 360px at 85% 25%, rgba(13, 110, 253, 0.12), transparent 55%),
     linear-gradient(180deg, #2f5b6f 0%, #2c5364 45%, #264a59 100%);
   border-radius: 18px;
   box-shadow: rgba(0, 0, 0, 0.14) 0px 22px 38px -14px;
   padding: 16px 14px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
 /* Borda interna sutil */
@@ -40,11 +53,28 @@ body.pagelayout-login .login-sidepanel::before {
   pointer-events: none;
 }
 
+/* Loading */
+body.pagelayout-login .login-sidepanel__loading {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 13px;
+  padding: 8px 6px;
+  opacity: 0.9;
+}
+
 /* Grid vira coluna única */
 body.pagelayout-login .login-sidepanel__grid {
   display: flex;
   flex-direction: column;
   gap: 14px;
+}
+
+/* =========================================================
+   Botões (estreitos) + hover glow + cascade
+   ========================================================= */
+
+@keyframes sideBtnIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* Botão */
@@ -62,19 +92,46 @@ body.pagelayout-login .login-sidepanel__item {
 
   border: 1px solid rgba(255, 255, 255, 0.16);
   background: rgba(255, 255, 255, 0.08);
-  box-shadow: rgba(0,0,0,0.08) 0px 10px 18px -14px;
 
-  transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
+  /* sombra base discreta */
+  box-shadow:
+    rgba(0, 0, 0, 0.10) 0px 10px 18px -14px;
+
+  transition:
+    transform 0.12s ease,
+    background 0.12s ease,
+    border-color 0.12s ease,
+    box-shadow 0.12s ease,
+    filter 0.12s ease;
+
+  /* Entrada em cascata (default) */
+  opacity: 0;
+  animation: sideBtnIn 0.45s ease-out forwards;
 }
 
+/* Cascata (4 itens) */
+body.pagelayout-login .login-sidepanel__item:nth-child(1) { animation-delay: 0.10s; }
+body.pagelayout-login .login-sidepanel__item:nth-child(2) { animation-delay: 0.18s; }
+body.pagelayout-login .login-sidepanel__item:nth-child(3) { animation-delay: 0.26s; }
+body.pagelayout-login .login-sidepanel__item:nth-child(4) { animation-delay: 0.34s; }
+
+/* Hover: glow azul sutil, elegante */
 body.pagelayout-login .login-sidepanel__item:hover {
   transform: translateY(-1px);
   background: rgba(255, 255, 255, 0.12);
   border-color: rgba(255, 255, 255, 0.26);
+
+  box-shadow:
+    rgba(13, 110, 253, 0.30) 0px 10px 22px -14px, /* glow azul */
+    rgba(0, 0, 0, 0.12) 0px 16px 28px -18px;
+  filter: brightness(1.02);
 }
 
 body.pagelayout-login .login-sidepanel__item:active {
   transform: translateY(0);
+  box-shadow:
+    rgba(13, 110, 253, 0.22) 0px 8px 18px -14px,
+    rgba(0, 0, 0, 0.10) 0px 12px 22px -18px;
 }
 
 /* Ícone */
@@ -101,7 +158,19 @@ body.pagelayout-login .login-sidepanel__label {
   max-width: 14ch;
 }
 
-/* Responsivo — painel vai para baixo */
+/* Respeita usuários com redução de movimento */
+@media (prefers-reduced-motion: reduce) {
+  body.pagelayout-login .login-sidepanel__item {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* =========================================================
+   Responsivo — painel vai para baixo
+   ========================================================= */
+
 @media (max-width: 992px) {
   body.pagelayout-login .login-container.has-sidepanel {
     grid-template-columns: 1fr;
@@ -109,13 +178,20 @@ body.pagelayout-login .login-sidepanel__label {
     gap: 16px;
   }
 
+  /* Quando o painel desce, não precisa centralizar tanto;
+     mantém bonito e consistente */
   body.pagelayout-login .login-sidepanel {
     padding: 14px;
+    justify-content: flex-start;
   }
 }
 
 /* Mobile — mantém coluna, mais compacto */
 @media (max-width: 420px) {
+  body.pagelayout-login .login-sidepanel__grid {
+    gap: 12px;
+  }
+
   body.pagelayout-login .login-sidepanel__item {
     padding: 12px 8px;
     gap: 6px;
