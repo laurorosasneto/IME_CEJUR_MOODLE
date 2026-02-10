@@ -604,20 +604,6 @@ li.activity:has([data-ui-reset="true"]),
 .drawer.drawer-left.show {
     left: 0;
     visibility: visible;
-    background-color: #c96161;
-    color: #fff;
     background-color: #c96161 !important;
     color: #fff !important;
-}
-
-.drawer.drawer-left.show a {
-    color: #ffffff !important;
-}
-
-/* Garante que continuem brancos em todos os estados (hover, ativo, visitado) */
-.drawer.drawer-left.show a:hover,
-.drawer.drawer-left.show a:focus,
-.drawer.drawer-left.show a:visited {
-    color: #ffffff !important;
-    text-decoration: underline; /* Opcional: apenas para dar feedback visual no mouse */
 }
