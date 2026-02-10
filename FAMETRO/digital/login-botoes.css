@@ -1,37 +1,35 @@
 /* ======================================================================
    login-botoes.css — Barra lateral de atalhos (AJAX)
-   Inclui:
+   Versão:
    - 4 botões em coluna vertical
-   - Painel com gradiente sutil (mesma matiz do botão)
-   - Altura alinhada ao card (stretch real + centralização)
-   - Hover com glow azul discreto
-   - Entrada em cascata (respeita prefers-reduced-motion)
+   - Cada botão em layout HORIZONTAL (ícone + texto)
+   - Painel alinhado em altura com o login
+   - Hover com glow azul sutil
+   - Animação de entrada em cascata
    ====================================================================== */
 
 /* Container com painel lateral */
 body.pagelayout-login .login-container.has-sidepanel {
   max-width: 980px;
   display: grid;
-  grid-template-columns: minmax(480px, 600px) 270px;
+  grid-template-columns: minmax(480px, 600px) 280px;
   gap: 18px;
-  align-items: stretch; /* garante que as duas colunas “estiquem” iguais */
+  align-items: stretch;
 }
 
-/* Garante que o card e o painel ocupem toda a altura da linha do grid */
+/* Garante alinhamento de altura */
 body.pagelayout-login .login-container.has-sidepanel > .loginform {
   height: 100%;
 }
 
 body.pagelayout-login .login-sidepanel {
   height: 100%;
-  min-height: 100%;
-
   display: flex;
   flex-direction: column;
-  justify-content: center; /* centraliza os 4 botões verticalmente */
+  justify-content: center;
 }
 
-/* Painel lateral (mais delicado) */
+/* Painel lateral */
 body.pagelayout-login .login-sidepanel {
   position: relative;
   background:
@@ -40,7 +38,7 @@ body.pagelayout-login .login-sidepanel {
     linear-gradient(180deg, #2f5b6f 0%, #2c5364 45%, #264a59 100%);
   border-radius: 18px;
   box-shadow: rgba(0, 0, 0, 0.14) 0px 22px 38px -14px;
-  padding: 16px 14px;
+  padding: 18px 14px;
 }
 
 /* Borda interna sutil */
@@ -53,23 +51,15 @@ body.pagelayout-login .login-sidepanel::before {
   pointer-events: none;
 }
 
-/* Loading */
-body.pagelayout-login .login-sidepanel__loading {
-  color: rgba(255, 255, 255, 0.92);
-  font-size: 13px;
-  padding: 8px 6px;
-  opacity: 0.9;
-}
-
-/* Grid vira coluna única */
+/* Grid vira coluna */
 body.pagelayout-login .login-sidepanel__grid {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
 }
 
 /* =========================================================
-   Botões (estreitos) + hover glow + cascade
+   Botões horizontais
    ========================================================= */
 
 @keyframes sideBtnIn {
@@ -77,23 +67,18 @@ body.pagelayout-login .login-sidepanel__grid {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Botão */
 body.pagelayout-login .login-sidepanel__item {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  text-align: center;
+  gap: 12px;
 
-  padding: 14px 10px;
-  gap: 8px;
-
+  padding: 12px 14px;
   border-radius: 14px;
   text-decoration: none;
 
   border: 1px solid rgba(255, 255, 255, 0.16);
   background: rgba(255, 255, 255, 0.08);
 
-  /* sombra base discreta */
   box-shadow:
     rgba(0, 0, 0, 0.10) 0px 10px 18px -14px;
 
@@ -101,64 +86,53 @@ body.pagelayout-login .login-sidepanel__item {
     transform 0.12s ease,
     background 0.12s ease,
     border-color 0.12s ease,
-    box-shadow 0.12s ease,
-    filter 0.12s ease;
+    box-shadow 0.12s ease;
 
-  /* Entrada em cascata (default) */
+  /* Entrada em cascata */
   opacity: 0;
   animation: sideBtnIn 0.45s ease-out forwards;
 }
 
-/* Cascata (4 itens) */
 body.pagelayout-login .login-sidepanel__item:nth-child(1) { animation-delay: 0.10s; }
 body.pagelayout-login .login-sidepanel__item:nth-child(2) { animation-delay: 0.18s; }
 body.pagelayout-login .login-sidepanel__item:nth-child(3) { animation-delay: 0.26s; }
 body.pagelayout-login .login-sidepanel__item:nth-child(4) { animation-delay: 0.34s; }
 
-/* Hover: glow azul sutil, elegante */
+/* Hover elegante */
 body.pagelayout-login .login-sidepanel__item:hover {
   transform: translateY(-1px);
   background: rgba(255, 255, 255, 0.12);
   border-color: rgba(255, 255, 255, 0.26);
-
   box-shadow:
-    rgba(13, 110, 253, 0.30) 0px 10px 22px -14px, /* glow azul */
+    rgba(13, 110, 253, 0.30) 0px 10px 22px -14px,
     rgba(0, 0, 0, 0.12) 0px 16px 28px -18px;
-  filter: brightness(1.02);
 }
 
-body.pagelayout-login .login-sidepanel__item:active {
-  transform: translateY(0);
-  box-shadow:
-    rgba(13, 110, 253, 0.22) 0px 8px 18px -14px,
-    rgba(0, 0, 0, 0.10) 0px 12px 22px -18px;
-}
-
-/* Ícone */
+/* Ícone à esquerda */
 body.pagelayout-login .login-sidepanel__icon {
-  width: 46px;
-  height: 46px;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
   display: grid;
   place-items: center;
 }
 
 body.pagelayout-login .login-sidepanel__icon svg {
-  width: 32px;
-  height: 32px;
+  width: 22px;
+  height: 22px;
   fill: #ffffff;
   opacity: 0.95;
 }
 
-/* Texto */
+/* Texto à direita */
 body.pagelayout-login .login-sidepanel__label {
   color: rgba(255, 255, 255, 0.96);
-  font-size: 12.5px;
-  font-weight: 700;
-  line-height: 1.15;
-  max-width: 14ch;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.25;
 }
 
-/* Respeita usuários com redução de movimento */
+/* Redução de movimento */
 @media (prefers-reduced-motion: reduce) {
   body.pagelayout-login .login-sidepanel__item {
     animation: none;
@@ -178,36 +152,30 @@ body.pagelayout-login .login-sidepanel__label {
     gap: 16px;
   }
 
-  /* Quando o painel desce, não precisa centralizar tanto;
-     mantém bonito e consistente */
   body.pagelayout-login .login-sidepanel {
-    padding: 14px;
     justify-content: flex-start;
+    padding: 14px;
   }
 }
 
-/* Mobile — mantém coluna, mais compacto */
+/* Mobile */
 @media (max-width: 420px) {
-  body.pagelayout-login .login-sidepanel__grid {
-    gap: 12px;
-  }
-
   body.pagelayout-login .login-sidepanel__item {
-    padding: 12px 8px;
-    gap: 6px;
+    padding: 11px 12px;
+    gap: 10px;
   }
 
   body.pagelayout-login .login-sidepanel__icon {
-    width: 42px;
-    height: 42px;
+    width: 34px;
+    height: 34px;
   }
 
   body.pagelayout-login .login-sidepanel__icon svg {
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
   }
 
   body.pagelayout-login .login-sidepanel__label {
-    font-size: 12px;
+    font-size: 12.5px;
   }
 }
