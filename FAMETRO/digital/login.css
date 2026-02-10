@@ -368,3 +368,20 @@ body.pagelayout-login .customselect__item.is-selected {
 body.pagelayout-login .customselect__item + .customselect__item {
   border-top: 1px solid rgba(15, 23, 42, 0.06);
 }
+
+/* =========================================================
+   Modal "Como acessar" — vídeo MP4 com acabamento premium
+   ========================================================= */
+
+#fm-login-video.fm-video-iframe {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 14px;
+  outline: none;
+}
+
+/* opcional: melhora estética dos controles em alguns browsers */
+#fm-login-video {
+  background: #000;
+}

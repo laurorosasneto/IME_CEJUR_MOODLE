@@ -331,4 +331,52 @@ body.pagelayout-login .login-sidepanel__sub {
   mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16 8a2.5 2.5 0 1 0-2.3-3.4' stroke='black' stroke-width='1.8'/%3E%3Cpath d='M8 14a2.5 2.5 0 1 0 2.3 3.4' stroke='black' stroke-width='1.8'/%3E%3Cpath d='M10 12l4-2M10 12l4 2' stroke='black' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
 }
 
+/* =========================================================
+   Modal Redes Sociais — Ícones outline finos e elegantes
+   ========================================================= */
+
+/* Remove texto interno antigo */
+.fm-social-ico {
+  font-size: 0;
+}
+
+/* Base do ícone */
+.fm-social-ico {
+  width: 36px;
+  height: 36px;
+  margin-bottom: 6px;
+
+  background-color: #2563eb; /* azul institucional */
+  border-radius: 50%;
+
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: 60%;
+
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: 60%;
+}
+
+/* =========================
+   Ícones por rede
+   ========================= */
+
+/* Facebook */
+.fm-social-card[href*="facebook"] .fm-social-ico {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M14 8h2V5h-2c-2 0-3 1-3 3v2H9v3h2v6h3v-6h2.2l.8-3H14V8Z' stroke='black' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M14 8h2V5h-2c-2 0-3 1-3 3v2H9v3h2v6h3v-6h2.2l.8-3H14V8Z' stroke='black' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+/* Instagram */
+.fm-social-card[href*="instagram"] .fm-social-ico {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='4' y='4' width='16' height='16' rx='5' stroke='black' stroke-width='1.8'/%3E%3Ccircle cx='12' cy='12' r='4' stroke='black' stroke-width='1.8'/%3E%3Ccircle cx='17' cy='7' r='1' fill='black'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='4' y='4' width='16' height='16' rx='5' stroke='black' stroke-width='1.8'/%3E%3Ccircle cx='12' cy='12' r='4' stroke='black' stroke-width='1.8'/%3E%3Ccircle cx='17' cy='7' r='1' fill='black'/%3E%3C/svg%3E");
+}
+
+/* YouTube */
+.fm-social-card[href*="youtube"] .fm-social-ico {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='3' y='7' width='18' height='10' rx='3' stroke='black' stroke-width='1.8'/%3E%3Cpath d='M10 9.5L14 12L10 14.5V9.5Z' stroke='black' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='3' y='7' width='18' height='10' rx='3' stroke='black' stroke-width='1.8'/%3E%3Cpath d='M10 9.5L14 12L10 14.5V9.5Z' stroke='black' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
 

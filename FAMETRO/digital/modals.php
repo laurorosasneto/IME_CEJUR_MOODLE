@@ -125,25 +125,11 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="fm-social-grid">
-          <a class="fm-social-card" href="#" target="_blank" rel="noopener">
-            <div class="fm-social-ico" aria-hidden="true">f</div>
-            <div class="fm-social-name">Facebook</div>
-            <div class="fm-social-sub">Notícias e comunicados</div>
-          </a>
 
-          <a class="fm-social-card" href="#" target="_blank" rel="noopener">
-            <div class="fm-social-ico" aria-hidden="true">◎</div>
-            <div class="fm-social-name">Instagram</div>
-            <div class="fm-social-sub">Eventos e bastidores</div>
-          </a>
 
-          <a class="fm-social-card" href="#" target="_blank" rel="noopener">
-            <div class="fm-social-ico" aria-hidden="true">▶</div>
-            <div class="fm-social-name">YouTube</div>
-            <div class="fm-social-sub">Aulas e conteúdos</div>
-          </a>
-        </div>
+
+
+      
       </div>
     </div>
   </div>

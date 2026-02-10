@@ -380,3 +380,24 @@
     boot(0);
   });
 })();
+
+/* =========================================================
+   Modal "Como acessar" — controla vídeo MP4 ao fechar modal
+   ========================================================= */
+
+document.addEventListener('DOMContentLoaded', function () {
+  var modal = document.getElementById('fm-login-modal-como');
+  var video = document.getElementById('fm-login-video');
+
+  if (!modal || !video) return;
+
+  // Bootstrap dispara este evento ao fechar o modal
+  modal.addEventListener('hidden.bs.modal', function () {
+    try {
+      video.pause();
+      video.currentTime = 0;
+    } catch (e) {
+      // fail-safe: não quebra nada se algo não existir
+    }
+  });
+});
