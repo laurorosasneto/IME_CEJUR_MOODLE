@@ -28,7 +28,10 @@ body.pagelayout-login .login-wrapper {
 /* Mais largo */
 body.pagelayout-login .login-container {
   width: 100%;
-  max-width: 560px; /* antes: 420px */
+  max-width: 600px; /* antes: 420px */
+  background-color: #ffffff00!important;
+  padding: 1em;
+  margin: 0;
 }
 
 /* Card principal */
@@ -202,7 +205,7 @@ body.pagelayout-login #page-footer div[style*="display: none"] {
 /* Responsivo */
 @media (max-width: 600px) {
   body.pagelayout-login .login-container {
-    max-width: 480px;
+    max-width: 680px;
   }
 }
 
