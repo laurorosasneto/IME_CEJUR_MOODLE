@@ -1,6 +1,6 @@
 /* ======================================================================
-   painel.css — /my/ slideshow + acabamento (escopo seguro)
-   Aplica somente quando o JS adiciona: body.fm-my-enhanced
+   painel.css — /my/ slideshow fullwidth no #page
+   Escopo: só aplica com body.fm-my-enhanced (setado pelo painel.js)
    ====================================================================== */
 
 body.fm-my-enhanced {
@@ -9,120 +9,110 @@ body.fm-my-enhanced {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Evita “travadas” por regras agressivas: não mexe em #page width */
-body.fm-my-enhanced #page-content {
-  padding-top: 10px;
-}
-
 /* =========================================================
-   Slideshow (fade) — visual institucional
+   Slideshow (full width dentro do #page, margem zero)
    ========================================================= */
 
-body.fm-my-enhanced .fm-slideshow {
+body.fm-my-enhanced #page .fm-slideshow {
   width: 100%;
-  max-width: 1120px;
-  margin: 16px auto 22px auto;
-
-  border-radius: 18px;
+  margin: 0;           /* margem zero */
+  padding: 0;
+  border-radius: 0;    /* fullwidth, sem “card” */
   overflow: hidden;
-
-  background: rgba(255, 255, 255, 0.70);
-  border: 1px solid rgba(15, 23, 42, 0.10);
-  box-shadow:
-    rgba(0, 0, 0, 0.10) 0px 20px 30px -24px,
-    rgba(0, 0, 0, 0.06) 0px 12px 18px -18px;
+  border: 0;
+  box-shadow: none;
+  background: transparent;
 }
 
-/* Mantém proporção elegante (banner) */
-body.fm-my-enhanced .fm-slideshow__stage {
+/* altura responsiva com limite máximo de 500px */
+body.fm-my-enhanced #page .fm-slideshow__stage {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 6;
-  min-height: 220px; /* fallback */
-  background: rgba(255, 255, 255, 0.55);
+  height: min(40vw, 500px); /* responsivo, máximo 500px */
+  min-height: 220px;        /* fallback */
+  background: rgba(0, 0, 0, 0.02);
 }
 
-/* Imagens empilhadas para fade */
-body.fm-my-enhanced .fm-slideshow__img {
+/* imagens em cover e centralizadas (horizontal e vertical) */
+body.fm-my-enhanced #page .fm-slideshow__img {
   position: absolute;
   inset: 0;
-
   width: 100%;
   height: 100%;
+
   object-fit: cover;
+  object-position: 50% 50%; /* centralizado */
 
   opacity: 0;
   transition: opacity 420ms ease;
   will-change: opacity;
 }
 
-body.fm-my-enhanced .fm-slideshow__img.is-active {
+body.fm-my-enhanced #page .fm-slideshow__img.is-active {
   opacity: 1;
 }
 
-/* Overlay sutil para dar leitura e acabamento */
-body.fm-my-enhanced .fm-slideshow__overlay {
+/* overlay sutil opcional (pode remover se quiser “cru”) */
+body.fm-my-enhanced #page .fm-slideshow__overlay {
   pointer-events: none;
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(1000px 420px at 12% 12%, rgba(255, 255, 255, 0.35), transparent 55%),
-    linear-gradient(90deg, rgba(15, 23, 42, 0.08), transparent 22%, transparent 78%, rgba(15, 23, 42, 0.06));
+  background: linear-gradient(90deg, rgba(0,0,0,0.12), transparent 28%, transparent 72%, rgba(0,0,0,0.10));
 }
 
-/* Controles discretos */
-body.fm-my-enhanced .fm-slideshow__controls {
+/* controles discretos */
+body.fm-my-enhanced #page .fm-slideshow__controls {
   position: absolute;
-  right: 12px;
-  bottom: 12px;
+  right: 14px;
+  bottom: 14px;
   display: flex;
-  gap: 8px;
+  gap: 10px;
 }
 
-body.fm-my-enhanced .fm-slideshow__btn {
-  width: 40px;
-  height: 38px;
-  border-radius: 12px;
+body.fm-my-enhanced #page .fm-slideshow__btn {
+  width: 44px;
+  height: 42px;
+  border-radius: 14px;
   border: 1px solid rgba(255, 255, 255, 0.35);
 
-  background: rgba(44, 83, 100, 0.72); /* mesma matiz do submit */
-  color: #fff;
+  background: rgba(44, 83, 100, 0.78);
+  color: #ffffff;
 
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
-  box-shadow: rgba(0, 0, 0, 0.12) 0 10px 18px -12px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0 14px 22px -18px;
   cursor: pointer;
 
   transition: transform 0.12s ease, filter 0.12s ease, background 0.12s ease;
 }
 
-body.fm-my-enhanced .fm-slideshow__btn:hover {
+body.fm-my-enhanced #page .fm-slideshow__btn:hover {
   transform: translateY(-1px);
   filter: brightness(1.05);
-  background: rgba(44, 83, 100, 0.80);
+  background: rgba(44, 83, 100, 0.86);
 }
 
-body.fm-my-enhanced .fm-slideshow__btn:active {
+body.fm-my-enhanced #page .fm-slideshow__btn:active {
   transform: translateY(0);
 }
 
-body.fm-my-enhanced .fm-slideshow__btn:focus {
+body.fm-my-enhanced #page .fm-slideshow__btn:focus {
   outline: none;
-  box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.18), rgba(0, 0, 0, 0.12) 0 10px 18px -12px;
+  box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.18), rgba(0, 0, 0, 0.16) 0 14px 22px -18px;
 }
 
-/* Paginação (dots) */
-body.fm-my-enhanced .fm-slideshow__dots {
+/* dots (opcional) */
+body.fm-my-enhanced #page .fm-slideshow__dots {
   position: absolute;
-  left: 14px;
-  bottom: 14px;
+  left: 16px;
+  bottom: 16px;
   display: flex;
   gap: 8px;
 }
 
-body.fm-my-enhanced .fm-slideshow__dot {
+body.fm-my-enhanced #page .fm-slideshow__dot {
   width: 8px;
   height: 8px;
   border-radius: 999px;
@@ -132,48 +122,28 @@ body.fm-my-enhanced .fm-slideshow__dot {
   transition: transform 0.12s ease, background 0.12s ease;
 }
 
-body.fm-my-enhanced .fm-slideshow__dot.is-active {
-  background: rgba(255, 255, 255, 0.92);
+body.fm-my-enhanced #page .fm-slideshow__dot.is-active {
+  background: rgba(255, 255, 255, 0.95);
   transform: scale(1.15);
 }
 
-/* Estado de carregamento/erro */
-body.fm-my-enhanced .fm-slideshow__status {
+/* estado loading/erro */
+body.fm-my-enhanced #page .fm-slideshow__status {
   position: absolute;
   inset: 0;
   display: grid;
   place-items: center;
-  color: rgba(15, 23, 42, 0.72);
-  font-weight: 700;
+  color: rgba(255, 255, 255, 0.92);
+  font-weight: 800;
   letter-spacing: 0.2px;
+  text-shadow: rgba(0,0,0,0.5) 0 2px 12px;
 }
 
-/* Responsivo */
-@media (max-width: 992px) {
-  body.fm-my-enhanced .fm-slideshow {
-    max-width: 980px;
-    border-radius: 16px;
-  }
-  body.fm-my-enhanced .fm-slideshow__stage {
-    aspect-ratio: 16 / 7;
-  }
-}
-
-@media (max-width: 576px) {
-  body.fm-my-enhanced .fm-slideshow {
-    margin: 12px auto 18px auto;
-    border-radius: 14px;
-  }
-  body.fm-my-enhanced .fm-slideshow__stage {
-    aspect-ratio: 16 / 9;
-  }
-}
-
+/* reduz animações se necessário */
 @media (prefers-reduced-motion: reduce) {
-  body.fm-my-enhanced .fm-slideshow__img {
-    transition: none;
-  }
-  body.fm-my-enhanced .fm-slideshow__btn {
+  body.fm-my-enhanced #page .fm-slideshow__img,
+  body.fm-my-enhanced #page .fm-slideshow__btn,
+  body.fm-my-enhanced #page .fm-slideshow__dot {
     transition: none;
   }
 }
