@@ -1,60 +1,105 @@
 /* =========================================================
-   FM-SLIDES: força visibilidade no /my/ (page-my-index)
+   FM-SLIDES — Dashboard /my/ (page-my-index)
+   Correções:
+   - remove padding lateral do layout
+   - banner fullwidth real
+   - z-index abaixo dos botões/drawers
+   - altura máxima 400px
    ========================================================= */
 
+/* Remove padding lateral REAL do layout no /my/ */
+body#page-my-index #page,
+body#page-my-index #page-content,
+body#page-my-index .container-fluid,
+body#page-my-index .row {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Wrapper do slideshow */
 body#page-my-index #page .fm-slideshow {
   display: block !important;
   width: 100% !important;
   margin: 0 !important;
   padding: 0 !important;
   position: relative !important;
-  z-index: 50 !important;
+
+  /* IMPORTANTE:
+     abaixo dos botões/drawers do Moodle */
+  z-index: 1 !important;
 }
 
-/* garante altura “real” (evita colapsar) */
+/* Palco do slideshow */
 body#page-my-index #page .fm-slideshow__stage {
-  display: block !important;
   width: 100% !important;
-  height: 500px !important;      /* altura máxima solicitada */
-  max-height: 500px !important;
-  min-height: 240px !important;  /* garante visual mesmo em telas pequenas */
+  height: 400px !important;
+  max-height: 400px !important;
+  min-height: 220px !important;
+
   position: relative !important;
   overflow: hidden !important;
-  background: #0f172a !important; /* fallback visível */
+
+  background-color: #0f172a !important;
 }
 
-/* imagem cover centralizada */
+/* Imagem responsiva (cover centralizado) */
 body#page-my-index #page .fm-slideshow__img {
   position: absolute !important;
   inset: 0 !important;
+
   width: 100% !important;
   height: 100% !important;
+
   object-fit: cover !important;
-  object-position: 50% 50% !important;
+  object-position: center center !important;
+
   display: block !important;
+  opacity: 0 !important;
+  transition: opacity 0.6s ease !important;
 }
 
-/* garante que o ativo fica visível */
+/* Slide ativo */
 body#page-my-index #page .fm-slideshow__img.is-active {
   opacity: 1 !important;
 }
 
-/* mensagem em cima (debug e falhas) */
+/* Mensagem de status / debug */
 body#page-my-index #page .fm-slideshow__status {
   position: absolute !important;
   inset: 0 !important;
+
   display: grid !important;
   place-items: center !important;
-  color: #fff !important;
-  font-weight: 800 !important;
-  text-shadow: 0 2px 12px rgba(0,0,0,0.5) !important;
+
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  text-align: center !important;
+
+  background: linear-gradient(
+    to bottom,
+    rgba(15, 23, 42, 0.65),
+    rgba(15, 23, 42, 0.35)
+  ) !important;
+
   z-index: 2 !important;
   pointer-events: none !important;
 }
+
+/* Garante que botões/drawers do Moodle fiquem acima */
+body#page-my-index .drawer-toggle,
+body#page-my-index .drawer,
+body#page-my-index .btn,
+body#page-my-index .floating-buttons {
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+/* Ajuste específico do tema para remover padding em telas grandes */
 @media (min-width: 768px) {
-    #page.drawers {
-        padding-left: 0rem; 
-        padding-right: 0rem; 
-        z-index: 0;
-    }
+  body#page-my-index #page.drawers {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
 }
