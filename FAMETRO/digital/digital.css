@@ -585,3 +585,26 @@ li.activity:has([data-ui-reset="true"]),
 .fametro-force-compact .v-red:hover { background-color: #a0441e !important; }
 .fametro-force-compact .v-yellow:hover { background-color: #b89635 !important; }
 .fametro-force-compact .v-purple:hover { background-color: #7a4161 !important; }
+
+@media (max-width: 768px) {
+    .fametro-force-compact .vintage-nav-row {
+        flex-wrap: wrap;
+    }
+
+    .fametro-force-compact .btn-v-final {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+}
+.drawer.drawer-left.show {
+    left: 0;
+    visibility: visible;
+    background-color: #c96161 !important;
+    color: #fff !important;
+}
+
+@media (min-width: 576px) {
+    #page.drawers .main-inner {
+        margin-top: 0px!important;
+    }
+}
