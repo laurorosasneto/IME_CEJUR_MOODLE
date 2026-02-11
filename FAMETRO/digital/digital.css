@@ -600,3 +600,9 @@ li.activity:has([data-ui-reset="true"]),
     background-color: #c96161 !important;
     color: #fff !important;
 }
+
+@media (min-width: 576px) {
+    #page.drawers .main-inner {
+        margin-top: 0px!important;
+    }
+}
