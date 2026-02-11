@@ -574,6 +574,14 @@ li.activity:has([data-ui-reset="true"]),
     background-color: rgba(122, 65, 97, 0.15);
 }
 
+/* ===== ALTERAÇÃO PARA O NOVO BOTÃO (Laboratórios Virtuais) ===== */
+.fametro-force-compact .v-teal {
+    color: #1f4d4f !important;
+    border-color: #1f4d4f;
+    background-color: rgba(31, 77, 79, 0.15);
+}
+/* ===== FIM DA ALTERAÇÃO ===== */
+
 .fametro-force-compact .btn-v-final:hover {
     color: #fff !important;
     transform: translateY(-2px);
@@ -585,6 +593,10 @@ li.activity:has([data-ui-reset="true"]),
 .fametro-force-compact .v-red:hover { background-color: #a0441e !important; }
 .fametro-force-compact .v-yellow:hover { background-color: #b89635 !important; }
 .fametro-force-compact .v-purple:hover { background-color: #7a4161 !important; }
+
+/* ===== ALTERAÇÃO PARA O HOVER DO NOVO BOTÃO (Laboratórios Virtuais) ===== */
+.fametro-force-compact .v-teal:hover { background-color: #1f4d4f !important; }
+/* ===== FIM DA ALTERAÇÃO ===== */
 
 @media (max-width: 768px) {
     .fametro-force-compact .vintage-nav-row {
@@ -608,3 +620,101 @@ li.activity:has([data-ui-reset="true"]),
         margin-top: 0px!important;
     }
 }
+
+/*Botões do painel*/
+ /* =========================================
+           RESET DO CONTAINER DO MOODLE (FORÇA BRUTA)
+           ========================================= */
+        
+        li.activity:has([data-ui-reset="true"]),
+        .activity-item:has([data-ui-reset="true"]) {
+            padding: 0 !important;
+            margin: 0 !important;
+            border: none !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            display: block !important;
+            min-height: 0 !important;
+        }
+
+        .activity-item:has([data-ui-reset="true"]) .activity-basis,
+        .activity-item:has([data-ui-reset="true"]) .activity-info,
+        .activity-item:has([data-ui-reset="true"]) .activity-information {
+            display: none !important;
+        }
+
+        .activity-item:has([data-ui-reset="true"]) .description,
+        .activity-item:has([data-ui-reset="true"]) .activity-altcontent,
+        .activity-item:has([data-ui-reset="true"]) .no-overflow {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        .fametro-tiles-wrapper p {
+            display: contents !important;
+            margin: 0 !important;
+        }
+
+        /* =========================================
+           ESTILO DOS TILES (VINTAGE SOFISTICADO)
+           ========================================= */
+
+        .tiles-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 10px 0 !important;
+            width: 100%;
+        }
+
+        .action-tile {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 20px 24px;
+            border-radius: 12px;
+            color: #fdfcf8 !important; 
+            text-decoration: none !important;
+            min-width: 280px;
+            flex: 1 1 0px;
+            max-width: 350px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            border: 1px solid rgba(255, 248, 220, 0.1); 
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .action-tile:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.2);
+            filter: brightness(1.1);
+        }
+
+        /* Paleta Vintage Joia */
+        .t-v-blue   { background: linear-gradient(135deg, #2c5364 0%, #4b79a1 100%); }
+        .t-v-green  { background: linear-gradient(135deg, #3a5335 0%, #5d7a56 100%); }
+        .t-v-red    { background: linear-gradient(135deg, #a0441e 0%, #c66b3d 100%); }
+        .t-v-yellow { background: linear-gradient(135deg, #a88b32 0%, #c4a956 100%); }
+        .t-v-purple { background: linear-gradient(135deg, #4e2a3e 0%, #7a4161 100%); }
+        .t-v-teal   { background: linear-gradient(135deg, #1f4d4f 0%, #2f7a7d 100%); }
+
+        .tile-icon {
+            display: grid;
+            place-items: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.15); 
+            font-size: 22px;
+            flex-shrink: 0;
+            backdrop-filter: blur(2px);
+        }
+
+        .tile-label {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
