@@ -285,3 +285,41 @@ body#page-course-view-topics[class*="course-"]:not(.editing) .course-content > u
     padding: 0 !important;
     margin-bottom: 20px !important;
 }
+
+/* ==========================================================================
+   Troca visual de "Curso(s)" por "Sala(s)" via CSS
+   Limitação: não altera o texto real, apenas a exibição em locais selecionados.
+   ========================================================================== */
+
+/* 1) Links e itens típicos de navegação (drawer/menu/breadcrumbs) */
+a, .nav-link, .breadcrumb-item, .list-group-item, .dropdown-item {
+    /* nada aqui: os overrides abaixo são pontuais */
+}
+
+/* 2) "Cursos" (plural) -> "Salas" */
+a[title="Cursos"],
+a[aria-label="Cursos"],
+a:where(.nav-link,.dropdown-item,.list-group-item):has(> span):where(:contains("Cursos")) {
+    /* (fallback: :contains não existe em CSS puro; deixei esta linha apenas ilustrativa) */
+}
+
+/* Regras práticas: esconder o texto original quando for simples */
+a[title="Cursos"], a[aria-label="Cursos"] {
+    font-size: 0 !important;
+}
+a[title="Cursos"]::after,
+a[aria-label="Cursos"]::after {
+    content: "Salas" !important;
+    font-size: 1rem !important;
+}
+
+/* 3) "Curso" (singular) -> "Sala" */
+a[title="Curso"],
+a[aria-label="Curso"] {
+    font-size: 0 !important;
+}
+a[title="Curso"]::after,
+a[aria-label="Curso"]::after {
+    content: "Sala" !important;
+    font-size: 1rem !important;
+}
