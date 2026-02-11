@@ -94,6 +94,7 @@ body.pagelayout-login .login-sidepanel__item:nth-child(2) { animation-delay: 0.1
 body.pagelayout-login .login-sidepanel__item:nth-child(3) { animation-delay: 0.26s; }
 body.pagelayout-login .login-sidepanel__item:nth-child(4) { animation-delay: 0.34s; }
 body.pagelayout-login .login-sidepanel__item:nth-child(5) { animation-delay: 0.42s; }
+body.pagelayout-login .login-sidepanel__item:nth-child(6) { animation-delay: 0.50s; }
 
 body.pagelayout-login .login-sidepanel__item:hover {
   transform: translateY(-1px);
@@ -331,6 +332,12 @@ body.pagelayout-login .login-sidepanel__sub {
   mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16 8a2.5 2.5 0 1 0-2.3-3.4' stroke='black' stroke-width='1.8'/%3E%3Cpath d='M8 14a2.5 2.5 0 1 0 2.3 3.4' stroke='black' stroke-width='1.8'/%3E%3Cpath d='M10 12l4-2M10 12l4 2' stroke='black' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
 }
 
+/* 6) Laboratórios Virtuais — beaker */
+.login-sidepanel__item[data-action="link-labs"] .login-sidepanel__icon {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4.5 3h15M6 3v16a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V3M6 14h12' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4.5 3h15M6 3v16a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V3M6 14h12' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
 /* =========================================================
    Modal Redes Sociais — Ícones outline finos e elegantes
    ========================================================= */
@@ -379,4 +386,3 @@ body.pagelayout-login .login-sidepanel__sub {
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='3' y='7' width='18' height='10' rx='3' stroke='black' stroke-width='1.8'/%3E%3Cpath d='M10 9.5L14 12L10 14.5V9.5Z' stroke='black' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E");
   mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='3' y='7' width='18' height='10' rx='3' stroke='black' stroke-width='1.8'/%3E%3Cpath d='M10 9.5L14 12L10 14.5V9.5Z' stroke='black' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
-
