@@ -60,222 +60,223 @@ body {
     background-color: var(--v-bg) !important;
 }
 
-/*body.course-59724:not(.editing) {*/
-body[class*="course-"]:not(.editing) { /*Ativa a nova interface a todos os cursos*/
+/* ======================================================================
+   APLICAÇÃO PARA TODOS OS CURSOS (CSS PURO, SEM NESTING)
+   ====================================================================== */
+body[class*="course-"]:not(.editing) li.section[data-number="0"] .sectionname {
+    display: none !important;
+}
 
-    /* ESCONDER A SEÇÃO 0 NO MODO DE VISUALIZAÇÃO */
-    li.section[data-number="0"] .sectionname {
-        display: none !important;
+/* 1. FUNDO E LARGURA */
+body[class*="course-"]:not(.editing) #page.drawers {
+    background-color: var(--v-bg) !important;
+}
+
+body[class*="course-"]:not(.editing) .main-inner {
+    max-width: 80% !important;
+    margin: 0 auto !important;
+    background-color: transparent !important;
+}
+
+/* 2. CABEÇALHO: TÍTULO */
+body[class*="course-"]:not(.editing) #page-header h1,
+body[class*="course-"]:not(.editing) .page-header-headings h1 {
+    color: var(--v-title) !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: -1px !important;
+}
+
+/* 3. NAVEGAÇÃO SECUNDÁRIA */
+body[class*="course-"]:not(.editing) .secondary-navigation {
+    width: 100vw !important;
+    position: relative !important;
+    left: 50% !important;
+    margin-left: -50vw !important;
+    background-color: var(--v-surface) !important;
+    border-bottom: 1px solid var(--v-border) !important;
+    padding: 0 10% !important;
+    z-index: 10;
+    box-shadow: 0 2px 5px var(--v-shadow-05) !important;
+}
+
+body[class*="course-"]:not(.editing) .secondary-navigation .navigation {
+    display: flex !important;
+    justify-content: center !important;
+    width: 100% !important;
+}
+
+body[class*="course-"]:not(.editing) .secondary-navigation .nav-tabs {
+    border: none !important;
+}
+
+/* 4. BLOCO PRINCIPAL */
+body[class*="course-"]:not(.editing) #region-main {
+    background-color: var(--v-surface) !important;
+    border-radius: 0 0 1em 1em !important;
+    border: 1px solid var(--v-border) !important;
+    border-top: none !important;
+    margin-top: 0 !important;
+    padding: 2rem !important;
+    box-shadow:
+        0px 8px 8px -4px var(--v-shadow-15),
+        4px 0px 8px -4px var(--v-shadow-15),
+        -4px 0px 8px -4px var(--v-shadow-15) !important;
+}
+
+/* 5. GRID DE CARDS */
+body[class*="course-"]:not(.editing) .course-content ul.topics,
+body[class*="course-"]:not(.editing) .course-content ul.sections {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 22px !important;
+    list-style: none !important;
+    padding: 20px 0 !important;
+}
+
+/* 6. ESTILO DOS CARDS VINTAGE */
+body[class*="course-"]:not(.editing) li.section:not(#section-0) {
+    background: var(--v-surface) !important;
+    border-radius: 12px !important;
+    position: relative !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    height: 140px !important;
+    z-index: 1 !important;
+    padding: 25px 20px !important;
+    border-style: solid !important;
+    border-width: 1px !important;
+    box-shadow: 0 1px 3px var(--v-shadow-02), 0 4px 6px var(--v-shadow-02) !important;
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1),
+                box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+}
+
+body[class*="course-"]:not(.editing) li.section:not(#section-0)::after {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+    width: 10px !important;
+    height: 100% !important;
+    z-index: 4 !important;
+    transition: background-color 0.6s ease !important;
+}
+
+body[class*="course-"]:not(.editing) li.section:not(#section-0)::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 0 !important;
+    height: 100% !important;
+    z-index: 2 !important;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+body[class*="course-"]:not(.editing) li.section:not(#section-0):hover {
+    transform: translateY(-10px) !important;
+    z-index: 5 !important;
+    box-shadow: 0 20px 25px -5px var(--v-shadow-08) !important;
+}
+
+body[class*="course-"]:not(.editing) li.section:not(#section-0):hover::before {
+    width: 100% !important;
+}
+
+/* 7. TÍTULOS */
+body[class*="course-"]:not(.editing) .sectionname {
+    z-index: 6 !important;
+    position: relative !important;
+    margin: 0 !important;
+}
+
+body[class*="course-"]:not(.editing) .sectionname::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 0 !important;
+    height: 100% !important;
+    z-index: 5 !important;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+body[class*="course-"]:not(.editing) .sectionname a {
+    color: var(--v-text) !important;
+    font-size: 1.1rem !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    text-decoration: none !important;
+    margin-left: 15px !important;
+    display: block !important;
+    transition: color 0.4s ease !important;
+}
+
+body[class*="course-"]:not(.editing) li.section:not(#section-0):hover .sectionname::before {
+    width: 10px !important;
+}
+
+body[class*="course-"]:not(.editing) li.section:not(#section-0):hover .sectionname a {
+    color: #ffffff !important;
+}
+
+/* CORES DAS SEÇÕES */
+body[class*="course-"]:not(.editing) li.section:nth-child(5n+2) { border-color: rgba(var(--v-blue-rgb), 0.5) !important; }
+body[class*="course-"]:not(.editing) li.section:nth-child(5n+2)::after { background-color: rgba(var(--v-blue-rgb), 0.5) !important; }
+body[class*="course-"]:not(.editing) li.section:nth-child(5n+2)::before,
+body[class*="course-"]:not(.editing) li.section:nth-child(5n+2) .sectionname::before { background-color: var(--v-blue) !important; }
+body[class*="course-"]:not(.editing) li.section:nth-child(5n+2):hover::after { background-color: rgba(var(--v-blue-rgb), 0.2) !important; }
+
+body[class*="course-"]:not(.editing) li.section:nth-child(5n+3) { border-color: rgba(var(--v-green-rgb), 0.5) !important; }
+body[class*="course-"]:not(.editing) li.section:nth-child(5n+3)::after { background-color: rgba(var(--v-green-rgb), 0.5) !important; }
+body[class*="course-"]:not(.editing) li.section:nth-child(5n+3)::before,
+body[class*="course-"]:not(.editing) li.section:nth-child(5n+3) .sectionname::before { background-color: var(--v-green) !important; }
+body[class*="course-"]:not(.editing) li.section:nth-child(5n+3):hover::after { background-color: rgba(var(--v-green-rgb), 0.2) !important; }
+
+body[class*="course-"]:not(.editing) li.section:nth-child(5n+4) { border-color: rgba(var(--v-red-rgb), 0.5) !important; }
+body[class*="course-"]:not(.editing) li.section:nth-child(5n+4)::after { background-color: rgba(var(--v-red-rgb), 0.5) !important; }
+body[class*="course-"]:not(.editing) li.section:nth-child(5n+4)::before,
+body[class*="course-"]:not(.editing) li.section:nth-child(5n+4) .sectionname::before { background-color: var(--v-red) !important; }
+body[class*="course-"]:not(.editing) li.section:nth-child(5n+4):hover::after { background-color: rgba(var(--v-red-rgb), 0.2) !important; }
+
+body[class*="course-"]:not(.editing) li.section:nth-child(5n+5) { border-color: rgba(var(--v-yellow-rgb), 0.5) !important; }
+body[class*="course-"]:not(.editing) li.section:nth-child(5n+5)::after { background-color: rgba(var(--v-yellow-rgb), 0.5) !important; }
+body[class*="course-"]:not(.editing) li.section:nth-child(5n+5)::before,
+body[class*="course-"]:not(.editing) li.section:nth-child(5n+5) .sectionname::before { background-color: var(--v-yellow) !important; }
+body[class*="course-"]:not(.editing) li.section:nth-child(5n+5):hover::after { background-color: rgba(var(--v-yellow-rgb), 0.2) !important; }
+
+body[class*="course-"]:not(.editing) li.section:nth-child(5n+6) { border-color: rgba(var(--v-purple-rgb), 0.5) !important; }
+body[class*="course-"]:not(.editing) li.section:nth-child(5n+6)::after { background-color: rgba(var(--v-purple-rgb), 0.5) !important; }
+body[class*="course-"]:not(.editing) li.section:nth-child(5n+6)::before,
+body[class*="course-"]:not(.editing) li.section:nth-child(5n+6) .sectionname::before { background-color: var(--v-purple) !important; }
+body[class*="course-"]:not(.editing) li.section:nth-child(5n+6):hover::after { background-color: rgba(var(--v-purple-rgb), 0.2) !important; }
+
+/* 8. RESET DA SEÇÃO 0 */
+body[class*="course-"]:not(.editing) #section-0 {
+    grid-column: 1 / -1 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin-bottom: 20px !important;
+}
+
+/* ======================================================================
+   MEDIA QUERIES (AGORA VÁLIDAS EM CSS PURO)
+   ====================================================================== */
+@media (min-width: 768px) {
+    body[class*="course-"]:not(.editing) .course-content ul.topics,
+    body[class*="course-"]:not(.editing) .course-content ul.sections {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     }
+}
 
-    /* 1. FUNDO E LARGURA */
-    #page.drawers { background-color: var(--v-bg) !important; }
-    .main-inner { max-width: 80% !important; margin: 0 auto !important; background-color: transparent !important; }
-
-    /* 2. CABEÇALHO: TÍTULO BRANCO E PROFISSIONAL */
-    #page-header h1,
-    .page-header-headings h1 {
-        color: var(--v-title) !important;
-        font-weight: 800 !important;
-        text-transform: uppercase !important;
-        letter-spacing: -1px !important;
-    }
-
-    /* 3. NAVEGAÇÃO SECUNDÁRIA: 100% E CENTRALIZADA */
-    .secondary-navigation {
-        width: 100vw !important;
-        position: relative !important;
-        left: 50% !important;
-        margin-left: -50vw !important;
-        background-color: var(--v-surface) !important;
-        border-bottom: 1px solid var(--v-border) !important;
-        padding: 0 10% !important;
-        z-index: 10;
-        box-shadow: 0 2px 5px var(--v-shadow-05) !important;
-    }
-
-    body[class*="course-"]:not(.editing) .secondary-navigation .navigation {
-        display: flex !important;
-        justify-content: center !important;
-        width: 100% !important;
-    }
-
-    body[class*="course-"]:not(.editing) .secondary-navigation .nav-tabs {
-        border: none !important;
-    }
-
-    /* 4. BLOCO PRINCIPAL: SOMBRA LATERAIS E BAIXO */
-    #region-main {
-        background-color: var(--v-surface) !important;
-        border-radius: 0 0 1em 1em !important;
-        border: 1px solid var(--v-border) !important;
-        border-top: none !important;
-        margin-top: 0 !important;
-        padding: 2rem !important;
-
-        box-shadow:
-            0px 8px 8px -4px var(--v-shadow-15),
-            4px 0px 8px -4px var(--v-shadow-15),
-            -4px 0px 8px -4px var(--v-shadow-15) !important;
-    }
-
-    /* 5. GRID DE CARDS */
-    .course-content ul.topics,
-    .course-content ul.sections {
-        display: grid !important;
-        grid-template-columns: 1fr !important;
-        gap: 22px !important;
-        list-style: none !important;
-        padding: 20px 0 !important;
-    }
-
-    @media (min-width: 768px) {
-        .course-content ul.topics,
-        .course-content ul.sections {
-            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-        }
-    }
-
-    @media (min-width: 1200px) {
-        .course-content ul.topics,
-        .course-content ul.sections {
-            grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-        }
-    }
-
-    /* 6. ESTILO DOS CARDS VINTAGE */
-    li.section:not(#section-0) {
-        background: var(--v-surface) !important;
-        border-radius: 12px !important;
-        position: relative;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        height: 140px !important;
-        z-index: 1;
-        padding: 25px 20px !important;
-        border-style: solid !important;
-        border-width: 1px !important;
-        box-shadow: 0 1px 3px var(--v-shadow-02), 0 4px 6px var(--v-shadow-02) !important;
-        transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1),
-                    box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
-    }
-
-    body[class*="course-"]:not(.editing) li.section:not(#section-0)::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 10px;
-        height: 100%;
-        z-index: 4;
-        transition: background-color 0.6s ease !important;
-    }
-
-    body[class*="course-"]:not(.editing) li.section:not(#section-0)::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 0;
-        height: 100%;
-        z-index: 2;
-        transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    }
-
-    body[class*="course-"]:not(.editing) li.section:not(#section-0):hover {
-        transform: translateY(-10px) !important;
-        z-index: 5 !important;
-        box-shadow: 0 20px 25px -5px var(--v-shadow-08) !important;
-    }
-
-    body[class*="course-"]:not(.editing) li.section:not(#section-0):hover::before {
-        width: 100% !important;
-    }
-
-    body[class*="course-"]:not(.editing) li.section:not(#section-0):hover .sectionname::before {
-        width: 10px !important;
-    }
-
-    body[class*="course-"]:not(.editing) li.section:not(#section-0):hover .sectionname a {
-        color: #ffffff !important;
-    }
-
-    /* 7. TITULOS E PALETA VINTAGE */
-    .sectionname { z-index: 6; position: relative; margin: 0 !important; }
-
-    body[class*="course-"]:not(.editing) .sectionname::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 0;
-        height: 100%;
-        z-index: 5;
-        transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    }
-
-    .sectionname a {
-        color: var(--v-text) !important;
-        font-size: 1.1rem !important;
-        font-weight: 800 !important;
-        text-transform: uppercase;
-        text-decoration: none !important;
-        margin-left: 15px;
-        display: block;
-        transition: color 0.4s ease !important;
-    }
-
-    /* Cores das Seções */
-    li.section:nth-child(5n+2) {
-        border-color: rgba(var(--v-blue-rgb), 0.5) !important;
-    }
-    body[class*="course-"]:not(.editing) li.section:nth-child(5n+2)::after { background-color: rgba(var(--v-blue-rgb), 0.5) !important; }
-    body[class*="course-"]:not(.editing) li.section:nth-child(5n+2)::before,
-    body[class*="course-"]:not(.editing) li.section:nth-child(5n+2) .sectionname::before { background-color: var(--v-blue) !important; }
-    body[class*="course-"]:not(.editing) li.section:nth-child(5n+2):hover::after { background-color: rgba(var(--v-blue-rgb), 0.2) !important; }
-
-    li.section:nth-child(5n+3) {
-        border-color: rgba(var(--v-green-rgb), 0.5) !important;
-    }
-    body[class*="course-"]:not(.editing) li.section:nth-child(5n+3)::after { background-color: rgba(var(--v-green-rgb), 0.5) !important; }
-    body[class*="course-"]:not(.editing) li.section:nth-child(5n+3)::before,
-    body[class*="course-"]:not(.editing) li.section:nth-child(5n+3) .sectionname::before { background-color: var(--v-green) !important; }
-    body[class*="course-"]:not(.editing) li.section:nth-child(5n+3):hover::after { background-color: rgba(var(--v-green-rgb), 0.2) !important; }
-
-    li.section:nth-child(5n+4) {
-        border-color: rgba(var(--v-red-rgb), 0.5) !important;
-    }
-    body[class*="course-"]:not(.editing) li.section:nth-child(5n+4)::after { background-color: rgba(var(--v-red-rgb), 0.5) !important; }
-    body[class*="course-"]:not(.editing) li.section:nth-child(5n+4)::before,
-    body[class*="course-"]:not(.editing) li.section:nth-child(5n+4) .sectionname::before { background-color: var(--v-red) !important; }
-    body[class*="course-"]:not(.editing) li.section:nth-child(5n+4):hover::after { background-color: rgba(var(--v-red-rgb), 0.2) !important; }
-
-    li.section:nth-child(5n+5) {
-        border-color: rgba(var(--v-yellow-rgb), 0.5) !important;
-    }
-    body[class*="course-"]:not(.editing) li.section:nth-child(5n+5)::after { background-color: rgba(var(--v-yellow-rgb), 0.5) !important; }
-    body[class*="course-"]:not(.editing) li.section:nth-child(5n+5)::before,
-    body[class*="course-"]:not(.editing) li.section:nth-child(5n+5) .sectionname::before { background-color: var(--v-yellow) !important; }
-    body[class*="course-"]:not(.editing) li.section:nth-child(5n+5):hover::after { background-color: rgba(var(--v-yellow-rgb), 0.2) !important; }
-
-    li.section:nth-child(5n+6) {
-        border-color: rgba(var(--v-purple-rgb), 0.5) !important;
-    }
-    body[class*="course-"]:not(.editing) li.section:nth-child(5n+6)::after { background-color: rgba(var(--v-purple-rgb), 0.5) !important; }
-    body[class*="course-"]:not(.editing) li.section:nth-child(5n+6)::before,
-    body[class*="course-"]:not(.editing) li.section:nth-child(5n+6) .sectionname::before { background-color: var(--v-purple) !important; }
-    body[class*="course-"]:not(.editing) li.section:nth-child(5n+6):hover::after { background-color: rgba(var(--v-purple-rgb), 0.2) !important; }
-
-    /* 8. RESET DA SEÇÃO 0 */
-    #section-0 {
-        grid-column: 1 / -1 !important;
-        background: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
-        padding: 0 !important;
-        margin-bottom: 20px !important;
+@media (min-width: 1200px) {
+    body[class*="course-"]:not(.editing) .course-content ul.topics,
+    body[class*="course-"]:not(.editing) .course-content ul.sections {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
     }
 }
 
@@ -284,6 +285,10 @@ body[class*="course-"]:not(.editing) { /*Ativa a nova interface a todos os curso
         margin: 0 !important;
     }
 }
+
+/* ======================================================================
+   RESTANTE DO SEU CSS (SEM ALTERAÇÃO DE LÓGICA, APENAS TOKENS ONDE JÁ ESTAVA)
+   ====================================================================== */
 
 @media (min-width: 768px){
     .pagelayout-standard #page.drawers .main-inner, body.limitedwidth #page.drawers .main-inner {
@@ -319,7 +324,7 @@ div.loginform>div.d-flex{
 }
 
 a[href*="/?redirect=0"]{
-    Display: none !important;
+    display: none !important;
 }
 
 /*______________________________________Slideshow______________________________________*/
@@ -337,23 +342,14 @@ a[href*="/?redirect=0"]{
     height: 100%;
 }
 
-.slick-prev {
-    left:0px !important;
-}
-
-.slick-next{
-    right:0px !important;
-}
+.slick-prev { left:0px !important; }
+.slick-next { right:0px !important; }
 
 /*---------------------------Caixa de seleção Cohort-------------------------------------*/
-select#id_config_cohorts {
-    height: 300px;
-}
+select#id_config_cohorts { height: 300px; }
 
 /*---------------------------Botões do Ava-------------------------------------*/
-a {
-    color: var(--v-link);
-}
+a { color: var(--v-link); }
 
 .drawer-toggles .drawer-toggler .btn {
     background-color: var(--v-brand);
@@ -373,43 +369,29 @@ a {
 }
 
 /*---------------------------Fullscreen Atto-----------------------------*/
-.editor_atto_wrap {
-    position: relative;
-    z-index: 1029;
-}
+.editor_atto_wrap { position: relative; z-index: 1029; }
 
 /*---------------------------Time do Quiz-------------------------------------*/
-#quiz-timer-wrapper {
-    /* position: inherit;
-       font-size: larger; */
-    top: 0px ;
-}
+#quiz-timer-wrapper { top: 0px ; }
 
 /*-----------------------------Rodapé ------------------------------*/
 a[href^="https://docs.moodle.org/400/pt_br/admin/user"]{
-    Display: none !important;
+    display: none !important;
 }
 
 /*jandeir*/
 /*---------------------------------Esconde menu de atividade e recursos-------------------------------*/
 div.sitetopic>ul.topics>li#section-1>div#coursecontentcollapse1>ul.section {
     display:none!important;
-    visible:hidden;
+    visibility:hidden;
 }
 
 /*---------------------------Vlibras Lado Esquerdo---------------------------*/
-[vw] [vw-plugin-wrapper].active {
-    right: revert !important;
-}
-
-div[vw] {
-    right: revert !important;
-}
+[vw] [vw-plugin-wrapper].active { right: revert !important; }
+div[vw] { right: revert !important; }
 
 /*______________________________________Bloco de Políticas______________________________________*/
-.card.cardpolitica {
-    display: none;
-}
+.card.cardpolitica { display: none; }
 
 /*___________________________Bloco de Progressão do Aluno___________________________*/
 .block_completion_progress .progressBarCell.futureNotCompleted {
@@ -427,9 +409,7 @@ div[vw] {
     background-color: var(--v-brand)  !important;
 }
 
-a.arrow_link.previous, a.arrow_link.next {
-    color: var(--v-brand)  !important;
-}
+a.arrow_link.previous, a.arrow_link.next { color: var(--v-brand)  !important; }
 
 section:not(#region-main) .block.block_calendar_month .maincalendar .calendartable.calendarmonth td.hasevent .day-number:before {
     color: var(--v-brand) !important;
@@ -447,17 +427,10 @@ section:not(#region-main) .block.block_calendar_month .maincalendar .calendartab
 }
 
 /*___________________________Botão do Menu___________________________*/
-.navbar.fixed-top {
-    border-bottom: var(--v-brand) 2px solid !important;
-}
+.navbar.fixed-top { border-bottom: var(--v-brand) 2px solid !important; }
 
-.moremenu .nav-link.active {
-    border-bottom-color: var(--v-link);
-}
-
-.moremenu .nav-link.active:hover {
-    border-bottom-color: var(--v-brand);
-}
+.moremenu .nav-link.active { border-bottom-color: var(--v-link); }
+.moremenu .nav-link.active:hover { border-bottom-color: var(--v-brand); }
 
 /*___________________________Supporter___________________________*/
 .row-fluid {
@@ -473,9 +446,7 @@ section:not(#region-main) .block.block_calendar_month .maincalendar .calendartab
 }
 
 /*______________________________________Bloco dos Cursos______________________________________*/
-div#overlay {
-    z-index: 0 !important;
-}
+div#overlay { z-index: 0 !important; }
 
 .format-tiles .course-content ul.tiles .tile.phototile .photo-tile-text h3 {
     background-color: #ffffffb0 !important;
@@ -486,9 +457,7 @@ div#overlay {
     color: #535353 !important;
 }
 
-.format-tiles ul.tiles .tile .tile-text {
-    height: 40px !important;
-}
+.format-tiles ul.tiles .tile .tile-text { height: 40px !important; }
 
 .format-tiles .course-content ul.tiles .tile,
 .format-tiles .course-content ul.tiles .tile_bar,
@@ -497,13 +466,8 @@ div#overlay {
     border-radius: 5px !important;
 }
 
-.format-tiles li.activity.subtile {
-    height: 160px;
-}
-
-.format-tiles li.activity.subtile .activitytitle a {
-    background-image:none
-}
+.format-tiles li.activity.subtile { height: 160px; }
+.format-tiles li.activity.subtile .activitytitle a { background-image:none }
 
 @media screen and (max-width: 600px){
     .format-tiles .course-content ul.tiles .tile:not(.spacer) {
@@ -513,22 +477,16 @@ div#overlay {
 }
 
 @media screen and (max-width: 600px){
-    .format-tiles ul.tiles .tile h3 {
-        font-size: 0.9em !important;
-    }
+    .format-tiles ul.tiles .tile h3 { font-size: 0.9em !important; }
 }
 
 /*______________________________________Bloco internos do Bloco______________________________________*/
-li.activity.subtile {
-    border-radius: 10px;
-}
+li.activity.subtile { border-radius: 10px; }
 
-.format-tiles li.activity.subtile {
-    border-top-color: #4b1c83 !important;
-}
+.format-tiles li.activity.subtile { border-top-color: #4b1c83 !important; }
 .format-tiles li.activity.subtile:hover {
     border-top-color: #db0a84 !important;
-    transition: border-top-color 0.3s !important
+    transition: border-top-color 0.3s !important;
 }
 
 /*---------------------------Botoes nav vintage---------------------------*/
@@ -546,9 +504,7 @@ li.activity.subtile {
     text-align: center;
 }
 
-.vintage-nav-row .btn-v-final span {
-    white-space: nowrap;
-}
+.vintage-nav-row .btn-v-final span { white-space: nowrap; }
 
 @media (max-width: 768px) {
     .vintage-nav-row {
@@ -695,11 +651,7 @@ li.activity:has([data-ui-reset="true"]),
     }
 }
 
-/*Botões do painel*/
- /* =========================================
-           RESET DO CONTAINER DO MOODLE (FORÇA BRUTA)
-           ========================================= */
-
+/*Botões do painel */
 li.activity:has([data-ui-reset="true"]),
 .activity-item:has([data-ui-reset="true"]) {
     padding: 0 !important;
@@ -728,10 +680,6 @@ li.activity:has([data-ui-reset="true"]),
     display: contents !important;
     margin: 0 !important;
 }
-
-/* =========================================
-   ESTILO DOS TILES (VINTAGE SOFISTICADO)
-   ========================================= */
 
 .tiles-grid {
     display: flex;
@@ -765,7 +713,6 @@ li.activity:has([data-ui-reset="true"]),
     filter: brightness(1.1);
 }
 
-/* Paleta Vintage Joia (Tiles) */
 .t-v-blue   { background: linear-gradient(135deg, var(--v-blue) 0%,   var(--v-blue-2) 100%); }
 .t-v-green  { background: linear-gradient(135deg, var(--v-green) 0%,  var(--v-green-2) 100%); }
 .t-v-red    { background: linear-gradient(135deg, var(--v-red) 0%,    var(--v-red-2) 100%); }
@@ -791,63 +738,4 @@ li.activity:has([data-ui-reset="true"]),
     font-weight: 600;
     letter-spacing: 0.02em;
     text-shadow: 0 1px 3px rgba(0,0,0,0.3);
-}
-
-/* ============================
-   FIX ANIMAÇÕES DOS CARDS
-   ============================ */
-body[class*="course-"]:not(.editing) li.section:not(#section-0) {
-    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1),
-                box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
-}
-
-body[class*="course-"]:not(.editing) li.section:not(#section-0)::before {
-    content: "" !important;
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 0 !important;
-    height: 100% !important;
-    z-index: 2 !important;
-    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
-}
-
-body[class*="course-"]:not(.editing) li.section:not(#section-0)::after {
-    content: "" !important;
-    position: absolute !important;
-    top: 0 !important;
-    right: 0 !important;
-    width: 10px !important;
-    height: 100% !important;
-    z-index: 4 !important;
-    transition: background-color 0.6s ease !important;
-}
-
-body[class*="course-"]:not(.editing) li.section:not(#section-0):hover {
-    transform: translateY(-10px) !important;
-    z-index: 5 !important;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08) !important;
-}
-
-body[class*="course-"]:not(.editing) li.section:not(#section-0):hover::before {
-    width: 100% !important;
-}
-
-body[class*="course-"]:not(.editing) .sectionname::before {
-    content: "" !important;
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 0 !important;
-    height: 100% !important;
-    z-index: 5 !important;
-    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
-}
-
-body[class*="course-"]:not(.editing) li.section:not(#section-0):hover .sectionname::before {
-    width: 10px !important;
-}
-
-body[class*="course-"]:not(.editing) li.section:not(#section-0):hover .sectionname a {
-    color: #ffffff !important;
 }
