@@ -1,0 +1,127 @@
+/* ==========================================================================
+   CARDS APENAS NA VISÃO GERAL (OPT-IN)
+   Se houver 2+ seções na lista, aplica o visual de cards.
+   Se for seção única (&section=...), não aplica nada (Moodle padrão).
+   ========================================================================== */
+
+/* ===== GRID APENAS QUANDO FOR VISÃO GERAL (tem 2ª seção) ===== */
+body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.topics > li.section:nth-child(2)) .course-content ul.topics,
+body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.sections > li.section:nth-child(2)) .course-content ul.sections {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 22px !important;
+    list-style: none !important;
+    padding: 20px 0 !important;
+}
+
+/* Responsivo do grid só na visão geral */
+@media (min-width: 768px) {
+    body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.topics > li.section:nth-child(2)) .course-content ul.topics,
+    body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.sections > li.section:nth-child(2)) .course-content ul.sections {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+@media (min-width: 1200px) {
+    body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.topics > li.section:nth-child(2)) .course-content ul.topics,
+    body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.sections > li.section:nth-child(2)) .course-content ul.sections {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+}
+
+/* ===== CARD APENAS QUANDO FOR VISÃO GERAL ===== */
+body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.topics > li.section:nth-child(2)) li.section:not(#section-0),
+body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.sections > li.section:nth-child(2)) li.section:not(#section-0) {
+    background: var(--v-surface) !important;
+    border-radius: 12px !important;
+    position: relative !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    height: 140px !important;
+    z-index: 1 !important;
+    padding: 25px 20px !important;
+    border-style: solid !important;
+    border-width: 1px !important;
+    box-shadow: 0 1px 3px var(--v-shadow-02), 0 4px 6px var(--v-shadow-02) !important;
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1),
+                box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+}
+
+body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.topics > li.section:nth-child(2)) li.section:not(#section-0)::before,
+body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.sections > li.section:nth-child(2)) li.section:not(#section-0)::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 0 !important;
+    height: 100% !important;
+    z-index: 2 !important;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.topics > li.section:nth-child(2)) li.section:not(#section-0)::after,
+body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.sections > li.section:nth-child(2)) li.section:not(#section-0)::after {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+    width: 10px !important;
+    height: 100% !important;
+    z-index: 4 !important;
+    transition: background-color 0.6s ease !important;
+}
+
+body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.topics > li.section:nth-child(2)) li.section:not(#section-0):hover,
+body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.sections > li.section:nth-child(2)) li.section:not(#section-0):hover {
+    transform: translateY(-10px) !important;
+    z-index: 5 !important;
+    box-shadow: 0 20px 25px -5px var(--v-shadow-08) !important;
+}
+
+body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.topics > li.section:nth-child(2)) li.section:not(#section-0):hover::before,
+body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.sections > li.section:nth-child(2)) li.section:not(#section-0):hover::before {
+    width: 100% !important;
+}
+
+/* Títulos só no modo card (visão geral) */
+body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.topics > li.section:nth-child(2)) .sectionname,
+body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.sections > li.section:nth-child(2)) .sectionname {
+    z-index: 6 !important;
+    position: relative !important;
+    margin: 0 !important;
+}
+
+body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.topics > li.section:nth-child(2)) .sectionname::before,
+body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.sections > li.section:nth-child(2)) .sectionname::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 0 !important;
+    height: 100% !important;
+    z-index: 5 !important;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.topics > li.section:nth-child(2)) li.section:not(#section-0):hover .sectionname::before,
+body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.sections > li.section:nth-child(2)) li.section:not(#section-0):hover .sectionname::before {
+    width: 10px !important;
+}
+
+body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.topics > li.section:nth-child(2)) .sectionname a,
+body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.sections > li.section:nth-child(2)) .sectionname a {
+    color: var(--v-text) !important;
+    font-size: 1.1rem !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    text-decoration: none !important;
+    margin-left: 15px !important;
+    display: block !important;
+    transition: color 0.4s ease !important;
+}
+
+body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.topics > li.section:nth-child(2)) li.section:not(#section-0):hover .sectionname a,
+body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.sections > li.section:nth-child(2)) li.section:not(#section-0):hover .sectionname a {
+    color: #ffffff !important;
+}
