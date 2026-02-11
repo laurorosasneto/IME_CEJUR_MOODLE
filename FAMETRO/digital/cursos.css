@@ -1,12 +1,85 @@
 /* ==========================================================================
-   CARDS APENAS NA VISÃO GERAL (OPT-IN)
-   Se houver 2+ seções na lista, aplica o visual de cards.
-   Se for seção única (&section=...), não aplica nada (Moodle padrão).
+   CURSOS — TUDO QUE É “PÁGINA DE CURSO” FICA AQUI
+   (movido do digital.css sem alterar estilos)
    ========================================================================== */
 
-/* ===== GRID APENAS QUANDO FOR VISÃO GERAL (tem 2ª seção) ===== */
-body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.topics > li.section:nth-child(2)) .course-content ul.topics,
-body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.sections > li.section:nth-child(2)) .course-content ul.sections {
+/* Garantia de fundo para a visualização de tópicos */
+#page-course-view-topics #page.drawers {
+    background-color: var(--v-bg) !important;
+}
+
+/* ======================================================================
+   APLICAÇÃO PARA TODOS OS CURSOS (CSS PURO, SEM NESTING)
+   ====================================================================== */
+body[class*="course-"]:not(.editing) li.section[data-number="0"] .sectionname {
+    display: none !important;
+}
+
+/* 1. FUNDO E LARGURA */
+body[class*="course-"]:not(.editing) #page.drawers {
+    background-color: var(--v-bg) !important;
+}
+
+body[class*="course-"]:not(.editing) .main-inner {
+    max-width: 80% !important;
+    margin: 0 auto !important;
+    background-color: transparent !important;
+}
+
+/* 2. CABEÇALHO: TÍTULO */
+body[class*="course-"]:not(.editing) #page-header h1,
+body[class*="course-"]:not(.editing) .page-header-headings h1 {
+    color: var(--v-title) !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: -1px !important;
+}
+
+/* 3. NAVEGAÇÃO SECUNDÁRIA */
+body[class*="course-"]:not(.editing) .secondary-navigation {
+    width: 100vw !important;
+    position: relative !important;
+    left: 50% !important;
+    margin-left: -50vw !important;
+    background-color: var(--v-surface) !important;
+    border-bottom: 1px solid var(--v-border) !important;
+    padding: 0 10% !important;
+    z-index: 10;
+    box-shadow: 0 2px 5px var(--v-shadow-05) !important;
+}
+
+body[class*="course-"]:not(.editing) .secondary-navigation .navigation {
+    display: flex !important;
+    justify-content: center !important;
+    width: 100% !important;
+}
+
+body[class*="course-"]:not(.editing) .secondary-navigation .nav-tabs {
+    border: none !important;
+}
+
+/* 4. BLOCO PRINCIPAL */
+body[class*="course-"]:not(.editing) #region-main {
+    background-color: var(--v-surface) !important;
+    border-radius: 0 0 1em 1em !important;
+    border: 1px solid var(--v-border) !important;
+    border-top: none !important;
+    margin-top: 0 !important;
+    padding: 2rem !important;
+    box-shadow:
+        0px 8px 8px -4px var(--v-shadow-15),
+        4px 0px 8px -4px var(--v-shadow-15),
+        -4px 0px 8px -4px var(--v-shadow-15) !important;
+}
+
+/* ==========================================================================
+   CARDS (VISÃO GERAL) — sem :has()
+   Aplica cards apenas quando NÃO for "single-section".
+   ========================================================================== */
+
+/* 5. GRID DE CARDS — SOMENTE NA VISÃO GERAL */
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) .course-content ul.topics,
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) .course-content ul.sections {
     display: grid !important;
     grid-template-columns: 1fr !important;
     gap: 22px !important;
@@ -16,21 +89,21 @@ body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content
 
 /* Responsivo do grid só na visão geral */
 @media (min-width: 768px) {
-    body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.topics > li.section:nth-child(2)) .course-content ul.topics,
-    body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.sections > li.section:nth-child(2)) .course-content ul.sections {
+    body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) .course-content ul.topics,
+    body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) .course-content ul.sections {
         grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     }
 }
+
 @media (min-width: 1200px) {
-    body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.topics > li.section:nth-child(2)) .course-content ul.topics,
-    body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.sections > li.section:nth-child(2)) .course-content ul.sections {
+    body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) .course-content ul.topics,
+    body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) .course-content ul.sections {
         grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
     }
 }
 
-/* ===== CARD APENAS QUANDO FOR VISÃO GERAL ===== */
-body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.topics > li.section:nth-child(2)) li.section:not(#section-0),
-body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.sections > li.section:nth-child(2)) li.section:not(#section-0) {
+/* 6. ESTILO DOS CARDS VINTAGE — SOMENTE NA VISÃO GERAL */
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:not(#section-0) {
     background: var(--v-surface) !important;
     border-radius: 12px !important;
     position: relative !important;
@@ -48,20 +121,7 @@ body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content
                 box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
 }
 
-body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.topics > li.section:nth-child(2)) li.section:not(#section-0)::before,
-body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.sections > li.section:nth-child(2)) li.section:not(#section-0)::before {
-    content: "" !important;
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 0 !important;
-    height: 100% !important;
-    z-index: 2 !important;
-    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
-}
-
-body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.topics > li.section:nth-child(2)) li.section:not(#section-0)::after,
-body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.sections > li.section:nth-child(2)) li.section:not(#section-0)::after {
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:not(#section-0)::after {
     content: "" !important;
     position: absolute !important;
     top: 0 !important;
@@ -72,28 +132,35 @@ body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content
     transition: background-color 0.6s ease !important;
 }
 
-body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.topics > li.section:nth-child(2)) li.section:not(#section-0):hover,
-body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.sections > li.section:nth-child(2)) li.section:not(#section-0):hover {
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:not(#section-0)::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 0 !important;
+    height: 100% !important;
+    z-index: 2 !important;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:not(#section-0):hover {
     transform: translateY(-10px) !important;
     z-index: 5 !important;
     box-shadow: 0 20px 25px -5px var(--v-shadow-08) !important;
 }
 
-body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.topics > li.section:nth-child(2)) li.section:not(#section-0):hover::before,
-body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.sections > li.section:nth-child(2)) li.section:not(#section-0):hover::before {
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:not(#section-0):hover::before {
     width: 100% !important;
 }
 
-/* Títulos só no modo card (visão geral) */
-body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.topics > li.section:nth-child(2)) .sectionname,
-body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.sections > li.section:nth-child(2)) .sectionname {
+/* 7. TÍTULOS — SOMENTE NA VISÃO GERAL */
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) .sectionname {
     z-index: 6 !important;
     position: relative !important;
     margin: 0 !important;
 }
 
-body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.topics > li.section:nth-child(2)) .sectionname::before,
-body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.sections > li.section:nth-child(2)) .sectionname::before {
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) .sectionname::before {
     content: "" !important;
     position: absolute !important;
     top: 0 !important;
@@ -104,13 +171,7 @@ body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content
     transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.topics > li.section:nth-child(2)) li.section:not(#section-0):hover .sectionname::before,
-body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.sections > li.section:nth-child(2)) li.section:not(#section-0):hover .sectionname::before {
-    width: 10px !important;
-}
-
-body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.topics > li.section:nth-child(2)) .sectionname a,
-body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.sections > li.section:nth-child(2)) .sectionname a {
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) .sectionname a {
     color: var(--v-text) !important;
     font-size: 1.1rem !important;
     font-weight: 800 !important;
@@ -121,7 +182,51 @@ body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content
     transition: color 0.4s ease !important;
 }
 
-body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.topics > li.section:nth-child(2)) li.section:not(#section-0):hover .sectionname a,
-body#page-course-view-topics[class*="course-"]:not(.editing):has(.course-content ul.sections > li.section:nth-child(2)) li.section:not(#section-0):hover .sectionname a {
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:not(#section-0):hover .sectionname::before {
+    width: 10px !important;
+}
+
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:not(#section-0):hover .sectionname a {
     color: #ffffff !important;
+}
+
+/* CORES DAS SEÇÕES — SOMENTE NA VISÃO GERAL */
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+2) { border-color: rgba(var(--v-blue-rgb), 0.5) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+2)::after { background-color: rgba(var(--v-blue-rgb), 0.5) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+2)::before,
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+2) .sectionname::before { background-color: var(--v-blue) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+2):hover::after { background-color: rgba(var(--v-blue-rgb), 0.2) !important; }
+
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+3) { border-color: rgba(var(--v-green-rgb), 0.5) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+3)::after { background-color: rgba(var(--v-green-rgb), 0.5) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+3)::before,
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+3) .sectionname::before { background-color: var(--v-green) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+3):hover::after { background-color: rgba(var(--v-green-rgb), 0.2) !important; }
+
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+4) { border-color: rgba(var(--v-red-rgb), 0.5) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+4)::after { background-color: rgba(var(--v-red-rgb), 0.5) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+4)::before,
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+4) .sectionname::before { background-color: var(--v-red) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+4):hover::after { background-color: rgba(var(--v-red-rgb), 0.2) !important; }
+
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+5) { border-color: rgba(var(--v-yellow-rgb), 0.5) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+5)::after { background-color: rgba(var(--v-yellow-rgb), 0.5) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+5)::before,
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+5) .sectionname::before { background-color: var(--v-yellow) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+5):hover::after { background-color: rgba(var(--v-yellow-rgb), 0.2) !important; }
+
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+6) { border-color: rgba(var(--v-purple-rgb), 0.5) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+6)::after { background-color: rgba(var(--v-purple-rgb), 0.5) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+6)::before,
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+6) .sectionname::before { background-color: var(--v-purple) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+6):hover::after { background-color: rgba(var(--v-purple-rgb), 0.2) !important; }
+
+/* 8. RESET DA SEÇÃO 0 — SOMENTE NA VISÃO GERAL (quando está em grid) */
+body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) #section-0 {
+    grid-column: 1 / -1 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin-bottom: 20px !important;
 }
