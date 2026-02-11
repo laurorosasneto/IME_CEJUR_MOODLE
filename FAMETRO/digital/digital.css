@@ -606,3 +606,10 @@ li.activity:has([data-ui-reset="true"]),
         margin-top: 0px!important;
     }
 }
+
+#region-main,
+.region-main,
+.drawer,
+.block-region {
+    overflow: visible !important;
+}
