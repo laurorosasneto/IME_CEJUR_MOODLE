@@ -739,3 +739,71 @@ li.activity:has([data-ui-reset="true"]),
     letter-spacing: 0.02em;
     text-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
+
+
+/*single section*/
+/* ==========================================================================
+   MODO "SEÇÃO ÚNICA" (URL com &section=...) — VOLTA AO PADRÃO DO MOODLE
+   Objetivo: quando abrir uma seção, não manter layout de "cards" que esconde conteúdo
+   ========================================================================== */
+
+/* A maioria dos formatos (Topics) marca o body com 'single-section' quando abre uma seção */
+body#page-course-view-topics.single-section .course-content ul.topics,
+body#page-course-view-topics.single-section .course-content ul.sections,
+body#page-course-view-topics[class*="single-section"] .course-content ul.topics,
+body#page-course-view-topics[class*="single-section"] .course-content ul.sections {
+    display: block !important;              /* remove grid */
+    padding: 0 !important;
+    gap: 0 !important;
+}
+
+/* Remove o "card" e devolve o comportamento padrão da seção (altura automática + conteúdo visível) */
+body#page-course-view-topics.single-section li.section,
+body#page-course-view-topics[class*="single-section"] li.section {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+
+    height: auto !important;
+    padding: 0 !important;
+    overflow: visible !important;
+
+    position: static !important;
+    transform: none !important;
+}
+
+/* Desliga as camadas decorativas que podem cobrir o conteúdo */
+body#page-course-view-topics.single-section li.section::before,
+body#page-course-view-topics.single-section li.section::after,
+body#page-course-view-topics[class*="single-section"] li.section::before,
+body#page-course-view-topics[class*="single-section"] li.section::after {
+    content: none !important;
+    display: none !important;
+}
+
+/* Título volta ao normal (sem “faixa” animada) */
+body#page-course-view-topics.single-section .sectionname::before,
+body#page-course-view-topics[class*="single-section"] .sectionname::before {
+    content: none !important;
+    display: none !important;
+}
+
+/* Remove efeitos no hover nesse modo */
+body#page-course-view-topics.single-section li.section:hover,
+body#page-course-view-topics[class*="single-section"] li.section:hover {
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* Garante que os conteúdos internos da seção sejam exibidos normalmente */
+body#page-course-view-topics.single-section li.section .content,
+body#page-course-view-topics.single-section li.section .section,
+body#page-course-view-topics.single-section li.section .activity,
+body#page-course-view-topics[class*="single-section"] li.section .content,
+body#page-course-view-topics[class*="single-section"] li.section .section,
+body#page-course-view-topics[class*="single-section"] li.section .activity {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
