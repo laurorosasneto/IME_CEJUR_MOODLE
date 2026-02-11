@@ -73,13 +73,22 @@ body[class*="course-"]:not(.editing) #region-main {
 }
 
 /* ==========================================================================
-   CARDS (VISÃO GERAL) — sem :has()
-   Aplica cards apenas quando NÃO for "single-section".
+   CARDS (VISÃO GERAL) — correção segura para o "single section"
+   - O Moodle deixa uma lista geral no DOM mesmo no single section.
+   - Então "não ter .single-section no body" NÃO é condição suficiente.
+   - Regra: aplicar cards apenas quando NÃO existir o container .single-section
+     E quando existir pelo menos a seção #section-2 (visão geral real).
    ========================================================================== */
 
 /* 5. GRID DE CARDS — SOMENTE NA VISÃO GERAL */
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) .course-content ul.topics,
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) .course-content ul.sections {
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    .course-content ul.topics,
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.sections > li#section-2)
+    .course-content ul.sections {
     display: grid !important;
     grid-template-columns: 1fr !important;
     gap: 22px !important;
@@ -89,21 +98,40 @@ body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section
 
 /* Responsivo do grid só na visão geral */
 @media (min-width: 768px) {
-    body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) .course-content ul.topics,
-    body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) .course-content ul.sections {
+    body#page-course-view-topics[class*="course-"]:not(.editing)
+        :not(:has(.single-section))
+        :has(.course-content ul.topics > li#section-2)
+        .course-content ul.topics,
+    body#page-course-view-topics[class*="course-"]:not(.editing)
+        :not(:has(.single-section))
+        :has(.course-content ul.sections > li#section-2)
+        .course-content ul.sections {
         grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     }
 }
 
 @media (min-width: 1200px) {
-    body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) .course-content ul.topics,
-    body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) .course-content ul.sections {
+    body#page-course-view-topics[class*="course-"]:not(.editing)
+        :not(:has(.single-section))
+        :has(.course-content ul.topics > li#section-2)
+        .course-content ul.topics,
+    body#page-course-view-topics[class*="course-"]:not(.editing)
+        :not(:has(.single-section))
+        :has(.course-content ul.sections > li#section-2)
+        .course-content ul.sections {
         grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
     }
 }
 
 /* 6. ESTILO DOS CARDS VINTAGE — SOMENTE NA VISÃO GERAL */
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:not(#section-0) {
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:not(#section-0),
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.sections > li#section-2)
+    li.section:not(#section-0) {
     background: var(--v-surface) !important;
     border-radius: 12px !important;
     position: relative !important;
@@ -121,7 +149,14 @@ body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section
                 box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
 }
 
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:not(#section-0)::after {
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:not(#section-0)::after,
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.sections > li#section-2)
+    li.section:not(#section-0)::after {
     content: "" !important;
     position: absolute !important;
     top: 0 !important;
@@ -132,7 +167,14 @@ body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section
     transition: background-color 0.6s ease !important;
 }
 
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:not(#section-0)::before {
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:not(#section-0)::before,
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.sections > li#section-2)
+    li.section:not(#section-0)::before {
     content: "" !important;
     position: absolute !important;
     top: 0 !important;
@@ -143,24 +185,52 @@ body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section
     transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:not(#section-0):hover {
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:not(#section-0):hover,
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.sections > li#section-2)
+    li.section:not(#section-0):hover {
     transform: translateY(-10px) !important;
     z-index: 5 !important;
     box-shadow: 0 20px 25px -5px var(--v-shadow-08) !important;
 }
 
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:not(#section-0):hover::before {
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:not(#section-0):hover::before,
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.sections > li#section-2)
+    li.section:not(#section-0):hover::before {
     width: 100% !important;
 }
 
 /* 7. TÍTULOS — SOMENTE NA VISÃO GERAL */
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) .sectionname {
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    .sectionname,
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.sections > li#section-2)
+    .sectionname {
     z-index: 6 !important;
     position: relative !important;
     margin: 0 !important;
 }
 
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) .sectionname::before {
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    .sectionname::before,
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.sections > li#section-2)
+    .sectionname::before {
     content: "" !important;
     position: absolute !important;
     top: 0 !important;
@@ -171,7 +241,14 @@ body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section
     transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) .sectionname a {
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    .sectionname a,
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.sections > li#section-2)
+    .sectionname a {
     color: var(--v-text) !important;
     font-size: 1.1rem !important;
     font-weight: 800 !important;
@@ -182,47 +259,143 @@ body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section
     transition: color 0.4s ease !important;
 }
 
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:not(#section-0):hover .sectionname::before {
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:not(#section-0):hover .sectionname::before,
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.sections > li#section-2)
+    li.section:not(#section-0):hover .sectionname::before {
     width: 10px !important;
 }
 
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:not(#section-0):hover .sectionname a {
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:not(#section-0):hover .sectionname a,
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.sections > li#section-2)
+    li.section:not(#section-0):hover .sectionname a {
     color: #ffffff !important;
 }
 
 /* CORES DAS SEÇÕES — SOMENTE NA VISÃO GERAL */
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+2) { border-color: rgba(var(--v-blue-rgb), 0.5) !important; }
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+2)::after { background-color: rgba(var(--v-blue-rgb), 0.5) !important; }
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+2)::before,
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+2) .sectionname::before { background-color: var(--v-blue) !important; }
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+2):hover::after { background-color: rgba(var(--v-blue-rgb), 0.2) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:nth-child(5n+2) { border-color: rgba(var(--v-blue-rgb), 0.5) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:nth-child(5n+2)::after { background-color: rgba(var(--v-blue-rgb), 0.5) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:nth-child(5n+2)::before,
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:nth-child(5n+2) .sectionname::before { background-color: var(--v-blue) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:nth-child(5n+2):hover::after { background-color: rgba(var(--v-blue-rgb), 0.2) !important; }
 
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+3) { border-color: rgba(var(--v-green-rgb), 0.5) !important; }
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+3)::after { background-color: rgba(var(--v-green-rgb), 0.5) !important; }
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+3)::before,
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+3) .sectionname::before { background-color: var(--v-green) !important; }
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+3):hover::after { background-color: rgba(var(--v-green-rgb), 0.2) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:nth-child(5n+3) { border-color: rgba(var(--v-green-rgb), 0.5) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:nth-child(5n+3)::after { background-color: rgba(var(--v-green-rgb), 0.5) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:nth-child(5n+3)::before,
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:nth-child(5n+3) .sectionname::before { background-color: var(--v-green) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:nth-child(5n+3):hover::after { background-color: rgba(var(--v-green-rgb), 0.2) !important; }
 
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+4) { border-color: rgba(var(--v-red-rgb), 0.5) !important; }
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+4)::after { background-color: rgba(var(--v-red-rgb), 0.5) !important; }
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+4)::before,
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+4) .sectionname::before { background-color: var(--v-red) !important; }
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+4):hover::after { background-color: rgba(var(--v-red-rgb), 0.2) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:nth-child(5n+4) { border-color: rgba(var(--v-red-rgb), 0.5) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:nth-child(5n+4)::after { background-color: rgba(var(--v-red-rgb), 0.5) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:nth-child(5n+4)::before,
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:nth-child(5n+4) .sectionname::before { background-color: var(--v-red) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:nth-child(5n+4):hover::after { background-color: rgba(var(--v-red-rgb), 0.2) !important; }
 
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+5) { border-color: rgba(var(--v-yellow-rgb), 0.5) !important; }
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+5)::after { background-color: rgba(var(--v-yellow-rgb), 0.5) !important; }
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+5)::before,
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+5) .sectionname::before { background-color: var(--v-yellow) !important; }
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+5):hover::after { background-color: rgba(var(--v-yellow-rgb), 0.2) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:nth-child(5n+5) { border-color: rgba(var(--v-yellow-rgb), 0.5) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:nth-child(5n+5)::after { background-color: rgba(var(--v-yellow-rgb), 0.5) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:nth-child(5n+5)::before,
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:nth-child(5n+5) .sectionname::before { background-color: var(--v-yellow) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:nth-child(5n+5):hover::after { background-color: rgba(var(--v-yellow-rgb), 0.2) !important; }
 
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+6) { border-color: rgba(var(--v-purple-rgb), 0.5) !important; }
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+6)::after { background-color: rgba(var(--v-purple-rgb), 0.5) !important; }
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+6)::before,
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+6) .sectionname::before { background-color: var(--v-purple) !important; }
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) li.section:nth-child(5n+6):hover::after { background-color: rgba(var(--v-purple-rgb), 0.2) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:nth-child(5n+6) { border-color: rgba(var(--v-purple-rgb), 0.5) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:nth-child(5n+6)::after { background-color: rgba(var(--v-purple-rgb), 0.5) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:nth-child(5n+6)::before,
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:nth-child(5n+6) .sectionname::before { background-color: var(--v-purple) !important; }
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    li.section:nth-child(5n+6):hover::after { background-color: rgba(var(--v-purple-rgb), 0.2) !important; }
 
 /* 8. RESET DA SEÇÃO 0 — SOMENTE NA VISÃO GERAL (quando está em grid) */
-body#page-course-view-topics[class*="course-"]:not(.editing):not(.single-section) #section-0 {
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.topics > li#section-2)
+    #section-0,
+body#page-course-view-topics[class*="course-"]:not(.editing)
+    :not(:has(.single-section))
+    :has(.course-content ul.sections > li#section-2)
+    #section-0 {
     grid-column: 1 / -1 !important;
     background: transparent !important;
     border: none !important;
