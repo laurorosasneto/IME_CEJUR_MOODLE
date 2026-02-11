@@ -173,8 +173,9 @@ body#page-my-index .drawer-left {
    FM-DASHBOARD: ocultar header padrão do Moodle SOMENTE no /my/
    ========================================================= */
 
-body#page-my-index #page-header {
-  /*display: none !important;*/
+/* Oculta o cabeçalho no painel se o botão "Personalizar esta página" (div.singlebutton) não estiver presente. */
+body#page-my-index:not(:has(div.singlebutton)) #page-header {
+  display: none !important;
 }
 
 /* Remove espaço que o header deixa em alguns temas */
