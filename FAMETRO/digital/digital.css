@@ -207,12 +207,12 @@ li.section[data-number="0"] {
 
 @media (min-width: 768px){
 .pagelayout-standard #page.drawers .main-inner, body.limitedwidth #page.drawers .main-inner {
-    max-width: 1000px;
+    max-width: 90% !important;
 }}
 
 @media (min-width: 768px){
 .login-container {
-    max-width: 400px;
+     max-width: 90% !important;
 }
 }
 
