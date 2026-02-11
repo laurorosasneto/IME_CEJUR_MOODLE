@@ -27,7 +27,8 @@ box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
     background-color: #f4f7f9 !important;
 }
 
-body.course-59724:not(.editing) {
+/*body.course-59724:not(.editing) {*/
+body[class*="course-"]:not(.editing) { /*Ativa a nova interface a todos os cursos*/
 
 /* ESCONDER A SEÇÃO 0 NO MODO DE VISUALIZAÇÃO */
 li.section[data-number="0"] {
