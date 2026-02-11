@@ -58,4 +58,3 @@
       <div class="login-sidepanel__sub">Facebook, Instagram e YouTube</div>
     </div>
   </a>
-</div>
