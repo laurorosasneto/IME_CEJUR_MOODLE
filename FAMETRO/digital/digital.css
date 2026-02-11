@@ -483,3 +483,105 @@ li.activity.subtile {
         width: 100%;
     }
 }
+
+/*---------------------------Reset compacto Moodle + botoes vintage---------------------------*/
+li.activity:has([data-ui-reset="true"]),
+.activity-item:has([data-ui-reset="true"]) {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    display: block !important;
+    min-height: 0 !important;
+}
+
+.activity-item:has([data-ui-reset="true"]) .activity-basis,
+.activity-item:has([data-ui-reset="true"]) .activity-info,
+.activity-item:has([data-ui-reset="true"]) .activity-information,
+.activity-item:has([data-ui-reset="true"]) .availabilityinfo {
+    display: none !important;
+}
+
+.activity-item:has([data-ui-reset="true"]) .description,
+.activity-item:has([data-ui-reset="true"]) .activity-altcontent,
+.activity-item:has([data-ui-reset="true"]) .no-overflow,
+.activity-item:has([data-ui-reset="true"]) .description-inner {
+    padding: 0 !important;
+    margin: 0 !important;
+    display: block !important;
+}
+
+.fametro-force-compact p {
+    display: contents !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.fametro-force-compact .vintage-nav-row {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 5px 0 !important;
+    width: 100%;
+}
+
+.fametro-force-compact .btn-v-final {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 14px;
+    min-width: 0;
+    text-decoration: none !important;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-radius: 50px;
+    border: 2px solid;
+    transition: all 0.3s ease;
+    flex: 1 1 0;
+    max-width: 220px;
+}
+
+.fametro-force-compact .v-blue {
+    color: #2c5364 !important;
+    border-color: #2c5364;
+    background-color: rgba(44, 83, 100, 0.15);
+}
+
+.fametro-force-compact .v-green {
+    color: #3a5335 !important;
+    border-color: #3a5335;
+    background-color: rgba(58, 83, 53, 0.15);
+}
+
+.fametro-force-compact .v-red {
+    color: #a0441e !important;
+    border-color: #a0441e;
+    background-color: rgba(160, 68, 30, 0.15);
+}
+
+.fametro-force-compact .v-yellow {
+    color: #b89635 !important;
+    border-color: #b89635;
+    background-color: rgba(184, 150, 53, 0.15);
+}
+
+.fametro-force-compact .v-purple {
+    color: #7a4161 !important;
+    border-color: #7a4161;
+    background-color: rgba(122, 65, 97, 0.15);
+}
+
+.fametro-force-compact .btn-v-final:hover {
+    color: #fff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.fametro-force-compact .v-blue:hover { background-color: #2c5364 !important; }
+.fametro-force-compact .v-green:hover { background-color: #3a5335 !important; }
+.fametro-force-compact .v-red:hover { background-color: #a0441e !important; }
+.fametro-force-compact .v-yellow:hover { background-color: #b89635 !important; }
+.fametro-force-compact .v-purple:hover { background-color: #7a4161 !important; }
