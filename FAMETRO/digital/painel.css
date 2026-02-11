@@ -174,7 +174,7 @@ body#page-my-index .drawer-left {
    ========================================================= */
 
 body#page-my-index #page-header {
-  display: none !important;
+  /*display: none !important;*/
 }
 
 /* Remove espaço que o header deixa em alguns temas */
