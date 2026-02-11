@@ -451,3 +451,35 @@ li.activity.subtile {
     border-top-color: #db0a84 !important;
     transition: border-top-color 0.3s !important
 }
+
+
+/*---------------------------Botoes nav vintage---------------------------*/
+.vintage-nav-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px 18px;
+}
+
+.vintage-nav-row .btn-v-final {
+    flex: 1 1 200px;
+    max-width: 25%;
+    min-width: 160px;
+    text-align: center;
+}
+
+.vintage-nav-row .btn-v-final span {
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .vintage-nav-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .vintage-nav-row .btn-v-final {
+        flex: 1 1 auto;
+        width: 100%;
+    }
+}
