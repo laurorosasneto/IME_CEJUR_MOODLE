@@ -241,3 +241,80 @@ div.loginform>div.d-flex{
 a[href*="/?redirect=0"]{
  Display: none !important;
 }
+
+/*______________________________________Slideshow______________________________________*/
+
+.slick-prev:before, .slick-next:before {
+    color: #0042ae !important;
+}
+
+.slick-dots li button {
+    border-radius: 100%;
+}
+
+.slick-prev, .slick-next {
+    z-index: 3 !important;
+    width: 35px;
+    height: 100%;
+}
+
+.slick-prev {
+    left:0px !important;
+}
+
+.slick-next{
+    right:0px !important;
+}
+
+/*---------------------------Caixa de seleção Cohort-------------------------------------*/
+select#id_config_cohorts {
+    height: 300px;
+}
+
+
+/*---------------------------Botões do Ava-------------------------------------*/
+a {
+    color: #337cbb;
+}
+
+.drawer-toggles .drawer-toggler .btn {
+background-color: #c96161;
+color:#fff;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #337cbb;
+    border-color: #337cbb;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #337cbbd9;
+    border-color: #337cbbd9;
+}
+
+/*---------------------------Fullscreen Atto-----------------------------*/
+.editor_atto_wrap {
+    position: relative;
+    z-index: 1029;
+}
+
+/*---------------------------Time do Quiz-------------------------------------*/
+#quiz-timer-wrapper {
+/*    position: inherit;
+    font-size: larger;*/
+top: 0px ;
+}
+
+/*-----------------------------Rodapé ------------------------------*/
+a[href^="https://docs.moodle.org/400/pt_br/admin/user"]{
+ Display: none !important;
+}
+
+/*jandeir*/
+/*---------------------------------Esconde menu de atividade e recursos-------------------------------*/
+div.sitetopic>ul.topics>li#section-1>div#coursecontentcollapse1>ul.section {
+display:none!important;
+visible:hidden;
+}
